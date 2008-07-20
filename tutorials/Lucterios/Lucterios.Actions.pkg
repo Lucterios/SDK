@@ -1,0 +1,25 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Les actions</refname>
+		<refpurpose>Description des actions</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id actions}">
+		<para>actions</para>
+		<itemizedlist>
+			<listitem><para>{@tutorial Lucterios.Actions.Acknowledge.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Actions.DialogBox.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Actions.Custom.pkg}</para></listitem>
+		</itemizedlist>
+	</refsect1>
+</refentry>

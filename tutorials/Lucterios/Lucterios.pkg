@@ -1,0 +1,56 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Manuel</refname>
+		<refpurpose>Manuel du SDK Lucterios</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id sommaire}">
+		<title>Sommaire</title>
+		<itemizedlist>
+			<listitem><para>{@tutorial Lucterios.Administration.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Extensions.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Classes.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Actions.pkg}
+				<itemizedlist>
+					<listitem><para>{@tutorial Lucterios.Actions.Acknowledge.pkg}</para></listitem>
+					<listitem><para>{@tutorial Lucterios.Actions.DialogBox.pkg}</para></listitem>
+					<listitem><para>{@tutorial Lucterios.Actions.Custom.pkg}</para></listitem>
+				</itemizedlist>
+			</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Methodes.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Impression.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Depoyement.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Architecture.pkg}</para></listitem>
+		</itemizedlist>
+	</refsect1>
+	<refsect1 id="{@id Lucterios}">
+		<title>Presentation de Lucterios</title>
+		<para><i>Lucterios</i> est un environement de developpement d'application de gestion client/serveur.
+		Il realise un liens generique entre des donnees, contenues dans une base MySQL, et une logique metier, realisee par du script PHP.
+		Le Client demande au serveur une action sous la forme XML, le serveur reponds au client du XML de presentation permantant d'afficher le resultat de cette action.</para>
+		<para>L'environnement se comporte d'un serveur Apache comportant un coeur gerant les connections client/serveur ainsi que des extensions personnalisees repondants au besoin metier de l'application a realiser.
+		Un client JAVA standard complete l'environnement et permet d'interprete plusieurs applications differentes suivant les configurations du serveur d'application.
+		</para>		
+	</refsect1>
+	<refsect1 id="{@id SDK}">
+		<title>Presentation du SDK</title>
+		<para>Le <i>Software Developpement Kit</i>(SDK) est une application web associee a un serveur <i>Lucterios</i> pour simplifier la modification et l'enrichissement d'une application developper sous cette environnement.</para>
+		<para>Il permet a une petite equipe de developpeur de:
+		<itemizedlist>
+			<listitem><para>Creer une nouvelle application.</para></listitem>
+			<listitem><para>Ajouter des extensions standards.</para></listitem>
+			<listitem><para>Creer de nouvelles extensions metiers.</para></listitem>
+		</itemizedlist>
+		</para>
+	</refsect1>
+</refentry>

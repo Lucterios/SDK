@@ -1,0 +1,25 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>L'impression</refname>
+		<refpurpose>L'impression dans Lucterios</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id impression}">
+		<para>impression</para>
+	</refsect1>
+</refentry>
+ 
+ 
+ 
+ 
+ 

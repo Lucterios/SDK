@@ -1,0 +1,25 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Le dépoyement</refname>
+		<refpurpose>Le dépoyement d'une application</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id depoyer}">
+		<para>depoyer</para>
+	</refsect1>
+</refentry>
+ 
+ 
+ 
+ 
+ 

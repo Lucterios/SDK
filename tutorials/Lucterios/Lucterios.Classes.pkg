@@ -1,0 +1,23 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Les classes</refname>
+		<refpurpose>Les classes dans Lucterios</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id classes}">
+		<para>classes</para>
+	</refsect1>
+</refentry>
+ 
+ 
+ 

@@ -1,0 +1,22 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>L'architecture</refname>
+		<refpurpose>Architecture de Lucterios</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id archi}">
+		<para>archi</para>
+	</refsect1>
+</refentry>
+ 
+ 

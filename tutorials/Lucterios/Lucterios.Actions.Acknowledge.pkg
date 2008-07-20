@@ -1,0 +1,20 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>L'accuse de reception</refname>
+		<refpurpose>Description des actions d'accuse de reception</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id acknowledge}">
+		<para>acknowledge</para>
+	</refsect1>
+</refentry>

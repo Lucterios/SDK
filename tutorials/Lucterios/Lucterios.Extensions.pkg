@@ -1,0 +1,78 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Les extensions</refname>
+		<refpurpose>Les extensions dans Lucterios</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id extension}">
+		<para>Une extension correspond a un ensemble coherent de fonctionnalite metier. En respectant des dependances eventuelles avec d'autres extensions, elle peut-etre distribuee dans son integralite a d'autre application.</para>
+		<refsect2 id="{@id dependance}">
+			<title>Les dependances</title>
+			<para>Une extension peut dependre d'autres extension. Cette dependance peut intervenir de facon different:
+				<itemizedlist>
+					<listitem><para>Croisement des menus.</para></listitem>
+					<listitem><para>Reference entre champ de classe/table.</para></listitem>
+					<listitem><para>Utilisation de fonction et action commune.</para></listitem>
+				</itemizedlist>
+				En listant vos dependances, le SDK vous presentera dans la conseption de vos actions une aides sur le contenu des classes dependantes mais cela vous aidera aussi pour distribuer au mieux vos extensions.
+			</para>
+		</refsect2>
+		<refsect2 id="{@id parametre}">
+			<title>Les parametres</title>
+			<para>Il est pas toujours judicieux de tout code en "dure" dans une application. Pour cela, il est possible de creer par extension un ensemble de parametres de types differents (chaine, entier, reel, booleen ou enumeration) permettant a l'utiliateur final de presonnaliser le comportement de votre application.</para>
+		</refsect2>
+		<refsect2 id="{@id droit}">
+			<title>Les droits</title>
+			<para>Comme Lucterios est une application client/serveur, tous les utilisateurs n'ont pas les memes droits de manipulation de votre application.</para>
+			<para>Pour cela, vous devez associer a chaqu'une de vos actions un droit. Ce droit, qui regroupe alors un ensemble d'action d'une meme extension, possede un poids.
+			Ce poids precise l'importance de ce droit: plus le poids est eleve, plus le droit est critique.</para>
+			<para>En faite, un utilisateur Lucterios est associe a un groupe de droit qui possede lui-meme un poids. Par defaut, si le poids du groupe est supperieur ou egale au poids du droit, l'utilisateur a l'autorisation d'utilise les actions associees.
+			Bien entendu, dans l'administration Lucterios, il est possible de forcer un droit pour un groupe donne.</para>
+		</refsect2>
+		<refsect2 id="{@id menu}">
+			<title>Les menus</title>
+			<para>quand vous aurez realise un certain nombre d'action dans votre extension, vous souhaiterez naturellement pourvoir, depuis le client, accede a certaine d'entre elle. Pour cela, vous devez definir un menu.</para>
+			<para>Un menu est soit associe a une action, soit reference par des sous-menus. Definissez votre nouveau menus par:
+			<itemizedlist>
+					<listitem><para>Son titre (le caractere '_' permet de preciser la lettre de raccourcis)</para></listitem>
+					<listitem><para>Sa position relative dans son menu</para></listitem>
+					<listitem><para>Son menu parent. S'il n'a pas de parent, il sera considerent comme menu principale.</para></listitem>
+					<listitem><para>Son action. S'il n'a pas d'action, il pourra etre parent d'un autre menu.</para></listitem>
+					<listitem><para>Son icon eventuel</para></listitem>
+					<listitem><para>Son racourcis clavier</para></listitem>
+					<listitem><para>Cochez 'modalite' si vous souhaitez que l'action s'affiche de preference dans une fenetre modal.</para></listitem>
+			</itemizedlist>
+			</para>
+		</refsect2>
+		<refsect2 id="{@id action}">
+			<title>Les actions</title>
+			<para>Une action est un traitement metier qui suivants les parametres recus, renvoie une reponse affichable graphiquement. Voir {@tutorial Lucterios/Lucterios.Actions.pkg}</para>
+		</refsect2>
+		<refsect2 id="{@id classe}">
+			<title>Les classes</title>
+			<para>Une classe est un ensemble d'action associe a une base de donnee MySQL. Voir {@tutorial Lucterios/Lucterios.Classes.pkg} et {@link DBObj_Basic}</para>
+		</refsect2>
+		<refsect2 id="{@id bibliotheque}">
+			<title>Les bibliotheques</title>
+			<para>Une bibliotheque est un simple fichier PHP ou vous pouvez ajouter des fonctions necessaires a la realisation de son besoin metier.</para>
+		</refsect2>
+		<refsect2 id="{@id aide}">
+			<title>Les aides</title>
+			<para>Vous pouvez ajouter des fichier d'aide (format html sans entete) ainsi que des images pour decrire a l'utilisateur comment utiliser votre extension.</para>
+		</refsect2>		
+	</refsect1>
+</refentry>
+ 
+ 
+ 
+ 
