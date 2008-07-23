@@ -29,7 +29,7 @@ sed -e "s/\$version_release=X;/\$version_release=$VersionRev;/" setup.tmp > setu
 cp setup.inc.php setup.tmp
 sed -e "s/\$version_build=X;/\$version_build=$VersionBuild;/" setup.tmp > setup.inc.php
 
-ArcFileName=JDK_$VersionMaj-$VersionMin-$VersionRev-$VersionBuild
+ArcFileName=SDK_$VersionMaj-$VersionMin-$VersionRev-$VersionBuild
 
 tar --exclude=.svn -cf $ArcFileName.tar Actions Backup/readme Class CNX/readme Help images Main tutorials ConnectionSDK.inc.php coreIndex.php DeleteModule.php FunctionTool.inc.php GNU_General_Public_License.txt Help.php index.php PathInitial.inc.php ReloadModule.php setup.inc.php
 if [ $? -ne 0 ]
@@ -37,8 +37,8 @@ then
 	echo "+++ Error lpk +++"
 	exit 2
 fi
-cp $ArcFileName.tar JDK
-gzip -f -S .lpk JDK
+cp $ArcFileName.tar SDK
+gzip -f -S .lpk SDK
 if [ $? -ne 0 ]
 then
 	echo "+++ Error lpk +++"
