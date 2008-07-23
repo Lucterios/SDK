@@ -31,7 +31,7 @@ sed -e "s/\$version_build=X;/\$version_build=$VersionBuild;/" setup.tmp > setup.
 
 ArcFileName=JDK_$VersionMaj-$VersionMin-$VersionRev-$VersionBuild
 
-tar -cf $ArcFileName.tar Actions Backup/readme Class CNX/readme Help images Main tutorials ConnectionSDK.inc.php coreIndex.php DeleteModule.php FunctionTool.inc.php GNU_General_Public_License.txt Help.php index.php PathInitial.inc.php ReloadModule.php setup.inc.php
+tar -cf --exclude=.svn $ArcFileName.tar Actions Backup/readme Class CNX/readme Help images Main tutorials ConnectionSDK.inc.php coreIndex.php DeleteModule.php FunctionTool.inc.php GNU_General_Public_License.txt Help.php index.php PathInitial.inc.php ReloadModule.php setup.inc.php
 if [ $? -ne 0 ]
 then
 	echo "+++ Error lpk +++"
