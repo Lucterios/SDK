@@ -45,6 +45,10 @@ then
 	exit 2
 fi
 
+rm -rf bin
+mkdir bin
+cp SDK.lpk bin/$ArcFileName.lpk
+
 echo "--- Compilation $VersionMaj.$VersionMin.$VersionRev.$VersionBuild Success ---"
 
 cp antBuilderOutput.log Output.txt
