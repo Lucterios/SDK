@@ -15,7 +15,7 @@ rm -f Output.txt
 
 VersionMaj=0
 VersionMin=15
-VersionRev=2
+VersionRev=3
 current_date_sec=`date +%s`
 VersionBuild=$(( (current_date_sec-1214866800)/7200 ))
 

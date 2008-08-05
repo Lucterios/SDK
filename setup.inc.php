@@ -21,7 +21,7 @@
 // --- Last modification: Date 01 March 2008 12:28:58 By  ---
 
 $extention_name="SDK";
-$extention_description="Software Developpement Kit pour Lucterios.{[newline]}Permet de cr�er et modifier de nouveaux modules.";
+$extention_description="Software Developpement Kit pour Lucterios.{[newline]}Permet de créer et modifier de nouveaux modules.";
 $extention_appli="";
 $extention_famille="client";
 $extention_titre="Lucterios SDK";
@@ -30,7 +30,7 @@ $extension_libre=true;
 $version_max=0;
 $version_min=15;
 $version_release=2;
-$version_build=4;
+$version_build=286;
 
 $depencies=array();
 $depencies[0] = new Param_Depencies("CORE", 0, 15, 0, 15, false);

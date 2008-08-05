@@ -38,10 +38,11 @@ $REQUETTE = "";
 $nourlencode=array_key_exists("nourlencode", $GLOBAL);
 if(array_key_exists("XMLinput", $GLOBAL)) {
 	$p = &new COREParser();
-	if ($nourlencode)
-		$XMLinput=str_replace(array("\"","\'"),"'",$GLOBAL["XMLinput"]);
+	$xml_input=$GLOBAL["XMLinput"];
+	if ($nourlencode || (substr($xml_input,0,3)!='%3C'))
+		$XMLinput=str_replace(array("\"","\'"),"'",$xml_input);
 	else
-		$XMLinput=str_replace(array("\"","\'"),"'",urldecode($GLOBAL["XMLinput"]));
+		$XMLinput=str_replace(array("\"","\'"),"'",urldecode($xml_input));
 	$p->setInput($XMLinput);
 	$p->parse();
 	$REQUETTE = $p->getResult();
@@ -85,7 +86,7 @@ try {
 		require_once("Main/BoucleReponse.inc.php");
 		$REPONSE.= BoucleReponse($lesRequettes);
 	}
-} catch (Exception $e) {              // Devrait être attrapée
+} catch (Exception $e) {              // Devrait ï¿½tre attrapï¿½e
 	require_once "CORE/xfer_exception.inc.php";
 	$Xfer_erro=new Xfer_Container_Exception("CORE","coreIndex");
 	$Xfer_erro->setData($e);
