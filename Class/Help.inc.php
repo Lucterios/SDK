@@ -94,10 +94,7 @@ class HelpManage extends AbstractClassManage
 		$hlp_mn_file=$extDir.'menu.hlp.php';
 		require_once("FunctionTool.inc.php");
 		if (!$fh=OpenInWriteFile($hlp_mn_file,"help"))
-		{
 			return "Fichier help '$hlp_mn_file' non créé!";
-			exit;
-		}
 		fwrite($fh,$code."\$HelpTitle='".$this->HelpTitle."';\n");
 		fwrite($fh,$code."\$HelpPosition=".$this->HelpPosition.";\n");
 		fwrite($fh,$code."\n");
@@ -111,6 +108,7 @@ class HelpManage extends AbstractClassManage
 		fwrite($fh,$code."\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
+		return null;
 	}
 
 	function getHelp($HelpName)

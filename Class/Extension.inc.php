@@ -23,7 +23,8 @@ require_once("ConnectionSDK.inc.php");
 
 function getStringToWrite($Text,$WithCote=true)
 {
-	$new_text=str_replace(array('$','"','\\'),array('\$','\"','\\\\'),$Text);
+	$new_text=str_replace(array('\\'),array('\\\\'),$Text);
+	$new_text=str_replace(array('$','"'),array('\$','\"'),$new_text);
 	if ($WithCote)
 		return '"'.$new_text.'"';
 	else
@@ -231,7 +232,7 @@ class Extension
 				$error="Mauvais mot de passe!";
 		}
 		else
-			$error="Extension non signée!";
+			$error="Extension non signï¿½e!";
 		return $error;
 	}
 
@@ -244,7 +245,7 @@ class Extension
 			$this->SignMD5=$this->codeSignature($pass);
 		}
 		else
-			$error="Extension déjà signée!";
+			$error="Extension dï¿½jï¿½ signï¿½e!";
 		return $error;
 	}
 
@@ -272,7 +273,7 @@ class Extension
 			Extension::ArchiveExtension($module,$bachup_file);
 		}
 		else
-			$error="Module vérouillé";
+			$error="Module vï¿½rouillï¿½";
 		return $error;
 	}
 
@@ -427,13 +428,13 @@ class Extension
 		}
 		if (!is_dir($extDir))
 		{
-			return "Extension non créé!<br>";
+			return "Extension non crï¿½ï¿½!<br>";
 			exit;
 		}
 
 		if (!$fh=OpenInWriteFile($extDir."/setup.inc.php","setup"))
 		{
-			return "Fichier setup non créé!";
+			return "Fichier setup non crï¿½ï¿½!";
 			exit;
 		}
 

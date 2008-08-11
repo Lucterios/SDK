@@ -20,26 +20,19 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function modifExtension($Params,$extensionname)
+function modifHelp($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modifExtension",$Params);
+	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modifHelp",$Params);
+	require_once("Class/Help.inc.php");
+	$help_mng=new HelpManage($extensionname);
+	$help_mng->HelpTitle=$Params['help_title'];
+	$help_mng->HelpPosition=$Params['help_position'];
+	if (($msg=$help_mng->writeHelp($extensionname))!=null)
+		throw new Exception($msg);
+
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
-	$extension->Description=urldecode($Params['extensiondesc']);
-	$extension->Version=array($Params['version_max'],$Params['version_min'],$Params['version_release'],$Params['version_build']);
-	if ($extensionname=='applis') 
-		$extension->Appli=$Params['extensionappli'];
-	if (($extensionname!='applis') && ($extensionname!='CORE'))
-		$extension->Famille=$Params['extensionfamille'];
-	else
-		$extension->Famille=$extensionname;
-	$extension->Titre=$Params['extensiontitle'];
-	if ($extensionname!='CORE')
-		$extension->Libre=$Params['extensionlibre'];
-	else
-		$extension->Libre='o';
-	$extension->Write();
-	$xfer_result->redirectAction(new Xfer_Action('menu','','CORE','menu'));
+	$extension->IncrementBuild();
 	return $xfer_result;
 }
 
