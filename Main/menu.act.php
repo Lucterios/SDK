@@ -57,11 +57,11 @@ try {
 		$menu_tool1 = new Xfer_Menu_Item('tool1','Réservations','reserve.png','CORE','reserveExtension',0,'ctrl R',"Pour réserver une extension de l'application.");
 		$menu_tools->addSubMenu($menu_tool1);
 		if (exportAllowed("CNX/ServerUpdate.dt")) {
-			$menu_tool2a = new Xfer_Menu_Item('tool2a','Déploiement','export.png','CORE','export',0,'ctrl D',"Pour dépoyer une extension de l'application.");
+			$menu_tool2a = new Xfer_Menu_Item('tool2a','Déploiement (old)','export.png','CORE','export',0,'',"Pour dépoyer une extension de l'application.");
 			$menu_tools->addSubMenu($menu_tool2a);
 		}
 		if (exportAllowed("CNX/Server_Update.dt")) {
-			$menu_tool2b = new Xfer_Menu_Item('tool2b','Déploiement (new)','export.png','CORE','newExport',0,'',"Pour dépoyer une extension de l'application sur le nouveau serveur.");
+			$menu_tool2b = new Xfer_Menu_Item('tool2b','Déploiement','export.png','CORE','newExport',0,'ctrl D',"Pour dépoyer une extension de l'application sur le nouveau serveur.");
 			$menu_tools->addSubMenu($menu_tool2b);
 		}
 		$menu_tool3 = new Xfer_Menu_Item('tool3','Mot de Passe','passwd.png','CORE','password',1,'ctrl P',"Pour changer votre mot de passe.");
