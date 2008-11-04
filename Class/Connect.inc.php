@@ -71,7 +71,7 @@ class Connect extends AbstractClass
 	var $Pwcrypt="";
 	var $LongName="";
 	var $NoView=array();
-	var $ReadOnly=array();
+	var $Modified=array();
 	var $Mng;
 
   	//constructor
@@ -105,7 +105,7 @@ class Connect extends AbstractClass
 			if (count($file_cnx)>2)
 				$this->NoView=reFill(split(";",trim($file_cnx[2])));
 			if (count($file_cnx)>3)
-				$this->ReadOnly=reFill(split(";",$file_cnx[3]));
+				$this->Modified=reFill(split(";",$file_cnx[3]));
 		}
 	}
 	function Write()
@@ -117,7 +117,7 @@ class Connect extends AbstractClass
 			fwrite($fh,$this->Pwcrypt."\n");
 			fwrite($fh,$this->LongName."\n");
 			fwrite($fh,array_reduce($this->NoView,'addText')."\n");
-			fwrite($fh,array_reduce($this->ReadOnly,'addText')."\n");
+			fwrite($fh,array_reduce($this->Modified,'addText')."\n");
 			fclose($fh);
 		}
 		return (is_file($cnxfile)==true);
@@ -152,7 +152,7 @@ class Connect extends AbstractClass
 
 	function CanWriteModule($ModuleName)
 	{
-		return (!in_array($ModuleName,$this->NoView) && !in_array($ModuleName,$this->ReadOnly));
+		return (!in_array($ModuleName,$this->NoView) && in_array($ModuleName,$this->Modified));
 	}
 
 	function IsViewModule($ModuleName)

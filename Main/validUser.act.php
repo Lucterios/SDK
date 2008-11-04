@@ -30,13 +30,13 @@ function validUser($Params)
 	$username=$Params['alias'];
 	$LongName=$Params['LongName'];
 	$NoView=$Params['NoView'];
-	$ReadOnly=$Params['ReadOnly'];
+	$Modified=$Params['Modified'];
 	if ($pass1==$pass2)
 	{
 		$cnx=new Connect($username);
 		$cnx->LongName=$LongName;
 		$cnx->NoView=split(';',$NoView);
-		$cnx->ReadOnly=split(';',$ReadOnly);
+		$cnx->Modified=split(';',$Modified);
 		if ($cnx->Pwcrypt!="")
 		{
 			if ($pass1!='')

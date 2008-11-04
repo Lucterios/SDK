@@ -43,10 +43,12 @@ function reserveExtension($Params)
 	$mods=Extension::GetList($cnx);
 	foreach($mods as $mod_name=>$mod_ver)
 	{
-		$lock=Extension::GetLock($mod_name);
-		$grid->setValue($mod_name,'A',$mod_name);
-		$grid->setValue($mod_name,'B',$mod_ver);
-		$grid->setValue($mod_name,'C',$lock);
+		if ($cnx->CanWriteModule($mod_name)) {
+			$lock=Extension::GetLock($mod_name);
+			$grid->setValue($mod_name,'A',$mod_name);
+			$grid->setValue($mod_name,'B',$mod_ver);
+			$grid->setValue($mod_name,'C',$lock);
+		}
 	}
 	$grid->setLocation(0,1);
 	$grid->addAction(new Xfer_Action("_Editer","","CORE","manageExt",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));

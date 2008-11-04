@@ -21,6 +21,21 @@
 
 require_once("ConnectionSDK.inc.php");
 
+function listSort($a, $b)
+{
+	if ($a=='CORE')
+		return -1;
+	if ($b=='CORE')
+		return 1;
+	if ($a=='applis')
+		return -1;
+	if ($b=='applis')
+		return 1;
+	if ($a == $b)
+		return 0;
+	return ($a < $b) ? -1 : 1;
+}
+
 function getStringToWrite($Text,$WithCote=true)
 {
 	$new_text=str_replace(array('\\'),array('\\\\'),$Text);
@@ -54,12 +69,6 @@ class Extension
 	{
 		if (($name=="") || ($name=="CORE"))
 			$extDir = "../CORE/";
-		elseif ($name=="applis")
-		{
-			$extDir = "../applis/";
-			if (!is_dir($extDir))
-				$extDir = "../extensions/applis/";
-		}
 		else
 			$extDir = "../extensions/$name/";
 		return $extDir;
@@ -68,7 +77,8 @@ class Extension
 	function GetList($CNX_OBJ=null)
 	{
 		require_once("../CORE/setup_param.inc.php");
-		$ext_list=array();
+		$ext_name=array();
+		$ext_name[]='CORE';
 		$extDir = "../extensions/";
 		if (is_dir($extDir))
 		{
@@ -76,21 +86,17 @@ class Extension
 			while (($file = readdir($dh)) != false)
 			{
 				if(is_dir($extDir . $file) && is_file($extDir.$file."/setup.inc.php"))
-				if ((($CNX_OBJ==null) || ($CNX_OBJ->CanWriteModule($file))) && ($file!='applis'))
-				{
-					$ext=new Extension($file);
-					$ext_list[$file]=$ext->GetVersion();
-				}
-				if (($CNX_OBJ!=null) && ($CNX_OBJ->CanWriteModule("CORE")))
-				{
-					$ext=new Extension("");
-					$ext_list["CORE"]=$ext->GetVersion();
-				}
-				if (($CNX_OBJ!=null) && ($CNX_OBJ->CanWriteModule("applis")))
-				{
-					$ext=new Extension("applis");
-					$ext_list["applis"]=$ext->GetVersion();
-				}
+					$ext_name[]=$file;
+			}
+		}
+		usort($ext_name,'listSort');
+		$ext_list=array();
+		foreach($ext_name as $extname) {
+			if (((($CNX_OBJ==null) || $CNX_OBJ->CanWriteModule($extname)) && ($extname!='applis') && ($extname!='CORE')) ||
+			 (($CNX_OBJ!=null) && $CNX_OBJ->CanWriteModule($extname) && (($extname=='CORE') || ($extname=='applis'))))
+			{
+				$ext=new Extension($extname);
+				$ext_list[$extname]=$ext->GetVersion();
 			}
 		}
 		return $ext_list;
@@ -245,7 +251,7 @@ class Extension
 			$this->SignMD5=$this->codeSignature($pass);
 		}
 		else
-			$error="Extension dï¿½jï¿½ signï¿½e!";
+			$error="Extension déjà signée!";
 		return $error;
 	}
 

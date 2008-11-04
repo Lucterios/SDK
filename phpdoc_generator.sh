@@ -6,7 +6,7 @@ rm -rf Help/*
 
 TITLE="Lucterios"
 PACKAGES="Lucterios"
-FILE_PROJECT=$1/CORE/DBObject.inc.php,$1/CORE/xfer*.inc.php
+FILE_PROJECT=$1/CORE/DB*.inc.php,$1/CORE/xfer*.inc.php
 PATH_PROJECT=./tutorials/
 PATH_DOCS=./Help
 RIC=./GNU_General_Public_License.txt,./LisezMoi

@@ -94,11 +94,11 @@ function addUser($Params)
 	$xfer_result->addComponent($chklst);
 
 	$lbl=new Xfer_Comp_LabelForm('ReadOnlyLbl');
-	$lbl->setValue("{[italic]}{[center]}Modules en lectures seuls{[/center]}{[/italic]}");
+	$lbl->setValue("{[italic]}{[center]}Modules modifiable{[/center]}{[/italic]}");
 	$lbl->setLocation(1,4);
 	$xfer_result->addComponent($lbl);
-	$chklst=new Xfer_Comp_CheckList('ReadOnly');
-	$chklst->setValue($cnx->ReadOnly);
+	$chklst=new Xfer_Comp_CheckList('Modified');
+	$chklst->setValue($cnx->Modified);
 	$chklst->setSelect($select);
 	$chklst->setLocation(1,5);
 	$chklst->setSize(150,200);

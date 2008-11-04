@@ -46,6 +46,17 @@ function addExtValid($Params)
 		$lib=new Library('config',$extName);	
 		$lib->CodeFile=array("",'function '.$extName.'_config(&$xfer_result)',"{","// Fonction pour ajouter des composants dans la fenêtre de configuration","}","");
 		$lib->Write();
+
+		global $CNX_OBJ;
+
+		Extension::ModifLock($Params['newExt'],$CNX_OBJ);
+
+		$CNX_OBJ->Modified[]=$extName;
+		$CNX_OBJ->Write();
+
+		$cnx_adm=new Connect('admin');
+		$cnx_adm->Modified[]=$extName;
+		$cnx_adm->Write();
 	}
 	$xfer_result->redirectAction(new Xfer_Action('menu','','CORE','menu'));
 	return $xfer_result;

@@ -24,7 +24,9 @@ function delUser($Params)
 {
 	$xfer_result=&new Xfer_Container_Acknowledge("CORE","delUser",$Params);
 	$user=$Params['user'];
-	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer l'utilisateur '$user'?")) {
+	if ($user=='admin')
+		$xfer_result->message("Impossible de supprimer l'administrateur");
+	elseif ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer l'utilisateur '$user'?")) {
 		$mng= new ConnectManage();
 		$mng->Delete($user);
 	}

@@ -28,9 +28,9 @@ $extention_titre="Lucterios SDK";
 $extension_libre=true;
 
 $version_max=0;
-$version_min=15;
-$version_release=3;
-$version_build=503;
+$version_min=16;
+$version_release=1;
+$version_build=514;
 
 $depencies=array();
 $depencies[0] = new Param_Depencies("CORE", 0, 15, 0, 15, false);

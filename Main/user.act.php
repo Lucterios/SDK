@@ -35,7 +35,7 @@ function user($Params)
 	$grid->newHeader('B',"Nom",4);
 
 	$mng= new ConnectManage();
-	$users=$mng->GetList(false);
+	$users=$mng->GetList(true);
 	foreach($users as $user)
 	{
 		$cnx=new Connect($user);

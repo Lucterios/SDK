@@ -56,12 +56,8 @@ try {
 	$menu_tools = new Xfer_Menu_Item('tool0','Les outils','config.png','','',0,'',"Pour vérouiller, déployer ou configurer votre application.");
 		$menu_tool1 = new Xfer_Menu_Item('tool1','Réservations','reserve.png','CORE','reserveExtension',0,'ctrl R',"Pour réserver une extension de l'application.");
 		$menu_tools->addSubMenu($menu_tool1);
-		if (exportAllowed("CNX/ServerUpdate.dt")) {
-			$menu_tool2a = new Xfer_Menu_Item('tool2a','Déploiement (old)','export.png','CORE','export',0,'',"Pour dépoyer une extension de l'application.");
-			$menu_tools->addSubMenu($menu_tool2a);
-		}
 		if (exportAllowed("CNX/Server_Update.dt")) {
-			$menu_tool2b = new Xfer_Menu_Item('tool2b','Déploiement','export.png','CORE','newExport',0,'ctrl D',"Pour dépoyer une extension de l'application sur le nouveau serveur.");
+			$menu_tool2b = new Xfer_Menu_Item('tool2','Déploiement','export.png','CORE','newExport',0,'ctrl D',"Pour dépoyer une extension de l'application sur le nouveau serveur.");
 			$menu_tools->addSubMenu($menu_tool2b);
 		}
 		$menu_tool3 = new Xfer_Menu_Item('tool3','Mot de Passe','passwd.png','CORE','password',1,'ctrl P',"Pour changer votre mot de passe.");
@@ -80,14 +76,14 @@ try {
 		{
 			$ext_obj=new Extension($ext);
 			$index++;
-			$help="Pour modifier {[underline]}".$ext_obj->Description."{[/underline]}{[newline]}";
+			$help="Pour modifier {[underline]}".$ext_obj->Titre."{[/underline]}{[newline]}";
 			$help.="Version:".$ext_obj->GetVersion();
 			$menu_general_sub = new Xfer_Menu_Item("general$index",$ext_obj->Name,'generalsub.png',$ext,'',0,'',$help);
 			
-			$menu_general_sub1 = new Xfer_Menu_Item("generalParam$index","Paramètres ".$ext_obj->Name,'parameters.png',$ext,'ListExtension',0,$shortcut[0],"Pour modifier les paramètres de {[underline]}".$ext_obj->Description."{[/underline]}");
+			$menu_general_sub1 = new Xfer_Menu_Item("generalParam$index","Paramètres ".$ext_obj->Name,'parameters.png',$ext,'ListExtension',0,$shortcut[0],"Pour modifier les paramètres de {[underline]}".$ext_obj->Titre."{[/underline]}");
 			$menu_general_sub->addSubMenu($menu_general_sub1);
 			
-			$menu_general_sub2 = new Xfer_Menu_Item("generalScript$index","Scripts ".$ext_obj->Name,'script.png',$ext,'ListScript',0,$shortcut[1],"Pour modifier les scripts de {[underline]}".$ext_obj->Description."{[/underline]}");
+			$menu_general_sub2 = new Xfer_Menu_Item("generalScript$index","Scripts ".$ext_obj->Name,'script.png',$ext,'ListScript',0,$shortcut[1],"Pour modifier les scripts de {[underline]}".$ext_obj->Titre."{[/underline]}");
 			$menu_general_sub->addSubMenu($menu_general_sub2);
 
 			$menu_general->addSubMenu($menu_general_sub);
@@ -100,16 +96,17 @@ try {
 	foreach($ext_list as $ext => $ext_version)
 		if ($CNX_OBJ->IsViewModule($ext))
 		{
+			$ext_name=str_replace('_','-',$ext);
 			$ext_obj=new Extension($ext);
 			$index++;
-			$help="Pour modifier {[underline]}".$ext_obj->Description."{[/underline]}{[newline]}";
+			$help="Pour modifier {[underline]}".$ext_obj->Titre."{[/underline]}{[newline]}";
 			$help.="Version:$ext_version";
-			$menu_ext_sub = new Xfer_Menu_Item("ext$index",$ext,'extensionsub.png',$ext,'',0,'',$help);
+			$menu_ext_sub = new Xfer_Menu_Item("ext$index",$ext_name,'extensionsub.png',$ext,'',0,'',$help);
 
-			$menu_ext_sub1 = new Xfer_Menu_Item("extParam$index","Paramètres ".$ext,'parameters.png',$ext,'ListExtension',0,'',"Pour modifier les paramètres de {[underline]}".$ext_obj->Description."{[/underline]}");
+			$menu_ext_sub1 = new Xfer_Menu_Item("extParam$index","Paramètres ".$ext_name,'parameters.png',$ext,'ListExtension',0,'',"Pour modifier les paramètres de {[underline]}".$ext_obj->Titre."{[/underline]}");
 			$menu_ext_sub->addSubMenu($menu_ext_sub1);
 			
-			$menu_ext_sub2 = new Xfer_Menu_Item("extScript$index","Scripts ".$ext,'script.png',$ext,'ListScript',0,'',"Pour modifier les scripts de {[underline]}".$ext_obj->Description."{[/underline]}");
+			$menu_ext_sub2 = new Xfer_Menu_Item("extScript$index","Scripts ".$ext_name,'script.png',$ext,'ListScript',0,'',"Pour modifier les scripts de {[underline]}".$ext_obj->Titre."{[/underline]}");
 			$menu_ext_sub->addSubMenu($menu_ext_sub2);
 
 			$menu_ext->addSubMenu($menu_ext_sub);
