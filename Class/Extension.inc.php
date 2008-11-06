@@ -169,6 +169,7 @@ class Extension
 				$tar->add("../index.php");
 				$tar->add("../coreIndex.php");
 				$tar->add("../install.php");
+				$tar->add("../Tests.php");
 				$tar->add("../Help.php");
 			}
 			return true;
