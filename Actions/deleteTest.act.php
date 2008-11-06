@@ -20,19 +20,14 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function modifLibrary($Params,$extensionname)
+function deleteTest($Params,$extensionname)
 {
-	require_once("../CORE/setup_param.inc.php");
-	require_once("Class/Extension.inc.php");
-	$extension=new Extension($extensionname);
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addMenuValid",$Params);
-	require_once("Class/Library.inc.php");
-
-	$code = urldecode($Params['code']);
-	$lib=new Library($Params['library'],$extension->Name);	
-	$lib->CodeFile=split("\n",$code);
-	$lib->Write();
-	$extension->IncrementBuild();
+	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteTest",$Params);
+	$test=$Params['test'];
+	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer le test '".str_replace('_APAS_','::',$test)."'?")) {
+		$xfer_result->m_context['type']='Test';
+		$xfer_result->redirectAction(new Xfer_Action('','',$extensionname,"deleteCode"));
+	}
 	return $xfer_result;
 }
 

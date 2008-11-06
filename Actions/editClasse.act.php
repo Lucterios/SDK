@@ -331,6 +331,32 @@ if (!$ReadOnly) {
 	$lbl->setLocation(0,6,3);
 	$xfer_result->addComponent($lbl);
 
+//#############################################
+	require_once("Class/Test.inc.php");
+	$xfer_result->newTab("Les Tests");
+	$lbl=new Xfer_Comp_LabelForm('testlbl');
+	$lbl->setValue("{[bold]}{[center]}Les Tests{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0,2);
+	$xfer_result->addComponent($lbl);
+	$grid=new Xfer_Comp_Grid('test');
+	$grid->newHeader('A',"Nom",4);
+	$grid->newHeader('B',"Description",4);
+	$mng=new TestManage;
+	foreach($mng->GetList($extensionname,$classe) as $Code) {
+		$cd=new Test($Code,$extensionname);
+		$grid->setValue($Code,'A',$mng->GetName($Code).$cd->GetParams());
+		$grid->setValue($Code,'B',$cd->Description);
+	}
+	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"editTest",FORMTYPE_NOMODAL,CLOSE_NO,SELECT_SINGLE));
+if (!$ReadOnly) {
+	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteTest",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addTest",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	if (count($table->Fields)>0)
+		$grid->addAction(new Xfer_Action("_Générateur","",$extensionname,"wizardMethod",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+}
+	$grid->setLocation(0,1,2);
+	$xfer_result->addComponent($grid);
+
 //====================================================================================================================
 
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));

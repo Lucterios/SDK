@@ -20,19 +20,15 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function modifLibrary($Params,$extensionname)
+function addTest($Params,$extensionname)
 {
-	require_once("../CORE/setup_param.inc.php");
-	require_once("Class/Extension.inc.php");
-	$extension=new Extension($extensionname);
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addMenuValid",$Params);
-	require_once("Class/Library.inc.php");
-
-	$code = urldecode($Params['code']);
-	$lib=new Library($Params['library'],$extension->Name);	
-	$lib->CodeFile=split("\n",$code);
-	$lib->Write();
-	$extension->IncrementBuild();
+	$Params['type']='Test';
+	require_once('Actions/addCode.act.php');
+	$xfer_result=addCode($Params,$extensionname);
+	$xfer_result->Caption='Ajouter un test';
+	$xfer_result->m_action='addTest';
+	$lbl=$xfer_result->getComponents('new_namelbl');
+	$lbl->setValue("{[bold]}{[center]}Nom d'un test{[/center]}{[/bold]}");
 	return $xfer_result;
 }
 

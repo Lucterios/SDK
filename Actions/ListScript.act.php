@@ -106,10 +106,17 @@ if (($extension->Name!='applis') && ($extension->Name!='CORE')) {
 	$btn->setLocation(1,5,5);
 	$xfer_result->addComponent($btn);
 
+	if (is_file('CNX/DBUnitTest.dt')) {
+		$btn=new Xfer_Comp_Button('testBtn');
+		$btn->setAction(new Xfer_Action("_Lancer les tests","",$extensionname,'performTests',FORMTYPE_NOMODAL,CLOSE_NO));
+		$btn->setLocation(1,6,5);
+		$xfer_result->addComponent($btn);
+	}
+
 	$lbl=new Xfer_Comp_Label('marge3');
 	$lbl->setValue("");
 	$lbl->setSize(20,10);
-	$lbl->setLocation(1,6,5);
+	$lbl->setLocation(1,10,5);
 	$xfer_result->addComponent($lbl);
 
 //====================================================================================================================
@@ -230,6 +237,30 @@ if (!$ReadOnly) {
 if (!$ReadOnly) {
 	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteMethod",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
 	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addMethod",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+}
+	$grid->setLocation(0,1,2);
+	$xfer_result->addComponent($grid);
+
+//#############################################
+	require_once("Class/Test.inc.php");
+	$xfer_result->newTab("Les Tests");
+	$lbl=new Xfer_Comp_LabelForm('testlbl');
+	$lbl->setValue("{[bold]}{[center]}Les Tests{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0,2);
+	$xfer_result->addComponent($lbl);
+	$grid=new Xfer_Comp_Grid('test');
+	$grid->newHeader('A',"Nom",4);
+	$grid->newHeader('B',"Description",4);
+	$mng=new TestManage;
+	foreach($mng->GetList($extensionname) as $Code) {
+		$cd=new Test($Code,$extensionname);
+		$grid->setValue($Code,'A',$mng->GetName($Code).$cd->GetParams());
+		$grid->setValue($Code,'B',$cd->Description);
+	}
+	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"editTest",FORMTYPE_NOMODAL,CLOSE_NO,SELECT_SINGLE));
+if (!$ReadOnly) {
+	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteTest",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addTest",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
 }
 	$grid->setLocation(0,1,2);
 	$xfer_result->addComponent($grid);

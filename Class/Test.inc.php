@@ -21,96 +21,70 @@
 
 require_once("ConnectionSDK.inc.php");
 require_once("AbstractClass.inc.php");
+require_once("CodeAbstract.inc.php");
 
-class TestManage extends AbstractClassManage
+class TestManage extends CodeAbstractManage
 {
 	var $Suffix=".test.php";
-
-	function __ExtDir($extensionName="")
-	{
-		if (($extensionName=="") || ($extensionName=="CORE"))
-			$extDir = "../CORE/test/";
-		elseif ($extensionName=="applis")
-			$extDir = "../applis/test/";
-		else
-			$extDir = "../extensions/$extensionName/test/";
-		return $extDir;
-	}
-
 }
 
-class Test extends AbstractClass
+class Test extends CodeAbstract
 {
-	var $CodeFile=array();
-	var $Mng;
-
   	//constructor
-  	function Test($name,$extensionName="")
+  	function Test($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new TestManage();
-		$this->AbstractClass($name,$extensionName);
+		parent::CodeAbstract($name,$extensionName,$tableName);
+	}
+
+	function WriteParams($fh)
+	{
+		foreach($this->Parameters as $Param_name=>$Param_val)
+		{
+			fwrite($fh,"//@PARAM@ $Param_name");
+			if (is_string($Param_val))
+				fwrite($fh,"=$Param_val");
+			fwrite($fh,"\n");
+		}
+		fwrite($fh,"\n");
+		fwrite($fh,"function ".$this->ExtensionName."_".$this->GetName($this->Mng->SEP)."(&\$test)\n");
+		fwrite($fh,"{\n");
 	}
 
 	function Write()
 	{
 		require_once("FunctionTool.inc.php");
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
-		if (!is_dir($extDir))
-			mkdir($extDir);
-		$extLibFile = $extDir.$this->Name.$this->Mng->Suffix;
-		if (!$fh=OpenInWriteFile($extLibFile,"test"))
+		$extCodeFile = $this->GetFileName();
+		if (!$fh=OpenInWriteFile($extCodeFile,get_class($this)))
 		{
-			return "Fichier de test '$extLibFile' non créé!";
+			return "Fichier ".get_class($this)." '$extCodeFile' non créé!";
 			exit;
 		}
-		fwrite($fh,"require_once('CORE/ApasUnit.inc.php');\n");
 		fwrite($fh,"\n");
-		fwrite($fh,"class APASUnit_".$this->Name." extends APASUnit_TestCase\n");
-		fwrite($fh,"{\n");
-		fwrite($fh,"//@BEGIN@\n");
-		foreach($this->CodeFile as $code)
+	
+		$this->WriteTables($fh);
+
+		$this->WriteSpecial($fh);
+
+		fwrite($fh,"\n");
+		fwrite($fh,"//@DESC@".$this->Description);
+		fwrite($fh,"\n");
+
+		$this->WriteParams($fh);
+		fwrite($fh,"//@CODE_ACTION@\n");
+		foreach($this->CodeFunction as $code)
 		{
 			$code=str_replace(array("\\\"","\\'","\\\\"),array('"',"'","\\"),$code);
 			fwrite($fh,$code."\n");
 		}
+		fwrite($fh,"//@CODE_ACTION@\n");
+		$this->WriteEnding($fh);
 		fwrite($fh,"\n");
-		fwrite($fh,"//@END@\n");
-		fwrite($fh,"}\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
 		return "";
 	}
 
-	function Read()
-	{
-		$this->CodeFile=array();
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
-		$extLibFile = $extDir.$this->Name.$this->Mng->Suffix;
-		if (is_file($extLibFile))
-		{
-			$hi = file($extLibFile);
-			$line=1;
-			$line_begin=0;
-			$line_end=10000;
-			foreach($hi as $source)
-			{
-				$source=trim($source);
-				if ((substr($source,0,2)=='<?') || (substr($source,0,9)=='//@BEGIN@'))
-					$line_begin=max($line_begin,$line);
-				if ((substr($source,0,2)=='?>') || (substr($source,0,7)=='//@END@'))
-					$line_end=min($line_end,$line);
-				$line++;
-			}
-			$line=1;
-			foreach($hi as $source)
-			{
-				if (($line_begin<$line) && ($line_end>$line))
-					array_push($this->CodeFile,rtrim($source));
-				$line++;
-			}
-		}
-		return "";
-	}
 }
 
 ?>
