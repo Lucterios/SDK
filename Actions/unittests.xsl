@@ -31,7 +31,7 @@
 		<xsl:for-each select="//testsuite/testcase">
 			<xsl:if test="not(./error)">
 				<xsl:if test="not(./failure)">
-					Succ&#233;s [<xsl:value-of select="@classname"/>]<xsl:value-of select="@name"/>
+					{[font color='green']}Succ&#233;s [<xsl:value-of select="@classname"/>]<xsl:value-of select="@name"/>{[/font]}
 					{[newline]}
 				</xsl:if>
 			</xsl:if>
@@ -56,13 +56,13 @@
 
 	<!-- UnitTest Errors -->
 	<xsl:template match="error" mode="unittests">
-		Erreur [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>
+		{[font color='#ff8800']}Erreur [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>{[/font]}
 		{[newline]}
 	</xsl:template>
 
 	<!-- UnitTest Failures -->
 	<xsl:template match="failure" mode="unittests">
-		Echec [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>
+		{[font color='red']}Echec [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>{[/font]}
 		{[newline]}
 	</xsl:template>
 
