@@ -54,16 +54,19 @@ try {
 	$xfer_result->Caption='Menu de l application';
 
 	$menu_tools = new Xfer_Menu_Item('tool0','Les outils','config.png','','',0,'',"Pour vérouiller, déployer ou configurer votre application.");
-		$menu_tool1 = new Xfer_Menu_Item('tool1','Réservations','reserve.png','CORE','reserveExtension',0,'ctrl R',"Pour réserver une extension de l'application.");
-		$menu_tools->addSubMenu($menu_tool1);
-		if (exportAllowed("CNX/Server_Update.dt")) {
-			$menu_tool2b = new Xfer_Menu_Item('tool2','Déploiement','export.png','CORE','newExport',0,'ctrl D',"Pour dépoyer une extension de l'application sur le nouveau serveur.");
-			$menu_tools->addSubMenu($menu_tool2b);
-		}
-		$menu_tool3 = new Xfer_Menu_Item('tool3','Mot de Passe','passwd.png','CORE','password',1,'ctrl P',"Pour changer votre mot de passe.");
-		$menu_tools->addSubMenu($menu_tool3);
+
+	$menu_tool1 = new Xfer_Menu_Item('tool1','Réservations','reserve.png','CORE','reserveExtension',0,'ctrl R',"Pour réserver une extension de l'application.");
+	$menu_tools->addSubMenu($menu_tool1);
+	if (exportAllowed("CNX/Server_Update.dt")) {
+		$menu_tool2b = new Xfer_Menu_Item('tool2','Déploiement','export.png','CORE','newExport',0,'ctrl D',"Pour dépoyer une extension de l'application sur le nouveau serveur.");
+		$menu_tools->addSubMenu($menu_tool2b);
+	}
+	$menu_tool3 = new Xfer_Menu_Item('tool3','Mot de Passe','passwd.png','CORE','password',1,'ctrl P',"Pour changer votre mot de passe.");
+	$menu_tools->addSubMenu($menu_tool3);
 	if ($CNX_OBJ->Name=="admin") {
 		$menu_tool4 = new Xfer_Menu_Item('tool4','Utilisateurs','user.png','CORE','user',0,'ctrl U',"Pour gérer les utilisateurs de ce SDK.");
+		$menu_tools->addSubMenu($menu_tool4);
+		$menu_tool4 = new Xfer_Menu_Item('tool5','Paramètrages','param.png','CORE','parameter',0,'ctrl U',"Pour gérer les paramètres de ce SDK.");
 		$menu_tools->addSubMenu($menu_tool4);
 	}
 	$xfer_result->addSubMenu($menu_tools);

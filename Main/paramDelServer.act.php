@@ -20,12 +20,35 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function database($Params)
+function paramDelServer($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","database",$Params);
-	$xfer_result->Caption="Base de donnée";
-	
-	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramDelServer",$Params);
+	$xfer_result->Caption="Supprimer un serveur";
+	$depServer=$Params['depServer'];
+	$conf_file=file("CNX/Server_Update.dt");
+	$depServer_name=$conf_file[$depServer];
+
+	if ($xfer_result->confirme("Voulez-vous supprimer le serveur '$depServer_name' ?")) {
+		$conf_file[0]=trim($Params['depProjet']);
+		$conf_file[1]=trim($Params['depPass']);
+		$new_conf_file=array();
+		for($i=0;$i<count($conf_file);$i++) 
+			if ($i!=$depServer)
+				$new_conf_file[]=$conf_file[$i];
+		if (count($conf_file)<=3)
+			unlink("CNX/Server_Update.dt");
+		else {
+			if ($fh=fopen("CNX/Server_Update.dt","w+"))
+			{
+				for($i=0;$i<count($new_conf_file);$i++) {
+					$conf_line=trim($new_conf_file[$i]);
+					if (($i<2) || ($conf_line!=''))
+						fwrite($fh,"$conf_line\n"); 
+				}
+				fclose($fh);
+			}
+		}
+	}
 	return $xfer_result;
 }
 

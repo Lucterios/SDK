@@ -26,9 +26,9 @@ function OpenInWriteFile($filename,$title)
 	if ($fh=fopen($filename,"w+"))
 	{
 		fwrite($fh,"<?php\n");
-		if (is_file('LICENSE'))
+		if (is_file('CNX/LICENSE'))
 		{
-			$license_lines = file('LICENSE');
+			$license_lines = file('CNX/LICENSE');
 			foreach($license_lines as $license_line)
 				fwrite($fh,"// $license_line"); 
 		}
