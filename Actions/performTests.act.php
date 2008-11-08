@@ -59,7 +59,7 @@ function performTests($Params,$extensionname)
 	$dbname=trim($DBUnitTest[2]);
 
 	
-	$query="http://".$_SERVER['SERVER_ADDR'].":".$_SERVER['SERVER_PORT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/Tests.php?extensions=$extensionname&dbuser=$dbuser&dbname=$dbname&dbpass=$dbpass";
+	$query="http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/Tests.php?extensions=$extensionname&dbuser=$dbuser&dbname=$dbname&dbpass=$dbpass";
 	$Rep = file($query);
 	if(($Rep!==false) && (count($Rep)>0)) {
 		$Response = TransformXsl(implode("\n", $Rep),implode("\n",file("Actions/unittests.xsl")));
