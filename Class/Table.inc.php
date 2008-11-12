@@ -187,6 +187,15 @@ class Table extends AbstractClass
 		return "";
 	}
 
+	function getReferenceList() {
+		$list=array();
+		foreach($this->Fields as $field=>$value) {
+			if ($value['type']==10)
+				$list[$value['params']['TableName']]=$field;
+		}
+		return $list;
+	}
+
 	function UpField($field_name)
 	{
 		if (substr($field_name,0,3)=='___')

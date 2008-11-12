@@ -508,6 +508,12 @@ class Extension
 			$value_string='';
 			$value_string.=getStringToWrite($tbl_values[0]).",";
 			$value_string.=getStringToWrite($tbl_values[1]);
+			if (isset($tbl_values[2])) {
+				$value_string.=',array(';
+				foreach($tbl_values[2] as $sub_key=>$sub_values)
+					$value_string.=getStringToWrite($sub_key).'=>'.getStringToWrite($sub_values).',';
+				$value_string.=')';
+			}
 			fwrite($fh,"\$extend_tables[\"$key\"] = array($value_string);\n");
 		}
 		fwrite($fh,"\n");
@@ -572,7 +578,8 @@ class Extension
 				$title=$this->Name.'.'.$tbl->Name;
 			else
 				$title=$tbl->Title;
-			$this->ExtendTables[$tbl->Name]=array($title,$tbl->Heritage);
+			$ref=$tbl->getReferenceList();
+			$this->ExtendTables[$tbl->Name]=array($title,$tbl->Heritage,$ref);
 		}
 	}
 
