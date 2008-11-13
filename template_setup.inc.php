@@ -33,7 +33,7 @@ $version_release=X;
 $version_build=X;
 
 $depencies=array();
-$depencies[0] = new Param_Depencies("CORE", 0, 15, 0, 15, false);
+$depencies[0] = new Param_Depencies("CORE", 0, 16, 0, 16, false);
 
 $rights=array();
 
