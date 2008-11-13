@@ -62,8 +62,23 @@ function performTests($Params,$extensionname)
 	$query="http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/Tests.php?extensions=$extensionname&dbuser=$dbuser&dbname=$dbname&dbpass=$dbpass";
 	$Rep = file($query);
 	if(($Rep!==false) && (count($Rep)>0)) {
-		$Response = TransformXsl(implode("\n", $Rep),implode("\n",file("Actions/unittests.xsl")));
-		$Response = trim(str_replace('<?xml version="1.0" encoding="ISO-8859-1"?>',"",$Response));
+		$rep=trim(implode("\n", $Rep));
+		if (substr($rep,0,10)=='<testsuite') {
+			$Response = TransformXsl($rep,implode("\n",file("Actions/unittests.xsl")));
+			$Response = trim(str_replace('<?xml version="1.0" encoding="ISO-8859-1"?>',"",$Response));
+		}
+		else {
+			$Response = "{[center]}{[underline]}Tests unitaires:&#160;Erreur fatal{[/underline]}{[/center]}{[newline]}";
+			$rep=str_replace('<','{[',$rep);
+			$rep=str_replace('>',']}',$rep);
+			$rep=str_replace('{[br /]}','',$rep);
+			$rep=str_replace('{[b]}/','{[newline]}{[bold]}/',$rep);
+			$rep=str_replace('{[/b]}:','{[/bold]}{[newline]}&#160;&#160;&#160;',$rep);
+			$rep=str_replace('{[b]}','{[bold]}',$rep);
+			$rep=str_replace('{[/b]}','{[/bold]}',$rep);
+
+			$Response.= $rep;
+		}
 	}
 	else
 		$Response = "Erreur '$query'";
