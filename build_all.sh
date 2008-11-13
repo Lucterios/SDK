@@ -55,5 +55,6 @@ fi
 rm -rf bin
 mkdir bin
 cp SDK.lpk bin/$ArcFileName.lpk
+rm -f setup.inc.php
 
 echo "--- Compilation $VersionMaj.$VersionMin.$VersionRev.$VersionBuild Success ---"
