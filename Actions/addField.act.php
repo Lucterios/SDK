@@ -205,7 +205,11 @@ if (type=='10') {
 	$lbl->setLocation(1,10);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Edit('field_ValEnum');
-	$edt->setValue(ArrayToString($field['params']['Enum'],true));
+	$enum_val="";
+	foreach($field['params']['Enum'] as $enum_item)
+		$enum_val.=$enum_item.";";
+	if ($enum_val!='') $enum_val=substr($enum_val,0,-1);
+	$edt->setValue($enum_val);
 	$edt->setLocation(2,10);
 	$xfer_result->addComponent($edt);
 

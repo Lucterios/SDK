@@ -92,8 +92,8 @@ class Extension
 		usort($ext_name,'listSort');
 		$ext_list=array();
 		foreach($ext_name as $extname) {
-			if (((($CNX_OBJ==null) || $CNX_OBJ->CanWriteModule($extname)) && ($extname!='applis') && ($extname!='CORE')) ||
-			 (($CNX_OBJ!=null) && $CNX_OBJ->CanWriteModule($extname) && (($extname=='CORE') || ($extname=='applis'))))
+			if (((($CNX_OBJ==null) || $CNX_OBJ->IsViewModule($extname)) && ($extname!='applis') && ($extname!='CORE')) ||
+			 (($CNX_OBJ!=null) && $CNX_OBJ->IsViewModule($extname) && (($extname=='CORE') || ($extname=='applis'))))
 			{
 				$ext=new Extension($extname);
 				$ext_list[$extname]=$ext->GetVersion();

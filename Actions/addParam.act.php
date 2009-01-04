@@ -147,7 +147,11 @@ parent.get('ValEnum').setEnabled(value=='4');
 	$lbl->setLocation(1,8);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Edit('ValEnum');
-	$edt->setValue(ArrayToString($param->extend['Enum'],true));
+	$enum_val="";
+	foreach($param->extend['Enum'] as $enum_item)
+		$enum_val.=$enum_item.";";
+	if ($enum_val!='') $enum_val=substr($enum_val,0,-1);
+	$edt->setValue($enum_val);
 	$edt->setLocation(2,8);
 	$xfer_result->addComponent($edt);
 	

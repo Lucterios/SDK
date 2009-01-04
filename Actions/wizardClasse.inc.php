@@ -270,7 +270,7 @@ class generator
 					$meth->CodeFunction[]='$xfer_result->addComponent($lbl);';
 
 					$meth->CodeFunction[]='$'.$key.'=$self->getField("'.$key.'");';
-					$meth->CodeFunction[]='$grid = $'.$key.'->getGrid();';
+					$meth->CodeFunction[]='$grid = $'.$key.'->getGrid($Params);';
 					$meth->CodeFunction[]='$grid->setLocation($posX+1,$posY++);';
 					$meth->CodeFunction[]='$xfer_result->addComponent($grid);';
 				}
@@ -302,8 +302,12 @@ class generator
 		$act->WithTransaction=true;
 		$act->LockMode=LOCK_MODE_EVENT;
 		$act->CodeFunction=array();
-		$act->CodeFunction[]='if($xfer_result->confirme("Etes vous sûre de vouloir supprimer ce '.getStringToWrite($this->description,false).'?"))';
-		$act->CodeFunction[]='	$self->delete();';
+		$act->CodeFunction[]='if (($res=$self->canBeDelete())!=0) {';
+		$act->CodeFunction[]='	require_once("CORE/Lucterios_Error.inc.php");';
+		$act->CodeFunction[]='	throw new LucteriosException(IMPORTANT,"Suppression de ".$self->toText()." impossible");';
+		$act->CodeFunction[]='}';
+		$act->CodeFunction[]='if ($xfer_result->confirme("Voulez vous supprimer ".$self->toText()."?"))';
+		$act->CodeFunction[]='	$self->deleteCascade();';
 		$act->Write();
 		$this->addActionInExtension($act->Description, $act->GetName(SEP), $this->droitDel);
 	}
@@ -345,7 +349,7 @@ class generator
 		if ($this->search)
 			$act->CodeFunction[]='}';
 		if ($this->useMethod)
-			$act->CodeFunction[]='$grid = $self->getGrid("'.$this->suffix.'");';
+			$act->CodeFunction[]='$grid = $self->getGrid($Params);';
 		else {
 			$act->CodeFunction[]='$grid = new Xfer_Comp_Grid("'.$this->suffix.'");';
 			$act->CodeFunction[]='$grid->setDBObject($self, '.$this->listNb.');';
@@ -379,12 +383,13 @@ class generator
 		$meth=new Method("getGrid",$this->extensionName,$this->classe);
 		if (count($meth->CodeFunction)>0) return;
 		$meth->Description="getList de ".$this->description;
+		$meth->Parameters=array('Params'=>0);
 		$meth->CodeFunction[]='$grid = new Xfer_Comp_Grid("'.$this->suffix.'");';
-		$meth->CodeFunction[]='$grid->setDBObject($self, '.$this->listNb.');';
+		$meth->CodeFunction[]='$grid->setDBObject($self, '.$this->listNb.',"",$Params);';
 		if ($this->fiche)
 			$meth->CodeFunction[]='$grid->addAction($self->newAction("_Editer", "edit.png", "Fiche", FORMTYPE_MODAL,CLOSE_NO, SELECT_SINGLE));';
 		if ($this->add)
-			$meth->CodeFunction[]='$grid->addAction($self->newAction("_Modifier", "add.png", "AddModify",FORMTYPE_MODAL,CLOSE_NO, SELECT_SINGLE));';
+			$meth->CodeFunction[]='$grid->addAction($self->newAction("_Modifier", "edit.png", "AddModify",FORMTYPE_MODAL,CLOSE_NO, SELECT_SINGLE));';
 		if ($this->del)
 			$meth->CodeFunction[]='$grid->addAction($self->newAction("_Supprimer", "suppr.png", "Del", FORMTYPE_MODAL,CLOSE_NO, SELECT_SINGLE));';
 		if ($this->add)

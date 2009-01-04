@@ -1,8 +1,8 @@
 #!/bin/sh
 
 VersionMaj=0
-VersionMin=16
-VersionRev=12
+VersionMin=20
+VersionRev=1
 current_date_sec=`date +%s`
 VersionBuild=$(( (current_date_sec-1214866800)/7200 ))
 

@@ -351,8 +351,6 @@ if (!$ReadOnly) {
 if (!$ReadOnly) {
 	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteTest",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
 	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addTest",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
-	if (count($table->Fields)>0)
-		$grid->addAction(new Xfer_Action("_Générateur","",$extensionname,"wizardMethod",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
 }
 	$grid->setLocation(0,1,2);
 	$xfer_result->addComponent($grid);
