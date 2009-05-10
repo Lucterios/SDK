@@ -64,7 +64,7 @@ function addFieldValid($Params,$extensionname)
 			break;
 	}
 	$table->ModifyField($field_name,$Params['field_description'],$field_type,$Params['field_notnull']=='o',$param);
-	$extension->IncrementRelease();
+	$extension->IncrementBuild();
 
 	return $xfer_result;
 }

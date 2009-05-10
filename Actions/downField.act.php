@@ -30,7 +30,7 @@ function downField($Params,$extensionname)
 	$extension=new Extension($extensionname);
 	$table=new Table($classe,$extensionname);
 	$table->DownField($Params['field']);
-	$extension->IncrementRelease();
+	$extension->IncrementBuild();
 	return $xfer_result;
 }
 

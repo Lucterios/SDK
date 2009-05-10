@@ -558,7 +558,7 @@ class generator
 		if ($this->printFile)
 			$this->createAction_PrintFile();
 
-		$this->extension->IncrementRelease();
+		$this->extension->IncrementBuild();
 		$this->extension->write();
 	}
 }

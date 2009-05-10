@@ -58,7 +58,7 @@ function addInitialValid($Params,$extensionname)
 	else
 		$table->DefaultFields[]=$initial;
 	$table->Write();
-	$extension->IncrementRelease();
+	$extension->IncrementBuild();
 
 	return $xfer_result;
 }

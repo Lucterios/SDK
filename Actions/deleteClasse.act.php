@@ -35,7 +35,7 @@ function deleteClasse($Params,$extensionname)
 		foreach($extension->Actions as $key=>$act)
 		if ($mngact->GetTableName($act->action)==$id)
 			unset($extension->Actions[$key]);
-		$extension->IncrementRelease();
+		$extension->IncrementBuild();
 	}
 	return $xfer_result;
 }

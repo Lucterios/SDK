@@ -31,7 +31,7 @@ function deleteField($Params,$extensionname)
 		$extension=new Extension($extensionname);
 		$table=new Table($classe,$extensionname);
 		$table->DelField($field);
-		$extension->IncrementRelease();
+		$extension->IncrementBuild();
 	}
 	return $xfer_result;
 }

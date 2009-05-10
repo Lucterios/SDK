@@ -19,6 +19,7 @@
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
 require_once('../CORE/xfer_custom.inc.php');
+require_once('Main/connection.inc.php');
 
 function newExport($Params)
 {
@@ -106,13 +107,18 @@ function newExport($Params)
 	$grid->newHeader('B',"Version Local",4);
 	$grid->newHeader('C',"Version Distant",4);
 
-	foreach($mods as $mod_name=>$mod_ver)
+	$current_mods=$mods;
+	foreach($current_mods as $mod_name=>$mod_ver)
 	{
-		if ($mod_name=='applis')
-			$mod_name=$application_name;
-		$grid->setValue($mod_name,'A',$mod_name);
-		$grid->setValue($mod_name,'B',$mod_ver);
-		$grid->setValue($mod_name,'C',$versDist[$mod_name]);
+		if ($cnx->CanWriteModule($mod_name)) {
+			if ($mod_name=='applis')
+				$mod_name=$application_name;
+			$grid->setValue($mod_name,'A',$mod_name);
+			$grid->setValue($mod_name,'B',$mod_ver);
+			$grid->setValue($mod_name,'C',$versDist[$mod_name]);
+		} else {
+			unset($mods[$mod_name]);
+		}
 	}
 	$grid->setLocation(0,1,2);
 	$grid->addAction(new Xfer_Action("_Exporter","","CORE","modifNewExport",FORMTYPE_MODAL,CLOSE_NO,SELECT_MULTI));
@@ -135,8 +141,9 @@ function newExport($Params)
 	$lbl->setLocation(0,3);
 	$xfer_result->addComponent($lbl);
 
-	$chk=new Xfer_Comp_Check('IncVersion');
-	$chk->setValue('n');
+	$chk=new Xfer_Comp_Select('IncVersion');
+	$chk->setSelect(array(0=>'<non>',1=>"Révision",2=>"Sous-version",3=>"Version"));
+	$chk->setValue(0);
 	$chk->setLocation(1,3);
 	$xfer_result->addComponent($chk);
 

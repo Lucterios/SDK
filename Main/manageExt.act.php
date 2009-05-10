@@ -24,7 +24,7 @@ require_once('Main/connection.inc.php');
 function manageExt($Params)
 {
 	$xfer_result=&new Xfer_Container_Custom("CORE","manageExt",$Params);
-	$xfer_result->Caption="Gestion de d'une extension";
+	$xfer_result->Caption="Gestion d'une extension";
 
 	$ext=$Params['ext'];
 	global $CNX_OBJ;

@@ -562,7 +562,24 @@ class Extension
 	function IncrementRelease()
 	{
 		$this->refreshExtendTable();
-		$this->Version[2]=1+(int)$this->Version[3];
+		$this->Version[2]=1+(int)$this->Version[2];
+		return $this->Write();
+	}
+
+	function IncrementSubVersion()
+	{
+		$this->refreshExtendTable();
+		$this->Version[1]=1+(int)$this->Version[1];
+		$this->Version[2]=1;
+		return $this->Write();
+	}
+
+	function IncrementVersion()
+	{
+		$this->refreshExtendTable();
+		$this->Version[0]=1+(int)$this->Version[0];
+		$this->Version[1]=1;
+		$this->Version[2]=1;
 		return $this->Write();
 	}
 
@@ -583,14 +600,6 @@ class Extension
 		}
 	}
 
-	function IncrementSubVersion()
-	{
-
-		$this->Version[1]=1+(int)$this->Version[1];
-		$this->Version[2]=0;
-		$this->Version[3]=0;
-		return $this->Write();
-	}
 }
 
 ?>

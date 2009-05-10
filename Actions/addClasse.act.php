@@ -30,7 +30,7 @@ function addClasse($Params,$extensionname)
 		$extension=new Extension($extensionname);
 		$tbl=new Table($Params['new_name'],$extension->Name);
 		$tbl->Write();
-		$extension->IncrementRelease();
+		$extension->IncrementBuild();
 	} else {
 		$xfer_result=&new Xfer_Container_Custom($extensionname,"addClasse",$Params);
 		$lbl=new Xfer_Comp_LabelForm('new_namelbl');
