@@ -11,6 +11,9 @@ clear
 echo "*** Compilation $VersionMaj.$VersionMin.$VersionRev.$VersionBuild ***"
 echo $VersionMaj $VersionMin $VersionRev $VersionBuild > version.txt
 
+rm -rf bin
+mkdir bin
+
 rm -f setup.inc.php
 cp template_setup.inc.php setup.tmp
 sed -e "s/\$version_max=X;/\$version_max=$VersionMaj;/" setup.tmp > setup.inc.php
@@ -52,8 +55,6 @@ then
 	exit 5
 fi
 
-rm -rf bin
-mkdir bin
 cp SDK.lpk bin/$ArcFileName.lpk
 rm -f setup.inc.php
 
