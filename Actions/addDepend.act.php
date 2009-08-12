@@ -73,7 +73,7 @@ if ($depency->name=='') {
 	$lbl->setValue("{[bold]}Version Mineur max{[/bold]}");
 	$lbl->setLocation(0,2);
 	$xfer_result->addComponent($lbl);
-	$edt=new Xfer_Comp_Float('version_mineur_max',1,1000,0);
+	$edt=new Xfer_Comp_Float('version_mineur_max',0,1000,0);
 	$edt->setValue($depency->version_mineur_max);
 	$edt->setLocation(1,2);
 	$xfer_result->addComponent($edt);
@@ -91,7 +91,7 @@ if ($depency->name=='') {
 	$lbl->setValue("{[bold]}Version Mineur min{[/bold]}");
 	$lbl->setLocation(0,4);
 	$xfer_result->addComponent($lbl);
-	$edt=new Xfer_Comp_Float('version_mineur_min',1,1000,0);
+	$edt=new Xfer_Comp_Float('version_mineur_min',0,1000,0);
 	$edt->setValue($depency->version_mineur_min);
 	$edt->setLocation(1,4);
 	$xfer_result->addComponent($edt);
