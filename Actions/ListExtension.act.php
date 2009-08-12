@@ -275,7 +275,7 @@ if ($extensionname!="applis") {
 		$grid->setValue($key,'A',$Depency->name);
 		$grid->setValue($key,'B',$Depency->version_majeur_max);
 		$grid->setValue($key,'C',$Depency->version_mineur_max);
-		$grid->setValue($key,'D',$Depency->version_majeur_max);
+		$grid->setValue($key,'D',$Depency->version_majeur_min);
 		$grid->setValue($key,'E',$Depency->version_mineur_min);
 		$grid->setValue($key,'F',$Depency->optionnal?'oui':'n');
 	}
