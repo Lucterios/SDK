@@ -99,6 +99,30 @@ if (!$ReadOnly) {
 	$xfer_result->addComponent($grid);
 
 //#############################################
+	require_once("Class/Stocked.inc.php");
+	$xfer_result->newTab("Les fonctions stockées");
+	$lbl=new Xfer_Comp_LabelForm('stockedlbl');
+	$lbl->setValue("{[bold]}{[center]}Les fonctions stockées{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0,2);
+	$xfer_result->addComponent($lbl);
+	$grid=new Xfer_Comp_Grid('stocked');
+	$grid->newHeader('A',"Nom",4);
+	$grid->newHeader('B',"Description",4);
+	$mng=new StockedManage;
+	foreach($mng->GetList($extensionname,$classe) as $Code) {
+		$cd=new Method($Code,$extensionname);
+		$grid->setValue($Code,'A',$mng->GetName($Code).$cd->GetParams());
+		$grid->setValue($Code,'B',$cd->Description);
+	}
+	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"editStocked",FORMTYPE_NOMODAL,CLOSE_NO,SELECT_SINGLE));
+if (!$ReadOnly) {
+	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteStocked",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addStocked",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+}
+	$grid->setLocation(0,1,2);
+	$xfer_result->addComponent($grid);
+
+//#############################################
 	$xfer_result->newTab("Les Champs");
 	$lbl=new Xfer_Comp_LabelForm('fieldlbl');
 	$lbl->setValue("{[bold]}{[center]}Les Champs{[/center]}{[/bold]}");
@@ -112,7 +136,7 @@ if (!$ReadOnly) {
 	$grid->newHeader('A',"Nom",4);
 	$grid->newHeader('B',"Description",4);
 	$grid->newHeader('C',"Type",4);
-	$grid->newHeader('D',"Non null",4);
+	$grid->newHeader('D',"Obligatoire",4);
 	$grid->newHeader('E',"Paramètre",4);
 	$complet_fields=$table->Fields;
 	if ($table->Heritage!='') {
@@ -150,7 +174,9 @@ if (!$ReadOnly) {
 		$grid->setValue($id,'B',$left.$field['description'].$right);
 		$grid->setValue($id,'C',$left.$field_dico[$type_id][1].$right);
 		$grid->setValue($id,'D',$left.$notnull.$right);
-		$grid->setValue($id,'E',$left.ArrayToString($field['params'], true).$right);
+		$param_text=ArrayToString($field['params'], true);
+		$param_text=str_replace(array('_APAS_'),'::',$param_text);
+		$grid->setValue($id,'E',$left.$param_text.$right);
 	}
 
 	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"addField",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));

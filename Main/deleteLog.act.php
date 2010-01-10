@@ -19,26 +19,17 @@
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
 require_once('../CORE/xfer_custom.inc.php');
-require_once('FunctionTool.inc.php');
 
-function deleteInitial($Params,$extensionname)
+function deleteLog($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteInitial",$Params);
-	$initial_id=$Params['initial'];
-	$classe=$Params['classe'];
-	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer le cette valeur initial ?")) {
-		require_once("Class/Extension.inc.php");
-		require_once("Class/Table.inc.php");
-		$extension=new Extension($extensionname);
-		$table=new Table($classe,$extensionname);
-		if (array_key_exists($initial_id,$table->DefaultFields))
-		{
-			unset($table->DefaultFields[$initial_id]);
-			$table->Write();
-			$extension->IncrementBuild();
-		}
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","deleteLog",$Params);
+	if ($xfer_result->Confirme("Etes-vous sûre de vouloir vider le log?")) {
+		$tmpPath = $_SERVER["DOCUMENT_ROOT"].$pathSeparator."tmp".$pathSeparator;
+		$log_file=$tmpPath."/LuceriosCORE.log";
+		unlink($log_file);
 	}
 	return $xfer_result;
 }
 
 ?>
+ 

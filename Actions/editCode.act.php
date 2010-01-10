@@ -74,7 +74,7 @@ function addContextMenu($editor,$ExtensionName,$TableName,$is_print_xfer)
 	}
 }
 
-function editCode($Params,$extensionname)
+function editCode($Params,$extensionname,$phpEditor=true)
 {
 	$xfer_result=&new Xfer_Container_Custom($extensionname,"editCode",$Params);
 
@@ -134,7 +134,7 @@ function editCode($Params,$extensionname)
 	$lbl->setValue(")");
 	$lbl->setLocation(2,10);
 	$xfer_result->addComponent($lbl);
-if ($code->TableName!="") {
+if ($phpEditor && ($code->TableName!="")) {
 	$lbl=new Xfer_Comp_Label('code_paramslbl3');
 	$lbl->setValue("\$self=new DBObj_".$code->ExtensionName."_".$code->TableName);
 	$lbl->setLocation(0,11,3);
@@ -158,28 +158,29 @@ if ($code->TableName!="") {
 	} 
 	$xfer_result->addComponent($edt);
 
-	require_once("Actions/phpTools.inc.php");
-	$res=CheckSyntax($code->Mng->GetFileName($code->Name,$code->ExtensionName,$code->TableName));
-	if (is_string($res)) {
-		$lbl=new Xfer_Comp_LabelForm('code_error');
-		$lbl->setValue("{[bold]}{[font color='red']}$res{[/font]}{[/bold]}");
-		$lbl->setLocation(0,20,4);
-		$xfer_result->addComponent($lbl);
-	}
+	if ($phpEditor) {
+		require_once("Actions/phpTools.inc.php");
+		$res=CheckSyntax($code->Mng->GetFileName($code->Name,$code->ExtensionName,$code->TableName));
+		if (is_string($res)) {
+			$lbl=new Xfer_Comp_LabelForm('code_error');
+			$lbl->setValue("{[bold]}{[font color='red']}$res{[/font]}{[/bold]}");
+			$lbl->setLocation(0,20,4);
+			$xfer_result->addComponent($lbl);
+		}
 
-	$xfer_result->newTab("Modèle",2);
-
-	$xfer_result->newTab("Paramêtres",3);
-	$lbl=new Xfer_Comp_LabelForm('tablesDependslbl');
-	$lbl->setValue("{[bold]}{[center]}Tables dépendantes{[/center]}{[/bold]}");
-	$lbl->setLocation(0,20);
-	$xfer_result->addComponent($lbl);
-	$edt=new Xfer_Comp_CheckList('code_tableFiles');
-	$edt->setSelect($DependedTable);
-	$edt->setValue($SelectedTableFiles);
-	$edt->setLocation(1,20);
-	$xfer_result->addComponent($edt);
+		$xfer_result->newTab("Modèle",2);
 	
+		$xfer_result->newTab("Paramêtres",3);
+		$lbl=new Xfer_Comp_LabelForm('tablesDependslbl');
+		$lbl->setValue("{[bold]}{[center]}Tables dépendantes{[/center]}{[/bold]}");
+		$lbl->setLocation(0,20);
+		$xfer_result->addComponent($lbl);
+		$edt=new Xfer_Comp_CheckList('code_tableFiles');
+		$edt->setSelect($DependedTable);
+		$edt->setValue($SelectedTableFiles);
+		$edt->setLocation(1,20);
+		$xfer_result->addComponent($edt);
+	}
 	if (!$cnx->IsReadOnly($extensionname))
 		$xfer_result->addAction(new Xfer_Action("_Sauver","ok.png",$extensionname,"modifCode",FORMTYPE_MODAL,CLOSE_NO));
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));

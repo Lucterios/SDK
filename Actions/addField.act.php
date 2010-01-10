@@ -106,14 +106,17 @@ if ($field_name=='') {
 	$edt->setLocation(1,3,2);
 	$edt->JavaScript="
 var type=current.getValue();
-parent.get('field_ValMin').setEnabled((type=='0') || (type=='1'));
-parent.get('field_ValMax').setEnabled((type=='0') || (type=='1'));
-parent.get('field_ValPrec').setEnabled(type=='1');
+parent.get('field_ValMin').setEnabled((type=='0') || (type=='1') || (type=='13'));
+parent.get('field_ValMax').setEnabled((type=='0') || (type=='1') || (type=='13'));
+parent.get('field_ValPrec').setEnabled((type=='1') || (type=='13'));
 parent.get('field_ValSize').setEnabled(type=='2');
 parent.get('field_ValMulti').setEnabled(type=='2');
 parent.get('field_ValEnum').setEnabled(type=='8');
 parent.get('field_TableName').setEnabled((type=='9') || (type=='10'));
 parent.get('field_RefField').setEnabled(type=='9');
+parent.get('field_Function').setEnabled(type=='11');
+parent.get('field_MethodGet').setEnabled((type=='12') || (type=='13'));
+parent.get('field_MethodSet').setEnabled((type=='12') || (type=='13'));
 if (type=='9') {
 ".$script_ref."
 	var new_text='<SELECT>".$field['params']['TableName']."';
@@ -135,7 +138,7 @@ if (type=='10') {
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_notnulllbl');
-	$lbl->setValue("{[bold]}Non null{[bold]}");
+	$lbl->setValue("{[bold]}Obligatoire{[bold]}");
 	$lbl->setLocation(0,4);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('field_notnull');
@@ -249,7 +252,49 @@ if (type=='9') {
 	$edt->setSelect(array());
 	$edt->setLocation(2,12);
 	$xfer_result->addComponent($edt);
-	
+
+	$functionList=array();
+	require_once("Class/Stocked.inc.php");	
+	$mng=new StockedManage();
+	foreach($mng->GetList($extensionname,$classe) as $storage)
+		$functionList[$extensionname."_FCT_".$storage]=$mng->GetName($storage);
+	$lbl=new Xfer_Comp_LabelForm('field_Functionlbl');
+	$lbl->setValue("Fonction");
+	$lbl->setLocation(1,13);
+	$xfer_result->addComponent($lbl);
+	$edt=new Xfer_Comp_Select('field_Function');
+	$edt->setValue($field['params']['Function']);
+	$edt->setSelect($functionList);
+	$edt->setLocation(2,13);
+	$xfer_result->addComponent($edt);
+
+
+	$methodList=array(""=>"");
+	require_once("Class/Method.inc.php");	
+	$mng=new MethodManage();
+	foreach($mng->GetList($extensionname,$classe) as $method)
+		$methodList[$mng->GetNameNoTable($method)]=$mng->GetNameNoTable($method);
+
+	$lbl=new Xfer_Comp_LabelForm('field_MethodGetlbl');
+	$lbl->setValue("Methode (get)");
+	$lbl->setLocation(1,14);
+	$xfer_result->addComponent($lbl);
+	$edt=new Xfer_Comp_Select('field_MethodGet');
+	$edt->setValue($field['params']['MethodGet']);
+	$edt->setSelect($methodList);
+	$edt->setLocation(2,14);
+	$xfer_result->addComponent($edt);
+	$lbl=new Xfer_Comp_LabelForm('field_MethodSetlbl');
+	$lbl->setValue("Methode (set)");
+	$lbl->setLocation(1,15);
+	$xfer_result->addComponent($lbl);
+	$edt=new Xfer_Comp_Select('field_MethodSet');
+	$edt->setValue($field['params']['MethodSet']);
+	$edt->setSelect($methodList);
+	$edt->setLocation(2,15);
+	$xfer_result->addComponent($edt);
+
+
 	if (!$cnx->IsReadOnly($extensionname))
 		$xfer_result->addAction(new Xfer_Action("_OK","ok.png",$extensionname,"addFieldValid",FORMTYPE_MODAL,CLOSE_YES));
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));

@@ -69,6 +69,8 @@ try {
 		$menu_tool4 = new Xfer_Menu_Item('tool5','Paramètrages','param.png','CORE','parameter',0,'ctrl U',"Pour gérer les paramètres de ce SDK.");
 		$menu_tools->addSubMenu($menu_tool4);
 	}
+	$menu_tool5 = new Xfer_Menu_Item('tool6','Log','edit.png','CORE','visuLog',0,'ctrl L',"Visualisation du log.");
+	$menu_tools->addSubMenu($menu_tool5);
 	$xfer_result->addSubMenu($menu_tools);
 
 	$menu_general = new Xfer_Menu_Item('general0','Général','general.png','','',0,'',"Pour éditer ou modifier le coeur.");

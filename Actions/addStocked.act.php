@@ -19,26 +19,18 @@
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
 require_once('../CORE/xfer_custom.inc.php');
-require_once('FunctionTool.inc.php');
 
-function deleteInitial($Params,$extensionname)
+function addStocked($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteInitial",$Params);
-	$initial_id=$Params['initial'];
-	$classe=$Params['classe'];
-	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer le cette valeur initial ?")) {
-		require_once("Class/Extension.inc.php");
-		require_once("Class/Table.inc.php");
-		$extension=new Extension($extensionname);
-		$table=new Table($classe,$extensionname);
-		if (array_key_exists($initial_id,$table->DefaultFields))
-		{
-			unset($table->DefaultFields[$initial_id]);
-			$table->Write();
-			$extension->IncrementBuild();
-		}
-	}
+	$Params['type']='Stocked';
+	require_once('Actions/addCode.act.php');
+	$xfer_result=addCode($Params,$extensionname);
+	$xfer_result->Caption='Ajouter une fonction stockée';
+	$xfer_result->m_action='addStocked';
+	$lbl=$xfer_result->getComponents('new_namelbl');
+	$lbl->setValue("{[bold]}{[center]}Nom de la nouvelle fonction stockée{[/center]}{[/bold]}");
 	return $xfer_result;
 }
 
 ?>
+ 

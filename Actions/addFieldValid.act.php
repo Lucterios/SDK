@@ -59,6 +59,15 @@ function addFieldValid($Params,$extensionname)
 		case "10": //reference
 			$param=array("TableName"=>$Params['field_TableName']);
 			break;
+		case "11": //function
+			$param=array("Function"=>$Params['field_Function']);
+			break;
+		case "12": //method chaine
+			$param=array("MethodGet"=>$Params['field_MethodGet'],"MethodSet"=>$Params['field_MethodSet']);
+			break;
+		case "13": //method réel
+			$param=array("MethodGet"=>$Params['field_MethodGet'],"MethodSet"=>$Params['field_MethodSet'],"Min"=>(float)$Params['field_ValMin'], "Max"=>(float)$Params['field_ValMax'], "Prec"=>(int)$Params['field_ValPrec']);
+			break;
 		default:
 			$param=array();
 			break;
