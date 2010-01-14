@@ -54,8 +54,8 @@ class Stocked extends CodeAbstract
 	{
 		$this->Mng=new StockedManage();
 		parent::CodeAbstract($name,$extensionName,$tableName);
-		if ($this->TableName!='')
-			$this->Parameters['id']='int(10)';
+		if (($this->TableName!='') && (count($this->CodeFunction)==0))
+			$this->Parameters['ObjId']='int(10)';
 	}
 
 	function GetParams($WithSep=true)
@@ -78,18 +78,21 @@ class Stocked extends CodeAbstract
 	function SetParams($code_params)
 	{
 		$this->Parameters=array();
-		$params=split(",",$code_params);
-		foreach($params as $param)
-		{
-			$param_val=split(" +",trim($param));
-			if (count($param_val)>0)
+		$code_params=trim($code_params);
+		if ($code_params!='') {
+			$params=split(",",$code_params);
+			foreach($params as $param)
 			{
-				$val_name=$param_val[0];
+				$param_val=split(" +",trim($param));
+				if (count($param_val)>0)
+				{
+					$val_name=$param_val[0];
+				}
+				if (count($param_val)==1)
+					$this->Parameters[$val_name]='INTEGER';
+				elseif (count($param_val)==2)
+					$this->Parameters[$val_name]=$param_val[1];
 			}
-			if (count($param_val)==1)
-				$this->Parameters[$val_name]='INTEGER';
-			elseif (count($param_val)==2)
-				$this->Parameters[$val_name]=$param_val[1];
 		}
 	}
 

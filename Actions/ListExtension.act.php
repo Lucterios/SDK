@@ -114,7 +114,7 @@ if (($extension->Name!='applis') && ($extension->Name!='CORE')) {
 	$lbl->setLocation(1,4);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Memo('extensiondesc');
-	$edt->setValue(urlencode($extension->Description));
+	$edt->setValue(urlencode(str_replace(array('{[newline]}'),array("\n"),$extension->Description)));
 	$edt->setLocation(2,4,5);
 	$edt->setSize(75,75);
 	$edt->Needed=true;

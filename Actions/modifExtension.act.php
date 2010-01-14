@@ -26,6 +26,7 @@ function modifExtension($Params,$extensionname)
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
 	$extension->Description=urldecode($Params['extensiondesc']);
+	$extension->Description=str_replace(array("\n"),array('{[newline]}'),$extension->Description);
 	$extension->Version=array($Params['version_max'],$Params['version_min'],$Params['version_release'],$Params['version_build']);
 	if ($extensionname=='applis') 
 		$extension->Appli=$Params['extensionappli'];
