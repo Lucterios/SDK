@@ -60,7 +60,11 @@ function addFieldValid($Params,$extensionname)
 			$param=array("TableName"=>$Params['field_TableName']);
 			break;
 		case "11": //function
-			$param=array("Function"=>$Params['field_Function']);
+			$field_Function=$Params['field_Function'];
+			$pos=strpos($field_Function,"_FCT_");
+			require_once("Class/Stocked.inc.php");
+			$code=new Stocked(substr($field_Function,$pos+5),$extensionname);
+			$param=array("Function"=>$field_Function,"NbField"=>count($code->Parameters));
 			break;
 		case "12": //method chaine
 			$param=array("MethodGet"=>$Params['field_MethodGet'],"MethodSet"=>$Params['field_MethodSet']);
