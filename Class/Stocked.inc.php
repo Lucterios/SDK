@@ -117,6 +117,7 @@ class Stocked extends CodeAbstract
 			}
 		fwrite($fh,")\n");
 		fwrite($fh,"RETURNS TEXT\n");
+		fwrite($fh,"READS SQL DATA\n");
 		fwrite($fh,"BEGIN\n");
 		fwrite($fh,"DECLARE result TEXT DEFAULT '';\n");
 	}
