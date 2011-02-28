@@ -23,38 +23,35 @@ require_once('../CORE/xfer.inc.php');
 function sendModuleToUpdateServer($UpdateServerUrl,$module,$description,$appli,$versions,$arcFile)
 {
 	$txt="";
-	require_once("HTTP/Request.php");
-	$req =& new HTTP_Request($UpdateServerUrl."/addPackage.php");
-	$req->setMethod(HTTP_REQUEST_METHOD_POST);
-	$req->addPostData("MAX_FILE_SIZE", "10000000");
-	if (($module!='CORE') && ($module!='applis'))
-		$req->addPostData("type", "1");
-	else
-		$req->addPostData("type", "3");
-	if ($module=='CORE')
-		$req->addPostData("module", "serveur");
-	elseif ($module=='applis')
-		$req->addPostData("module", $appli);
-        else
-		$req->addPostData("module", $module);
-	$req->addPostData("description", $description);
-	$req->addPostData("applis", $appli);
-	$req->addPostData("max", $versions[0]);
-	$req->addPostData("min", $versions[1]);
-	$req->addPostData("rel", $versions[2]);
-	$req->addPostData("build", $versions[3]);
-	$req->addFile("lefic", $arcFile);
 
-	$response = $req->sendRequest();
-	if (PEAR::isError($response))
-        	$txt=$response->getMessage()."{[newline]}";
+	$fields = array();
+	$fields["MAX_FILE_SIZE"]="10000000";
+	if (($module!='CORE') && ($module!='applis'))
+		$fields["type"]="1";
 	else
-        {
-		$txt=trim($req->getResponseBody());
-                if ($txt=='')
-                    $txt="Module '$module' envoyé.";
-		$txt.="{[newline]}";
-        }
+		$fields["type"]="3";
+	if ($module=='CORE')
+		$fields["module"]="serveur";
+	elseif ($module=='applis')
+		$fields["module"]=$appli;
+        else
+		$fields["module"]=$module;
+	$fields["description"]=$description;
+	$fields["applis"]=$appli;
+	$fields["max"]=$versions[0];
+	$fields["min"]=$versions[1];
+	$fields["rel"]=$versions[2];
+	$fields["build"]=$versions[3];
+	$files = array(
+	    array(
+		'name' => 'lefic',
+		'file' => $arcFile,
+	    )
+	);
+
+	$txt=trim(http_post_fields($UpdateServerUrl."/addPackage.php", $fields, $files));
+	$txt="Module '$module' envoyé.";
+	$txt.="{[newline]}";
 	return $txt;
 }
 

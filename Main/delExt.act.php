@@ -45,14 +45,7 @@ function delExt($Params)
 		$sep=strrpos($server_dir,'/');
 		$server_dir=substr($server_dir,0,$sep);
 		$refresh_url="http://$server_name:$server_port/$server_dir/DeleteModule.php?extensionname=$ext";
-		require_once("HTTP/Request.php");
-		$req =& new HTTP_Request($refresh_url);
-		$req->setMethod(HTTP_REQUEST_METHOD_GET);
-		$err=$req->sendRequest();
-		if (!PEAR::isError($err))
-			$message.=$req->getResponseBody();
-		else 
-			$message.=$err->getMessage();
+		$message=file_get_contents($refresh_url);
 		$xfer_result->redirectAction(new Xfer_Action('menu','','CORE','menu'));
 	}
 	return $xfer_result;

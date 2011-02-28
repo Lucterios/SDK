@@ -24,11 +24,7 @@ function exportAllowed($ServerList)
 {
 	list($UrlServerUpdate,)=file($ServerList);
 	$UrlServerUpdate=trim($UrlServerUpdate);
-	require_once("HTTP/Request.php");
-	$req =& new HTTP_Request($UrlServerUpdate);
-	$req->setMethod(HTTP_REQUEST_METHOD_GET);
-	$err=$req->sendRequest();
-	return !PEAR::isError($err);
+	return (file_get_contents($UrlServerUpdate)!==false);
 }
 
 function menu($Params)

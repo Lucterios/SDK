@@ -34,14 +34,7 @@ function refreshExts($Params)
 	$server_dir=substr($server_dir,0,$sep);
 
 	$refresh_url="http://$server_name:$server_port/$server_dir/ReloadModule.php?act=1";
-	require_once("HTTP/Request.php");
-	$req =& new HTTP_Request($refresh_url);
-	$req->setMethod(HTTP_REQUEST_METHOD_GET);
-	$err=$req->sendRequest();
-	if (!PEAR::isError($err))
-		$message=$req->getResponseBody();
-	else 
-		$message=$err->getMessage();
+	$message=file_get_contents($refresh_url);
 
 	$lbl=new Xfer_Comp_LabelForm('install');
 	$lbl->setValue($message);
