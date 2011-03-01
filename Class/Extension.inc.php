@@ -159,9 +159,9 @@ class Extension
 			require_once("CORE/ArchiveTar.php");
 			$tar = new ArchiveTar($BackupFile,$compress);
 			if ($NoDirectory)
- 				$tar->addModify($extDir,"",$extDir);
+ 				$tar->addModify($extDir,$extDir);
 			else
-				$tar->addModify($extDir);
+				$tar->add($extDir);
 			if (($module=="") || ($module=="CORE"))
 			{
 				$tar->add("../images/");
