@@ -26,13 +26,15 @@ function sendModuleToUpdateServer($UpdateServerUrl,$project,$pass,$module,$arcFi
 	$fields["project"]=$project;
 	$fields["pass"]=$pass;
 	$fields["module"]=$module;
-	$files = array(
-	    array(
-		'name' => 'file',
-		'file' => $arcFile,
-	    )
-	);
-	$txt=trim(http_post_fields($UpdateServerUrl."/actions/up.php", $fields, $files));
+	$fields["file"]="@$arcFile";
+	 
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $UpdateServerUrl."/actions/up.php");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+	$txt = curl_exec($ch);	
+	
 	if (strpos($txt,'<HTML>')!==false)
 		$txt=str_replace(array('<','>'),array('{[',']}'),$txt);
 	if ($txt=='')

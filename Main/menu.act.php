@@ -22,9 +22,9 @@ require_once('../CORE/xfer_menu.inc.php');
 
 function exportAllowed($ServerList)
 {
-	list($UrlServerUpdate,)=file($ServerList);
+	list($projet,$pass,$UrlServerUpdate,)=file($ServerList);
 	$UrlServerUpdate=trim($UrlServerUpdate);
-	return (file_get_contents($UrlServerUpdate)!==false);
+	return is_string($UrlServerUpdate);
 }
 
 function menu($Params)

@@ -42,14 +42,14 @@ function sendModuleToUpdateServer($UpdateServerUrl,$module,$description,$appli,$
 	$fields["min"]=$versions[1];
 	$fields["rel"]=$versions[2];
 	$fields["build"]=$versions[3];
-	$files = array(
-	    array(
-		'name' => 'lefic',
-		'file' => $arcFile,
-	    )
-	);
+	$fields["lefic"]="@$arcFile";
 
-	$txt=trim(http_post_fields($UpdateServerUrl."/addPackage.php", $fields, $files));
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $UpdateServerUrl."/addPackage.php");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+	$txt = trim(curl_exec($ch));
 	$txt="Module '$module' envoyé.";
 	$txt.="{[newline]}";
 	return $txt;
