@@ -295,7 +295,7 @@ class Extension
 				deleteDir("../images/");
 			require_once("CORE/ArchiveTar.php");
 			$tar = new ArchiveTar($archiveFile);
-			$tar->extractModify("../","");
+			$tar->extract("../");
 			$lockfile=$extDir."apaslock.sdk";
 			unlink($lockfile);
 		}
