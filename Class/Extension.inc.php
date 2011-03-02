@@ -156,7 +156,7 @@ class Extension
 		{
 			$extDir = Extension::__ExtDir($module);
 			if (!is_dir("Backup")) mkdir("Backup");
-			require_once("CORE/ArchiveTar.php");
+			require_once("../CORE/ArchiveTar.php");
 			$tar = new ArchiveTar($BackupFile,$compress);
 			if ($NoDirectory)
  				$tar->addModify($extDir,$extDir);
@@ -293,7 +293,7 @@ class Extension
 			deleteDir($extDir);
 			if ($module=="")
 				deleteDir("../images/");
-			require_once("CORE/ArchiveTar.php");
+			require_once("../CORE/ArchiveTar.php");
 			$tar = new ArchiveTar($archiveFile);
 			$tar->extract("../");
 			$lockfile=$extDir."apaslock.sdk";
