@@ -160,17 +160,21 @@ class Extension
 			$tar = new ArchiveTar($BackupFile,$compress);
 			if ($NoDirectory)
  				$tar->addModify($extDir,$extDir);
-			else
-				$tar->add($extDir);
+			else {
+				if (substr($extDir,0,3)=='../')
+				  $tar->addModify($extDir,"../");
+				else
+				  $tar->add($extDir);
+			}
 			if (($module=="") || ($module=="CORE"))
 			{
-				$tar->add("../images/");
-				$tar->add("../conf/cnf.inc.php");
-				$tar->add("../index.php");
-				$tar->add("../coreIndex.php");
-				$tar->add("../install.php");
-				$tar->add("../Tests.php");
-				$tar->add("../Help.php");
+				$tar->addModify("../images/","../");
+				$tar->addModify("../conf/cnf.inc.php","../");
+				$tar->addModify("../index.php","../");
+				$tar->addModify("../coreIndex.php","../");
+				$tar->addModify("../install.php","../");
+				$tar->addModify("../Tests.php","../");
+				$tar->addModify("../Help.php","../");
 			}
 			return true;
 		}
