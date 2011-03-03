@@ -143,10 +143,12 @@ class Extension
 		$bachup_file="";
 		$BcDir='Temp';
 		if (!is_dir($BcDir)) mkdir($BcDir);
+		$version=$this->GetVersion();
+		$version=str_replace('.','-',$version);
 		if ($this->Name!='applis')
-			$bachup_file="$BcDir/".$this->Name."_".$this->GetVersion().$suffic;
+			$bachup_file="$BcDir/".$this->Name."_".$version.$suffic;
 		else
-			$bachup_file="$BcDir/".$this->Appli."_".$this->GetVersion().$suffic;
+			$bachup_file="$BcDir/".$this->Appli."_".$version.$suffic;
 		return $bachup_file;
 	}
 
@@ -156,6 +158,7 @@ class Extension
 		{
 			$extDir = Extension::__ExtDir($module);
 			if (!is_dir("Backup")) mkdir("Backup");
+			unlink($BackupFile);
 			require_once("../CORE/ArchiveTar.inc.php");
 			$tar = new ArchiveTar($BackupFile,$compress);
 			if ($NoDirectory)
