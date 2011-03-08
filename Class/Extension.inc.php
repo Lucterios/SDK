@@ -162,22 +162,22 @@ class Extension
 			require_once("../CORE/ArchiveTar.inc.php");
 			$tar = new ArchiveTar($BackupFile,$compress);
 			if ($NoDirectory)
- 				$tar->addModify($extDir,$extDir);
+ 				$tar->addModify($extDir,"",$extDir);
 			else {
 				if (substr($extDir,0,3)=='../')
-				  $tar->addModify($extDir,"../");
+				  $tar->addModify($extDir,"","../");
 				else
 				  $tar->add($extDir);
 			}
 			if (($module=="") || ($module=="CORE"))
 			{
-				$tar->addModify("../images/","../");
-				$tar->addModify("../conf/cnf.inc.php","../");
-				$tar->addModify("../index.php","../");
-				$tar->addModify("../coreIndex.php","../");
-				$tar->addModify("../install.php","../");
-				$tar->addModify("../Tests.php","../");
-				$tar->addModify("../Help.php","../");
+				$tar->addModify("../images/","","../");
+				$tar->addModify("../conf/cnf.inc.php","","../");
+				$tar->addModify("../index.php","","../");
+				$tar->addModify("../coreIndex.php","","../");
+				$tar->addModify("../install.php","","../");
+				$tar->addModify("../Tests.php","","../");
+				$tar->addModify("../Help.php","","../");
 			}
 			return true;
 		}
