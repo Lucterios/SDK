@@ -40,7 +40,9 @@ class generator
 	var $extensionName;
 	var $classe;
 	
-	var $description;
+	var $descriptionS;
+	var $descriptionP;
+	var $genre;
 	var $suffix;
 	
 	var $add;
@@ -78,7 +80,9 @@ class generator
 		$this->extensionName=$extensionName;
 		$this->classe=$Params['classe'];
 	
-		$this->description=$Params['description'];
+		$this->descriptionS=$Params['descriptionS'];
+		$this->descriptionP=$Params['descriptionP'];
+		$this->genre=$Params['genre'];
 		$this->suffix=$Params['suffix'];
 	
 		$this->add=checkParam($Params,'add');
@@ -120,14 +124,15 @@ class generator
 
 	function createAction_AddModif()
 	{
+		$article=($this->genre==0)?'un':'une';
 		$act=new Action("AddModify",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)==0) {
 			if ($this->add && $this->modif)
-				$act->Description="Ajouter/Modifier un ".$this->description;
+				$act->Description="Ajouter/Modifier $article ".$this->descriptionS;
 			else if ($this->add)
-				$act->Description="Ajouter un ".$this->description;
+				$act->Description="Ajouter $article ".$this->descriptionS;
 			else
-				$act->Description="Modifier un ".$this->description;
+				$act->Description="Modifier $article ".$this->descriptionS;
 			if ($this->modif)
 				$act->IndexName=$this->suffix;
 			else
@@ -138,14 +143,14 @@ class generator
 			$act->CodeFunction=array();
 			if ($this->add && $this->modif) {
 				$act->CodeFunction[]='if ($self->id>0)';
-				$act->CodeFunction[]='	$xfer_result->Caption='.getStringToWrite("Modifier un ".$this->description).';';
+				$act->CodeFunction[]='	$xfer_result->Caption='.getStringToWrite("Modifier $article ".$this->descriptionS).';';
 				$act->CodeFunction[]='else';
-				$act->CodeFunction[]='	$xfer_result->Caption='.getStringToWrite("Ajouter un ".$this->description).';';
+				$act->CodeFunction[]='	$xfer_result->Caption='.getStringToWrite("Ajouter $article ".$this->descriptionS).';';
 			}
 			else if ($this->add)
-				$act->CodeFunction[]='$xfer_result->Caption='.getStringToWrite("Ajouter un ".$this->description).';';
+				$act->CodeFunction[]='$xfer_result->Caption='.getStringToWrite("Ajouter $article ".$this->descriptionS).';';
 			else
-				$act->CodeFunction[]='$xfer_result->Caption='.getStringToWrite("Modifier un ".$this->description).';';
+				$act->CodeFunction[]='$xfer_result->Caption='.getStringToWrite("Modifier $article ".$this->descriptionS).';';
 			if ($this->icon!='') {
 				$act->CodeFunction[]='$img=new Xfer_Comp_Image("img");';
 				$act->CodeFunction[]='$img->setLocation(0,0,1,5);';
@@ -165,7 +170,7 @@ class generator
 
 		$act=new Action("AddModifyAct",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)==0) {
-			$act->Description="Valider un ".$this->description;
+			$act->Description="Valider $article ".$this->descriptionS;
 			$act->IndexName="";
 			if ($this->modif)
 				$act->Parameters=array($this->suffix=>'');
@@ -180,11 +185,13 @@ class generator
 			$act->CodeFunction[]='	$self->update();';
 			$act->CodeFunction[]='else';
 			$act->CodeFunction[]='	$self->insert();';
-			$act->CodeFunction[]='if ('.$this->suffix.'<=0)';
-			$act->CodeFunction[]='{';
-			$act->CodeFunction[]='  $xfer_result->m_context=array("'.$this->suffix.'"=>$self->id);';
-			$act->CodeFunction[]='  $xfer_result->redirectAction($self->NewAction("editer","","Fiche"));';
-			$act->CodeFunction[]='}';
+			if ($self->fiche) {
+				$act->CodeFunction[]='if ('.$this->suffix.'<=0)';
+				$act->CodeFunction[]='{';
+				$act->CodeFunction[]='  $xfer_result->m_context=array("'.$this->suffix.'"=>$self->id);';
+				$act->CodeFunction[]='  $xfer_result->redirectAction($self->NewAction("editer","","Fiche"));';
+				$act->CodeFunction[]='}';
+			}
 	
 			$act->Write();
 			$this->addActionInExtension($act->Description, $act->GetName(SEP), $this->droitAjoutModif);
@@ -193,9 +200,10 @@ class generator
 
 	function createMethod_Edit()
 	{
+		$article=($this->genre==0)?'un':'une';
 		$meth=new Method("edit",$this->extensionName,$this->classe);
 		if (count($meth->CodeFunction)>0) return;
-		$meth->Description="Editer un ".$this->description;
+		$meth->Description="Editer $article ".$this->descriptionS;
 		$meth->Parameters=array('posX'=>0,'posY'=>0,'xfer_result'=>0);
 		$table=new Table($this->classe,$this->extensionName);
 		$field_keys=array_keys($table->Fields);
@@ -218,9 +226,10 @@ class generator
 
 	function createAction_Fiche()
 	{
+		$article=($this->genre==0)?'un':'une';
 		$act=new Action("Fiche",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)>0) return;
-		$act->Description="Fiche d'un ".$this->description;
+		$act->Description="Fiche d'$article ".$this->descriptionS;
 		$act->IndexName=$this->suffix;
 		$act->XferCnt="custom";
 		$act->WithTransaction=false;
@@ -249,7 +258,7 @@ class generator
 	{
 		$meth=new Method("show",$this->extensionName,$this->classe);
 		if (count($meth->CodeFunction)>0) return;
-		$meth->Description="Voir un ".$this->description;
+		$meth->Description="Voir un ".$this->descriptionS;
 		$meth->Parameters=array('posX'=>0,'posY'=>0,'xfer_result'=>0);
 		$table=new Table($this->classe,$this->extensionName);
 		$field_keys=array_keys($table->Fields);
@@ -296,7 +305,7 @@ class generator
 	{
 		$act=new Action("Del",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)>0) return;
-		$act->Description="Supprimer un ".$this->description;
+		$act->Description="Supprimer un ".$this->descriptionS;
 		$act->IndexName=$this->suffix;
 		$act->XferCnt="acknowledge";
 		$act->WithTransaction=true;
@@ -316,7 +325,7 @@ class generator
 	{
 		$act=new Action("List",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)>0) return;
-		$act->Description="Lister des ".$this->description;
+		$act->Description="Lister des ".$this->descriptionP;
 		$act->IndexName="";
 		if ($this->search) 
 			$act->Parameters=array('IsSearch'=>'0');
@@ -364,7 +373,7 @@ class generator
 		$act->CodeFunction[]='$xfer_result->addComponent($grid);';
 		$act->CodeFunction[]='$lbl=new Xfer_Comp_LabelForm("nb");';
 		$act->CodeFunction[]='$lbl->setLocation(0, 2,2);';
-		$act->CodeFunction[]='$lbl->setValue("Nombre affichés : ".count($grid->m_records));';
+		$act->CodeFunction[]='$lbl->setValue("Nombre total : ".$grid->mNbLines);';
 		$act->CodeFunction[]='$xfer_result->addComponent($lbl);';
 		if ($this->printList)
 			$act->CodeFunction[]='$xfer_result->addAction($self->newAction("_Imprimer", "print.png","PrintList",FORMTYPE_MODAL,CLOSE_NO));';
@@ -382,13 +391,13 @@ class generator
 	{
 		$meth=new Method("getGrid",$this->extensionName,$this->classe);
 		if (count($meth->CodeFunction)>0) return;
-		$meth->Description="getList de ".$this->description;
+		$meth->Description="getList de ".$this->descriptionP;
 		$meth->Parameters=array('Params'=>0);
 		$meth->CodeFunction[]='$grid = new Xfer_Comp_Grid("'.$this->suffix.'");';
 		$meth->CodeFunction[]='$grid->setDBObject($self, '.$this->listNb.',"",$Params);';
 		if ($this->fiche)
 			$meth->CodeFunction[]='$grid->addAction($self->newAction("_Editer", "edit.png", "Fiche", FORMTYPE_MODAL,CLOSE_NO, SELECT_SINGLE));';
-		if ($this->add)
+		else if ($this->add)
 			$meth->CodeFunction[]='$grid->addAction($self->newAction("_Modifier", "edit.png", "AddModify",FORMTYPE_MODAL,CLOSE_NO, SELECT_SINGLE));';
 		if ($this->del)
 			$meth->CodeFunction[]='$grid->addAction($self->newAction("_Supprimer", "suppr.png", "Del", FORMTYPE_MODAL,CLOSE_NO, SELECT_SINGLE));';
@@ -401,9 +410,10 @@ class generator
 
 	function createAction_Search()
 	{
+		$article=($this->genre==0)?'un':'une';
 		$act=new Action("Search",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)>0) return;
-		$act->Description="Rechercher un ".$this->description;
+		$act->Description="Rechercher $article ".$this->descriptionS;
 		$act->IndexName="";
 		$act->XferCnt="custom";
 		$act->WithTransaction=false;
@@ -436,9 +446,10 @@ class generator
 
 	function createMethod_Finder()
 	{
+		$article=($this->genre==0)?'un':'une';
 		$meth=new Method("finder",$this->extensionName,$this->classe);
 		if (count($meth->CodeFunction)>0) return;
-		$meth->Description="Recherche un ".$this->description;
+		$meth->Description="Recherche $article ".$this->descriptionS;
 		$meth->Parameters=array('posY'=>0,'simple'=>0,'xfer_result'=>0);
 
 		$table=new Table($this->classe,$this->extensionName);
@@ -468,7 +479,7 @@ class generator
 	{
 		$act=new Action("PrintList",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)>0) return;
-		$act->Description="Imprimer une liste de ".$this->description;
+		$act->Description="Imprimer une liste de ".$this->descriptionP;
 		$act->IndexName="";
 		if ($this->search) 
 			$act->Parameters=array('IsSearch'=>'0');
@@ -477,8 +488,8 @@ class generator
 		$act->LockMode=LOCK_MODE_NO;
 		$act->CodeFunction=array();
 		$act->CodeFunction[]='require_once "CORE/PrintListing.inc.php";';
-		$act->CodeFunction[]='$listing=new PrintListing("Liste des Personnes Morales");';
-		$act->CodeFunction[]='$listing->Header="Liste des Personnes Morales";';
+		$act->CodeFunction[]='$listing=new PrintListing("Liste des '.$this->descriptionP.'");';
+		$act->CodeFunction[]='$listing->Header="Liste des '.$this->descriptionP.'";';
 		$table=new Table($this->classe,$this->extensionName);
 		$field_keys=array_keys($table->Fields);
 		$size=(int)(190/$this->listNb);
@@ -503,9 +514,10 @@ class generator
 
 	function createAction_PrintFile()
 	{
+		$article=($this->genre==0)?'un':'une';
 		$act=new Action("PrintFile",$this->extensionName,$this->classe);
 		if (count($act->CodeFunction)>0) return;
-		$act->Description="Imprimer un ".$this->description;
+		$act->Description="Imprimer $article ".$this->descriptionS;
 		$act->IndexName=$this->suffix;
 		$act->XferCnt="print";
 		$act->WithTransaction=false;

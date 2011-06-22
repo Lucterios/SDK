@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VersionMaj=0
-VersionMin=95
+VersionMin=96
 VersionRev=1
 current_date_sec=`date +%s`
 VersionBuild=$(( (current_date_sec-1214866800)/7200 ))
@@ -41,7 +41,7 @@ then
 	exit 3
 fi
 
-tar --exclude=.svn -cf $ArcFileName.tar Actions Backup/readme Class CNX/readme Help images Main ConnectionSDK.inc.php coreIndex.php DeleteModule.php FunctionTool.inc.php GNU_General_Public_License.txt Help.php index.php PathInitial.inc.php ReloadModule.php setup.inc.php
+tar --exclude=.svn -cf $ArcFileName.tar Actions Backup/readme Class CNX/readme Help images Main ConnectionSDK.inc.php coreIndex.php DeleteModule.php FunctionTool.inc.php GNU_General_Public_License.txt Help.php index.php PathInitial.inc.php ReloadModule.php setup.inc.php ConvertSavingToPHP.xsl
 if [ $? -ne 0 ]
 then
 	echo "+++ Error lpk +++"

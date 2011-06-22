@@ -51,8 +51,10 @@ function editTest($Params,$extensionname)
 	$lbl->setValue("{[bold]}{[center]}Test '".$test->GetName()."' de l'extension '$extensionname'{[/center]}{[/bold]}");
 	$lbl->setLocation(0,0,3);
 	$xfer_result->addComponent($lbl);
+
+	$xfer_result->addAction(new Xfer_Action("_Generateur","edit.png",$extensionname,"generatorTest",FORMTYPE_MODAL,CLOSE_NO));
+
 	return $xfer_result;
 }
 
 ?>
- 

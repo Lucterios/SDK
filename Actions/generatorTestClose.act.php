@@ -20,13 +20,13 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function deleteLog($Params)
+function generatorTestClose($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","deleteLog",$Params);
-	if ($xfer_result->Confirme("Etes-vous sûre de vouloir vider le log?")) {
-		$log_file="../tmp/LuceriosCORE.log";
-		unlink($log_file);
-	}
+	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"generatorTestClose",$Params);
+	require_once('Class/Config.inc.php');
+	$conf=new Config('conf.db');
+	$conf->xmlSaving='';
+	$conf->Write();
 	return $xfer_result;
 }
 

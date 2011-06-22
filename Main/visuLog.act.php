@@ -25,9 +25,7 @@ function visuLog($Params)
 	$xfer_result=&new Xfer_Container_Custom("CORE","visuLog",$Params);
 	$xfer_result->Caption="Visualisation des logs";
 	
-	$tmpPath = $_SERVER["DOCUMENT_ROOT"].$pathSeparator."tmp".$pathSeparator;
-	$log_file=$tmpPath."/LuceriosCORE.log";
-
+	$log_file="../tmp/LuceriosCORE.log";
 	$log_content_lines=array_reverse(file($log_file));
 	$current_nb=0;
 	$log_content="";		
@@ -41,10 +39,35 @@ function visuLog($Params)
 			break;
 	}
 	
+	$xfer_result->newTab('Journal de débug');
+	
 	$lbl=new Xfer_Comp_LabelForm('LogLbl');
-	$lbl->setLocation(0,1);
+	$lbl->setLocation(0,1,2);
 	$lbl->setValue("{[italic]}$log_content{[/italic]}");
 	$xfer_result->addComponent($lbl);
+
+	$xfer_result->newTab('Paramètres');
+
+	require_once('Class/Config.inc.php');
+	$conf=new Config('conf.db');
+	if (isset($Params['isActif'])) {
+		$isActif=($Params['isActif']=='o');
+		if ($conf->debugMode!=$isActif) {
+			$conf->debugMode=$isActif;
+			$conf->Write();
+		}
+	}
+
+	$lbl=new  Xfer_Comp_LabelForm("isActiflbl");
+	$lbl->setValue("{[bold]}Débug actif?{[/bold]}");
+	$lbl->setLocation(0,1);
+	$xfer_result->addComponent($lbl);
+	$edt=new  Xfer_Comp_Check("isActif");
+	$edt->setValue($conf->debugMode);
+	$edt->setLocation(1,1);
+	$edt->setAction(new Xfer_Action("","","CORE","visuLog",FORMTYPE_REFRESH,CLOSE_NO));
+	$xfer_result->addComponent($edt);
+
 
 	$xfer_result->addAction(new Xfer_Action("_Vider","delete.png","CORE","deleteLog",FORMTYPE_MODAL,CLOSE_NO));
 	$xfer_result->addAction(new Xfer_Action("_Rafraichir","refresh.png","CORE","visuLog",FORMTYPE_REFRESH,CLOSE_NO));

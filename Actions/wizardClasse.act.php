@@ -31,32 +31,46 @@ function wizardClasse($Params,$extensionname)
 
 	$lbl=new Xfer_Comp_LabelForm('titlelbl');
 	$lbl->setValue("{[bold]}{[center]}Générateur d'actions de la classe '$classe'{[/center]}{[/bold]}");
-	$lbl->setLocation(0,0,5);
+	$lbl->setLocation(0,0,6);
 	$xfer_result->addComponent($lbl);
 
 	$lbl=new Xfer_Comp_LabelForm('descriptionlbl');
-	$lbl->setValue("Description");
+	$lbl->setValue("Description{[newline]}(sing./plur.)");
 	$lbl->setLocation(0,1,2);
 	$xfer_result->addComponent($lbl);
-	$edt=new Xfer_Comp_Edit('description');
+
+	$edt=new Xfer_Comp_Select('genre');
+	$edt->setValue(0);
+	$edt->setSelect(array(0=>'Masc.',1=>'Fem.'));
+	$edt->setLocation(2,1);
+	$xfer_result->addComponent($edt);
+	
+	$edt=new Xfer_Comp_Edit('descriptionS');
 	$edt->setValue($classe);
-	$edt->setLocation(2,1,3);
+	$edt->setLocation(3,1,2);
+	$edt->setSize(20,100);
+	$edt->needed=true;
+	$xfer_result->addComponent($edt);
+	$edt=new Xfer_Comp_Edit('descriptionP');
+	$edt->setValue($classe."s");
+	$edt->setLocation(5,1);
+	$edt->setSize(20,100);
 	$edt->needed=true;
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('suffixlbl');
 	$lbl->setValue("Suffix");
-	$lbl->setLocation(0,2,2);
+	$lbl->setLocation(0,2,3);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Edit('suffix');
 	$edt->setValue($classe);
-	$edt->setLocation(2,2,3);
+	$edt->setLocation(3,2,3);
 	$edt->needed=true;
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('addlbl');
 	$lbl->setValue("Ajouter");
-	$lbl->setLocation(1,3);
+	$lbl->setLocation(1,3,2);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('add');
 	$edt->setValue('n');
@@ -70,7 +84,7 @@ parent.get('droitAjoutModif').setEnabled((val=='o') || (valm=='o'));
 
 	$lbl=new Xfer_Comp_LabelForm('fichelbl');
 	$lbl->setValue("Consulter");
-	$lbl->setLocation(1,4);
+	$lbl->setLocation(1,4,2);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('fiche');
 	$edt->setValue('n');
@@ -80,14 +94,14 @@ var val=current.getValue();
 parent.get('printFile').setEnabled(val=='o');
 
 var vall=parent.get('list').getValue();
-var vals=parent.get('search').getValue();
+var vals=parent.get('search').getValue();2
 parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vals=='o'));
 ";
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('modiflbl');
 	$lbl->setValue("Modifier");
-	$lbl->setLocation(1,5);
+	$lbl->setLocation(1,5,2);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('modif');
 	$edt->setValue('n');
@@ -101,7 +115,7 @@ parent.get('droitAjoutModif').setEnabled((val=='o') || (vala=='o'));
 
 	$lbl=new Xfer_Comp_LabelForm('dellbl');
 	$lbl->setValue("Supprimer");
-	$lbl->setLocation(1,6);
+	$lbl->setLocation(1,6,2);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('del');
 	$edt->setValue('n');
@@ -114,11 +128,11 @@ parent.get('droitDel').setEnabled((val=='o'));
 
 	$lbl=new Xfer_Comp_LabelForm('listlbl');
 	$lbl->setValue("Listing");
-	$lbl->setLocation(3,3);
+	$lbl->setLocation(4,3);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('list');
 	$edt->setValue('n');
-	$edt->setLocation(2,3);
+	$edt->setLocation(3,3);
 	$edt->JavaScript="
 var val=current.getValue();
 var vals=parent.get('search').getValue();
@@ -131,16 +145,16 @@ parent.get('droitVisu').setEnabled((val=='o') || (vale=='o') || (vals=='o'));
 	$xfer_result->addComponent($edt);
 	$edt=new Xfer_Comp_Float('listNb',1,count($table->Fields),0);
 	$edt->setValue(count($table->Fields));
-	$edt->setLocation(4,3);
+	$edt->setLocation(5,3);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('searchlbl');
 	$lbl->setValue("Recherche");
-	$lbl->setLocation(3,4);
+	$lbl->setLocation(4,4);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('search');
 	$edt->setValue('n');
-	$edt->setLocation(2,4);
+	$edt->setLocation(3,4);
 	$edt->JavaScript="
 var val=current.getValue();
 var vall=parent.get('list').getValue();
@@ -153,30 +167,30 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	$xfer_result->addComponent($edt);
 	$edt=new Xfer_Comp_Float('searchNb',1,count($table->Fields),0);
 	$edt->setValue(count($table->Fields));
-	$edt->setLocation(4,4);
+	$edt->setLocation(5,4);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('printListlbl');
 	$lbl->setValue("Impression de listing");
-	$lbl->setLocation(3,5,2);
+	$lbl->setLocation(4,5,2);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('printList');
 	$edt->setValue('n');
-	$edt->setLocation(2,5);
+	$edt->setLocation(3,5);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('printFilelbl');
 	$lbl->setValue("Impression de fiche");
-	$lbl->setLocation(3,6,2);
+	$lbl->setLocation(4,6,2);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('printFile');
 	$edt->setValue('n');
-	$edt->setLocation(2,6);
+	$edt->setLocation(3,6);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('useMethodlbl');
 	$lbl->setValue("Utilisation des methodes dans les actions");
-	$lbl->setLocation(1,7,4);
+	$lbl->setLocation(1,7,5);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('useMethod');
 	$edt->setValue('o');
@@ -188,32 +202,32 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 
 	$lbl=new Xfer_Comp_LabelForm('droitVisulbl');
 	$lbl->setValue("Droit de Visualisation");
-	$lbl->setLocation(0,10,2);
+	$lbl->setLocation(0,10,3);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Select('droitVisu');
 	$edt->setValue(0);
 	$edt->setSelect($select_right);
-	$edt->setLocation(2,10,3);
+	$edt->setLocation(3,10,3);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('droitAjoutModiflbl');
 	$lbl->setValue("Droit de Modification");
-	$lbl->setLocation(0,11,2);
+	$lbl->setLocation(0,11,3);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Select('droitAjoutModif');
 	$edt->setValue(0);
 	$edt->setSelect($select_right);
-	$edt->setLocation(2,11,3);
+	$edt->setLocation(3,11,3);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('droitDellbl');
 	$lbl->setValue("Droit de Suppression");
-	$lbl->setLocation(0,12,2);
+	$lbl->setLocation(0,12,3);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Select('droitDel');
 	$edt->setValue(0);
 	$edt->setSelect($select_right);
-	$edt->setLocation(2,12,3);
+	$edt->setLocation(3,12,3);
 	$xfer_result->addComponent($edt);
 
 	require_once "Class/Image.inc.php";
@@ -222,7 +236,7 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	$images=$img_mng->GetList($extensionname);
 	$lbl=new Xfer_Comp_LabelForm('iconlbl');
 	$lbl->setValue("Icon");
-	$lbl->setLocation(0,13,2);
+	$lbl->setLocation(0,13,3);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Select('icon');
 	$edt->setValue('');
@@ -230,7 +244,7 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	foreach($images as $image)
 		$select_i[$image]=$image;
 	$edt->setSelect($select_i);
-	$edt->setLocation(2,13,3);
+	$edt->setLocation(3,13,3);
 	$xfer_result->addComponent($edt);
 
 	$xfer_result->addAction(new Xfer_Action("_Modifier","ok.png",$extensionname,'wizardClasseValid',FORMTYPE_MODAL,CLOSE_YES));
