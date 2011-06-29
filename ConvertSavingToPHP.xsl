@@ -73,7 +73,7 @@
 	
 	<xsl:template name='Xfer_Container_Acknowledge'>
 		<xsl:for-each select="ACTION">
-			<xsl:text>$act=$rep->m_action;
+			<xsl:text>$act=$rep->Redirect;
 </xsl:text>
 			<xsl:text>$test->assertEquals("</xsl:text><xsl:value-of select="@extension"/><xsl:text>",$act->m_extension,'Ext action');
 </xsl:text>
