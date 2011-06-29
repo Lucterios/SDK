@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=ISO-8859-1');
+require_once "../CORE/setup_param.inc.php";
 require_once "setup.inc.php";
 $SDK_Version="$version_max.$version_min.$version_release.$version_build";?>
 <html>
