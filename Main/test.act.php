@@ -52,7 +52,7 @@ function test($Params)
 	$lbl->setLocation(0,$posY);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Edit('dbuser');
-	$edt->setValue(isset($Params['dbuser'])?$Params['dbuser']:$dbname);
+	$edt->setValue(isset($Params['dbuser'])?$Params['dbuser']:$dbuser);
 	$edt->setLocation(1,$posY++);
 	$edt->setAction($actionRefrech);
 	$xfer_result->addComponent($edt);
@@ -62,7 +62,7 @@ function test($Params)
 	$lbl->setLocation(0,$posY);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Passwd('dbpass');
-	$edt->setValue(isset($Params['dbpass'])?$Params['dbpass']:$dbname);
+	$edt->setValue(isset($Params['dbpass'])?$Params['dbpass']:$dbpass);
 	$edt->setLocation(1,$posY++);
 	$edt->setAction($actionRefrech);
 	$xfer_result->addComponent($edt);
