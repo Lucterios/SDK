@@ -11,7 +11,7 @@
 
 	<xsl:template match="/" mode="unittests">
 		{[center]}{[underline]}Tests unitaires:&#160;<xsl:value-of select="count($testcase.list)"/>{[/underline]}{[/center]}
-            	<xsl:choose>
+		<xsl:choose>
 			<xsl:when test="$totalErrorsAndFailures > 0">
 				{[center]}{[italic]}Nombre d'erreurs:&#160;<xsl:value-of select="$totalErrorsAndFailures"/>{[/italic]}{[/center]}
 				{[newline]}
@@ -26,12 +26,20 @@
 				{[italic]}Succ&#233;s g&#233;n&#233;ral{[/italic]}
 				{[newline]}
 			</xsl:when>
-            	</xsl:choose>
+		</xsl:choose>
+		Temps d'execussion:
+		<xsl:call-template name="showTime">
+			<xsl:with-param name="value" select="//testsuite/@time"/>
+		</xsl:call-template>
+		{[newline]}
 
 		<xsl:for-each select="//testsuite/testcase">
 			<xsl:if test="not(./error)">
 				<xsl:if test="not(./failure)">
-					{[font color='green']}Succ&#233;s [<xsl:value-of select="@classname"/>]<xsl:value-of select="@name"/>{[/font]}
+					{[font color='green']}Succ&#233;s [<xsl:value-of select="@classname"/>]<xsl:value-of select="@name"/>{[/font]} - Dur&#233;e 
+					<xsl:call-template name="showTime">
+						<xsl:with-param name="value" select="@time"/>
+					</xsl:call-template>
 					{[newline]}
 				</xsl:if>
 			</xsl:if>
@@ -56,14 +64,34 @@
 
 	<!-- UnitTest Errors -->
 	<xsl:template match="error" mode="unittests">
-		{[font color='#ff8800']}Erreur [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>{[/font]}
+		{[font color='#ff8800']}Erreur [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>{[/font]} - Dur&#233;e 
+		<xsl:call-template name="showTime">
+			<xsl:with-param name="value" select="../@time"/>
+		</xsl:call-template>
 		{[newline]}
 	</xsl:template>
 
 	<!-- UnitTest Failures -->
 	<xsl:template match="failure" mode="unittests">
-		{[font color='red']}Echec [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>{[/font]}
+		{[font color='red']}Echec [<xsl:value-of select="../@classname"/>]<xsl:value-of select="../@name"/>{[/font]} - Dur&#233;e 
+		<xsl:call-template name="showTime">
+			<xsl:with-param name="value" select="../@time"/>
+		</xsl:call-template>
 		{[newline]}
+	</xsl:template>
+
+	<xsl:template name="showTime">
+		<xsl:param name="value"/>
+		<xsl:variable name="hour" select="floor($value div 3600)"/>
+		<xsl:variable name="min" select="floor(($value - ($hour*60)) div 60)"/>
+		<xsl:variable name="sec" select="round($value - ($hour*3600) - ($min*60))"/>
+		<xsl:if test="$hour>0">
+			<xsl:value-of select="$hour"/> h 
+		</xsl:if>
+		<xsl:if test="$min>0">
+			<xsl:value-of select="$min"/> min 
+		</xsl:if>
+		<xsl:value-of select="$sec"/> sec
 	</xsl:template>
 
 	<!-- UnitTest Errors And Failures Detail Template -->

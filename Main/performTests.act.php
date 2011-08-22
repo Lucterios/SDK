@@ -31,8 +31,12 @@ function TransformXsl($xmldata,$xsldata) {
 		$xslt = new XsltProcessor();
 		$xslt->importStylesheet($proc_xsl);
 		$obj = $xslt->transformToDoc($proc_xml);
-		$obj->encoding = 'ISO-8859-1';
-		$res = $obj->saveXML();
+		if (method_exists($obj,'saveXML')) {
+			$obj->encoding = 'ISO-8859-1';
+			$res = $obj->saveXML();
+		}
+		else
+			$res=$xmldata;
 	}
 	else {
 		$dom_xml = domxml_open_mem($xmldata);
@@ -44,41 +48,50 @@ function TransformXsl($xmldata,$xsldata) {
 }
 
 
-function performTests($Params,$extensionname)
+function performTests($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"performTests",$Params);
+	$xfer_result=&new Xfer_Container_Custom("CORE","performTests",$Params);	
 	$xfer_result->Caption="Tests unitaires";
+	$extensionname=$Params['extensionname'];
+	$dbuser=$Params['dbuser'];
+	$dbpass=$Params['dbpass'];
+	$dbname=$Params['dbname'];
+	$testnum=$Params['testnum'];
+	$delete=($Params['delete']=='n')?'false':'true';
+	
 	$lbl=new Xfer_Comp_LabelForm('titlelbl');
 	$lbl->setValue("{[underline]}{[bold]}{[center]}Resultat des tests{[/center]}{[/bold]}{[/underline]}");
 	$lbl->setLocation(0,0);
 	$xfer_result->addComponent($lbl);
 	
-	$DBUnitTest=file("CNX/DBUnitTest.dt");
-	$dbuser=trim($DBUnitTest[0]);
-	$dbpass=trim($DBUnitTest[1]);
-	$dbname=trim($DBUnitTest[2]);
-
-	
-	$query="http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/Tests.php?extensions=$extensionname&dbuser=$dbuser&dbname=$dbname&dbpass=$dbpass";
+	$query="http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/Tests.php?extension=$extensionname&dbuser=$dbuser&dbname=$dbname&dbpass=$dbpass&num=$testnum&delete=$delete";
+	echo "<!-- performTests URL = $query -->\n";
 	$Rep = file($query);
 	if(($Rep!==false) && (count($Rep)>0)) {
 		$rep=trim(implode("\n", $Rep));
-		if (substr($rep,0,10)=='<testsuite') {
-			$Response = TransformXsl($rep,implode("\n",file("Actions/unittests.xsl")));
-			$Response = trim(str_replace('<?xml version="1.0" encoding="ISO-8859-1"?>',"",$Response));
+		$Response="";
+		if (ereg('(.*)<testsuite(.*)</testsuite>(.*)', $rep, $replistxml)) {
+			$xml_res="<testsuite".$replistxml[2]."</testsuite>";
+			$Resp_tmp = TransformXsl($xml_res,implode("\n",file("Main/unittests.xsl")));		
+			$Response.= trim(str_replace('<?xml version="1.0" encoding="ISO-8859-1"?>',"",$Resp_tmp));
+			$rep=trim($replistxml[1]).trim($replistxml[3]);
+			if ($rep!='')
+				$Response.= '{[newline]}{[hr/]}{[newline]}';
 		}
-		else {
-			$Response = "{[center]}{[underline]}Tests unitaires:&#160;Erreur fatal{[/underline]}{[/center]}{[newline]}";
-			$rep=str_replace('<','{[',$rep);
-			$rep=str_replace('>',']}',$rep);
-			$rep=str_replace('{[br /]}','',$rep);
-			$rep=str_replace('{[b]}/','{[newline]}{[bold]}/',$rep);
-			$rep=str_replace('{[/b]}:','{[/bold]}{[newline]}&#160;&#160;&#160;',$rep);
-			$rep=str_replace('{[b]}','{[bold]}',$rep);
-			$rep=str_replace('{[/b]}','{[/bold]}',$rep);
-
-			$Response.= $rep;
-		}
+		while (ereg('(.*)<!--(.*)-->(.*)', $rep, $replist))
+			$rep=trim($replist[1]).trim($replist[2]).'{[newline]}'.trim($replist[3]);
+		$rep=str_replace('<','{[',$rep);
+		$rep=str_replace('>',']}',$rep);
+		$rep=str_replace('{[br /]}','',$rep);
+		$rep=str_replace("\n\n\n\n","\n",$rep);
+		$rep=str_replace("\n\n\n","\n",$rep);
+		$rep=str_replace("\n\n","\n",$rep);
+		$rep=str_replace("\n",'{[newline]}',$rep);
+		$rep=str_replace('{[b]}/','{[newline]}{[bold]}/',$rep);
+		$rep=str_replace('{[/b]}:','{[/bold]}{[newline]}&#160;&#160;&#160;',$rep);
+		$rep=str_replace('{[b]}','{[bold]}',$rep);
+		$rep=str_replace('{[/b]}','{[/bold]}',$rep);
+		$Response.= $rep;
 	}
 	else
 		$Response = "Erreur '$query'";
@@ -88,7 +101,7 @@ function performTests($Params,$extensionname)
 	$lbl->setLocation(0,1);
 	$xfer_result->addComponent($lbl);
 
-	$xfer_result->addAction(new Xfer_Action("_Refresh","",$extensionname,"performTests",FORMTYPE_REFRESH,CLOSE_NO));
+	$xfer_result->addAction(new Xfer_Action("_Refresh","","CORE","performTests",FORMTYPE_REFRESH,CLOSE_NO));
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
 	return $xfer_result;
 }

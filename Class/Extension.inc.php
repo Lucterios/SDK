@@ -85,7 +85,7 @@ class Extension
 			$dh=opendir($extDir);
 			while (($file = readdir($dh)) != false)
 			{
-				if(is_dir($extDir . $file) && is_file($extDir.$file."/setup.inc.php"))
+				if(is_dir($extDir . $file) && is_file($extDir.$file."/setup.inc.php") && ($file[0]!='.'))
 					$ext_name[]=$file;
 			}
 		}

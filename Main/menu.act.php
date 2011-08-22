@@ -114,6 +114,12 @@ try {
 		}
 	if ($index!=0) $xfer_result->addSubMenu($menu_ext);
 
+	$menu_tabs=new Xfer_Menu_Item("menu_sup","","");
+	$menu_test = new Xfer_Menu_Item('test','Panneaux de tests','test.png','CORE','test',0,'',"");
+	$menu_tabs->addSubMenu($menu_test);
+	$xfer_result->addSubMenu($menu_tabs);
+
+
 }catch(Exception $e) {
 	throw $e;
 }
