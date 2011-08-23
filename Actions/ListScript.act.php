@@ -106,13 +106,6 @@ if (($extension->Name!='applis') && ($extension->Name!='CORE')) {
 	$btn->setLocation(1,5,5);
 	$xfer_result->addComponent($btn);
 
-	if (is_file('CNX/DBUnitTest.dt')) {
-		$btn=new Xfer_Comp_Button('testBtn');
-		$btn->setAction(new Xfer_Action("_Lancer les tests","",$extensionname,'performTests',FORMTYPE_NOMODAL,CLOSE_NO));
-		$btn->setLocation(1,6,5);
-		$xfer_result->addComponent($btn);
-	}
-
 	$lbl=new Xfer_Comp_Label('marge3');
 	$lbl->setValue("");
 	$lbl->setSize(20,10);

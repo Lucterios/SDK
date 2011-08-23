@@ -133,7 +133,9 @@ class Extension
 		{
 			if ($module=="") $module="CORE";
 			$ext_obj=new Extension($module);
-			$bachup_file="$BcDir/".$module."_".str_replace(array(" - "," ",":"),array("~","_","-"),$lock)."^".$ext_obj->GetVersion().".tar";
+			$file_list=glob("$BcDir/".$module."_".str_replace(array(" - "," ",":"),array("~","_","-"),$lock)."^*.tar");
+			if (count($file_list)==1)
+				$bachup_file=$file_list[0];
 		}
 		return $bachup_file;
 	}
