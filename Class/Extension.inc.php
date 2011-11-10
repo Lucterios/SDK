@@ -48,25 +48,25 @@ function getStringToWrite($Text,$WithCote=true)
 
 class Extension
 {
-	var $Name="";
-	var $Appli="";
-	var $Famille='';
-	var $Titre='';
-	var $Description="";
-	var $Libre='o';
-	var $Version=array(0,0,0,1);
-	var $Depencies=array();
-	var $Rights=array();
-	var $Actions=array();
-	var $Menus=array();
-	var $Params=array();
-	var $AsInstallFunc=false;
-	var $SignBy="";
-	var $SignMD5="";
-	var $ExtendTables=array();
-	var $Signals=array();
+	public $Name="";
+	public $Appli="";
+	public $Famille='';
+	public $Titre='';
+	public $Description="";
+	public $Libre='o';
+	public $Version=array(0,0,0,1);
+	public $Depencies=array();
+	public $Rights=array();
+	public $Actions=array();
+	public $Menus=array();
+	public $Params=array();
+	public $AsInstallFunc=false;
+	public $SignBy="";
+	public $SignMD5="";
+	public $ExtendTables=array();
+	public $Signals=array();
 
-	function __ExtDir($name)
+	public static function __ExtDir($name)
 	{
 		if (($name=="") || ($name=="CORE"))
 			$extDir = "../CORE/";
@@ -75,7 +75,7 @@ class Extension
 		return $extDir;
 	}
 
-	function GetList($CNX_OBJ=null)
+	public static function GetList($CNX_OBJ=null)
 	{
 		require_once("../CORE/setup_param.inc.php");
 		$ext_name=array();
@@ -103,7 +103,7 @@ class Extension
 		return $ext_list;
 	}
 
-	function GetLock($module)
+	public static function GetLock($module)
 	{
 		if ($module=="CORE")
 			$module="";
@@ -123,7 +123,7 @@ class Extension
 		return $lock_info;
 	}
 
-	function GetBackupFile($module,$lock=null)
+	public static function GetBackupFile($module,$lock=null)
 	{
 		$bachup_file="";
 		$BcDir='Backup';
@@ -141,7 +141,7 @@ class Extension
 		return $bachup_file;
 	}
 
-	function GetArchiveFile($suffic=".tar")
+	public static function GetArchiveFile($suffic=".tar")
 	{
 		$bachup_file="";
 		$BcDir='Temp';
@@ -155,7 +155,7 @@ class Extension
 		return $bachup_file;
 	}
 
-	function ArchiveExtension($module,$BackupFile,$NoDirectory=false,$compress=null)
+	public static function ArchiveExtension($module,$BackupFile,$NoDirectory=false,$compress=null)
 	{
 		if ($BackupFile!="")
 		{
@@ -181,13 +181,14 @@ class Extension
 				$tar->addModify("../install.php","","../");
 				$tar->addModify("../Tests.php","","../");
 				$tar->addModify("../Help.php","","../");
+				$tar->addModify("../BackgroundTask.php","","../");
 			}
 			return true;
 		}
 		return false;
 	}
 
-	function BackupFiles($module)
+	public static function BackupFiles($module)
 	{
 		$ext_list=array();
 		$extDir = "Backup/";
@@ -225,8 +226,14 @@ class Extension
 		return $ext_list;
 	}
 
+	//constructor
+	public function __construct($name)
+	{
+		$this->Name=$name;
+		$this->Read();
+	}
 
-	function codeSignature($pass)
+	public function codeSignature($pass)
 	{
 		$text=$this->Name;
 		$text.=$this->Appli;
@@ -235,7 +242,7 @@ class Extension
 		return md5($text);
 	}
 
-	function Unsign($pass)
+	public function Unsign($pass)
 	{
 		$error="";
 		if (($this->SignBy!='') && ($this->SignMD5!=''))
@@ -253,7 +260,7 @@ class Extension
 		return $error;
 	}
 
-	function Sign($CNX_OBJ,$pass)
+	public function Sign($CNX_OBJ,$pass)
 	{
 		$error="";
 		if (($this->SignBy=='') && ($this->SignMD5==''))
@@ -266,7 +273,7 @@ class Extension
 		return $error;
 	}
 
-	function ModifLock($module,$CnxObj)
+	public function ModifLock($module,$CnxObj)
 	{
 		if ($module=="CORE")
 			$module="";
@@ -294,7 +301,7 @@ class Extension
 		return $error;
 	}
 
-	function reloadArchive($module,$archiveFile)
+	public function reloadArchive($module,$archiveFile)
 	{
 		if (is_file($archiveFile))
 		{
@@ -311,7 +318,7 @@ class Extension
 		}
 	}
 
-	function CancelLock($module,$CNX_OBJ)
+	public function CancelLock($module,$CNX_OBJ)
 	{
 		if ($module=="CORE")
 			$module="";
@@ -329,26 +336,19 @@ class Extension
 		return $error;
 	}
 
-  	function Delete($name)
+  	public function Delete($name)
 	{
 		$extDir = "../extensions/$name/";
 		require_once("FunctionTool.inc.php");
 		deleteDir($extDir);
 	}
 
-  	//constructor
-	function Extension($name)
-	{
-		$this->Name=$name;
-		$this->Read();
-	}
-
-	function GetVersion()
+	public function GetVersion()
 	{
 		return $this->Version[0].".".$this->Version[1].".".$this->Version[2].".".$this->Version[3];
 	}
 
-	function Read()
+	public function Read()
 	{
 		require_once("../CORE/setup_param.inc.php");
 		$extDir = Extension::__ExtDir($this->Name);
@@ -419,7 +419,7 @@ class Extension
 		return "";
 	}
 
-	function GetMenuListWithoutAction()
+	public function GetMenuListWithoutAction()
 	{
 		$result=array();
 		foreach($this->Menus as $menu_item)
@@ -435,7 +435,7 @@ class Extension
 		return $result;
 	}
 
-	function Write()
+	public function Write()
 	{
 		require_once("../CORE/setup_param.inc.php");
 		require_once("FunctionTool.inc.php");
@@ -546,49 +546,49 @@ class Extension
 		return "";
 	}
 
-	function GetTableList()
+	public function GetTableList()
 	{
 		require_once("Table.inc.php");
 		$mng=new TableManage();
 		return $mng->GetList($this->Name);
 	}
 
-	function GetLibrayList()
+	public function GetLibrayList()
 	{
 		require_once("Library.inc.php");
 		$mng=new LibraryManage();
 		return $mng->GetList($this->Name);
 	}
 
-	function GetPrintList()
+	public function GetPrintList()
 	{
 		require_once("Print.inc.php");
 		$mng=new PrintingManage();
 		return $mng->GetList($this->Name);
 	}
 
-	function GetImageList()
+	public function GetImageList()
 	{
 		require_once("Image.inc.php");
 		$mng=new ImageManage();
 		return $mng->GetList($this->Name);
 	}
 
-	function IncrementBuild()
+	public function IncrementBuild()
 	{
 		$this->refreshExtendTable();
 		$this->Version[3]=1+(int)$this->Version[3];
 		return $this->Write();
 	}
 
-	function IncrementRelease()
+	public function IncrementRelease()
 	{
 		$this->refreshExtendTable();
 		$this->Version[2]=1+(int)$this->Version[2];
 		return $this->Write();
 	}
 
-	function IncrementSubVersion()
+	public function IncrementSubVersion()
 	{
 		$this->refreshExtendTable();
 		$this->Version[1]=1+(int)$this->Version[1];
@@ -596,7 +596,7 @@ class Extension
 		return $this->Write();
 	}
 
-	function IncrementVersion()
+	public function IncrementVersion()
 	{
 		$this->refreshExtendTable();
 		$this->Version[0]=1+(int)$this->Version[0];
@@ -605,7 +605,7 @@ class Extension
 		return $this->Write();
 	}
 
-	function refreshExtendTable()
+	public function refreshExtendTable()
 	{
 		$this->ExtendTables=array();
 		require_once("Class/Table.inc.php");

@@ -21,9 +21,9 @@
 
 class AbstractClassManage
 {
-	var $Suffix=".inc.php";
+	public $Suffix=".inc.php";
 
-	function __ExtDir($extensionName="")
+	public function __ExtDir($extensionName="")
 	{
 		if (($extensionName=="") || ($extensionName=="CORE"))
 			$extDir = "../CORE/";
@@ -38,7 +38,7 @@ class AbstractClassManage
 		return $extDir;
 	}
 
-	function Delete($name,$extensionName="")
+	public function Delete($name,$extensionName="")
 	{
 		$extDir = $this->__ExtDir($extensionName);
 		$extFile = $extDir.$name.$this->Suffix;
@@ -48,7 +48,7 @@ class AbstractClassManage
 		}
 	}
 
-	function GetList($extensionName="")
+	public function GetList($extensionName="")
 	{
 		$file_list=array();
 		$extDir = $this->__ExtDir($extensionName);
@@ -75,22 +75,22 @@ class AbstractClassManage
 
 class AbstractClass
 {
-	var $Name="";
-	var $ExtensionName="";
+	public $Name="";
+	public $ExtensionName="";
 
-  	//constructor
-  	function AbstractClass($name,$extensionName="")
+	//constructor
+	public function __construct($name,$extensionName="")
 	{
 		$this->ExtensionName=$extensionName;
 		$this->Name=$name;
 		$this->Read();
-  	}
+	}
 
-	function Write()
+	public function Write()
 	{
 	}
 
-	function Read()
+	public function Read()
 	{
 	}
 }
