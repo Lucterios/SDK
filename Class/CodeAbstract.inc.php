@@ -179,10 +179,10 @@ class CodeAbstract extends AbstractClass
 	function SetParams($code_params)
 	{
 		$this->Parameters=array();
-		$params=split(",",$code_params);
+		$params=explode(",",$code_params);
 		foreach($params as $param)
 		{
-			$param_val=split("=",trim($param));
+			$param_val=explode("=",trim($param));
 			if (count($param_val)>0)
 			{
 				$val_name=$param_val[0];
@@ -214,7 +214,7 @@ class CodeAbstract extends AbstractClass
 				$this->IndexName=$code_index;
 			$this->Description=$code_desc;
 			if (isset($script_code))
-				$this->CodeFunction=split("\n",rtrim($script_code));
+				$this->CodeFunction=explode("\n",rtrim($script_code));
 			$this->SetParams($code_params);
 			if (isset($code_index))
 			{
@@ -321,7 +321,7 @@ class CodeAbstract extends AbstractClass
 		$extCodeFile = $this->GetFileName();
 		if (!$fh=OpenInWriteFile($extCodeFile,get_class($this)))
 		{
-			return "Fichier ".get_class($this)." '$extCodeFile' non crï¿½ï¿½!";
+			return "Fichier ".get_class($this)." '$extCodeFile' non créé!";
 			exit;
 		}
 		fwrite($fh,"require_once('CORE/xfer_exception.inc.php');\n");

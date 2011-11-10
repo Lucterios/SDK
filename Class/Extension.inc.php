@@ -64,6 +64,7 @@ class Extension
 	var $SignBy="";
 	var $SignMD5="";
 	var $ExtendTables=array();
+	var $Signals=array();
 
 	function __ExtDir($name)
 	{
@@ -360,6 +361,7 @@ class Extension
 			$extension_libre=true;
 			$extention_appli='';
 			$extend_tables=array();
+			$signals=array();
 			require($extSetupFile);
 			if ($extention_titre=='') $extention_titre=$extention_description;
 			if (($this->Name=='CORE') || ($this->Name=='applis')) $extention_famille=$this->Name;
@@ -397,6 +399,7 @@ class Extension
 					$this->Params[$key]=new Param_Parameters($key,$prm,$key);
 			}
 			$this->ExtendTables=$extend_tables;
+			$this->Signals=$signals;
 		}
 		else
 		{
@@ -524,6 +527,16 @@ class Extension
 				$value_string.=')';
 			}
 			fwrite($fh,"\$extend_tables[\"$key\"] = array($value_string);\n");
+		}
+		fwrite($fh,"\$signals=array();\n");
+		$SignID=0;
+		foreach($this->Signals as $key=>$sign_values){
+			$value_string='';
+			$value_string.=getStringToWrite($sign_values[0]).",";
+			$value_string.=getStringToWrite($sign_values[1]).",";
+			$value_string.=getStringToWrite($sign_values[2]);
+			fwrite($fh,"\$signals[$SignID] = array($value_string);\n");
+			$SignID++;
 		}
 		fwrite($fh,"\n");
 

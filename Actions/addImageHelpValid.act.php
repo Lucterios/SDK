@@ -23,7 +23,7 @@ require_once('../CORE/xfer_custom.inc.php');
 function addImageHelpValid($Params,$extensionname)
 {
 	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addImageHelpValid",$Params);
-	List($name,$image)=split(';',$Params['image']);
+	List($name,$image)=explode(';',$Params['image']);
 	require_once("Class/Help.inc.php");
 	$img=new Help("",$extensionname);
 	$msg=$img->AddBase64Img($Params['image']);

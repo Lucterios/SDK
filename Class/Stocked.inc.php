@@ -80,10 +80,10 @@ class Stocked extends CodeAbstract
 		$this->Parameters=array();
 		$code_params=trim($code_params);
 		if ($code_params!='') {
-			$params=split(",",$code_params);
+			$params=explode(",",$code_params);
 			foreach($params as $param)
 			{
-				$param_val=split(" +",trim($param));
+				$param_val=explode(" +",trim($param));
 				if (count($param_val)>0)
 				{
 					$val_name=$param_val[0];

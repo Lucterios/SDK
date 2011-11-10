@@ -51,7 +51,7 @@ function addFieldValid($Params,$extensionname)
 			$param=array("Size"=>(int)$Params['field_ValSize'], "Multi"=>($Params['field_ValMulti']=='o'));
 			break;
 		case "8": //enum
-			$param=array("Enum"=>split(";",trim($Params['field_ValEnum'])));
+			$param=array("Enum"=>explode(";",trim($Params['field_ValEnum'])));
 			break;
 		case "9": //childs
 			$param=array("TableName"=>$Params['field_TableName'], "RefField"=>$Params['field_RefField']);

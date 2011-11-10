@@ -183,6 +183,30 @@ if (!$ReadOnly) {
 	$grid->setLocation(0,1,2);
 	$xfer_result->addComponent($grid);
 
+//#############################################
+	require_once("Class/Event.inc.php");
+	$xfer_result->newTab("Les Evenements");
+	$lbl=new Xfer_Comp_LabelForm('eventlbl');
+	$lbl->setValue("{[bold]}{[center]}Les Evenements{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0,2);
+	$xfer_result->addComponent($lbl);
+	$grid=new Xfer_Comp_Grid('event');
+	$grid->newHeader('A',"Nom",4);
+	$grid->newHeader('B',"Description",4);
+	$mng=new EventManage;
+	foreach($mng->GetList($extensionname) as $event) {
+		$evt=new Event($event,$extensionname);
+		$grid->setValue($event,'A',$mng->GetName($event).$evt->GetParams());
+		$grid->setValue($event,'B',$evt->Description);
+	}
+	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"editEvent",FORMTYPE_NOMODAL,CLOSE_NO,SELECT_SINGLE));
+if (!$ReadOnly) {
+	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteEvent",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addEvent",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+}
+	$grid->setLocation(0,1,2);
+	$xfer_result->addComponent($grid);
+
 if ($extensionname!="applis") {
 //#############################################
 	require_once("Class/Printing.inc.php");

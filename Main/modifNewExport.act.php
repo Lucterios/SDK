@@ -49,7 +49,7 @@ function modifNewExport($Params)
 	$xfer_result=&new Xfer_Container_Acknowledge("CORE","modifNewExport",$Params);
 	$serverurl=$Params['UrlServerUpdate'];
 	$increm_version=$Params['IncVersion'];
-	$extensions=split(';',$Params['ext']);
+	$extensions=explode(';',$Params['ext']);
 	$conf_file=file("CNX/Server_Update.dt");
 	$Project=trim($conf_file[0]);
 	$Pass=trim($conf_file[1]);

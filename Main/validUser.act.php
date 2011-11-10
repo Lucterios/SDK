@@ -35,8 +35,8 @@ function validUser($Params)
 	{
 		$cnx=new Connect($username);
 		$cnx->LongName=$LongName;
-		$cnx->NoView=split(';',$NoView);
-		$cnx->Modified=split(';',$Modified);
+		$cnx->NoView=explode(';',$NoView);
+		$cnx->Modified=explode(';',$Modified);
 		if ($cnx->Pwcrypt!="")
 		{
 			if ($pass1!='')

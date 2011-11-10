@@ -27,7 +27,7 @@ function paramModifLicence($Params)
 		$xfer_result->Caption="Modifier la licence";
 	
 		$new_licence=trim($Params['new_licence']);	
-		$new_licence_file=split('{[newline]}',$new_licence);
+		$new_licence_file=explode('{[newline]}',$new_licence);
 
 		if ($fh=fopen("CNX/LICENSE","w+"))
 		{

@@ -153,9 +153,22 @@ if ($phpEditor && ($code->TableName!="")) {
 	$edt->FirstLine=$CodeLineBegin;
 	$edt->setLocation(0,15,4);
 	foreach($SelectedTableFiles as $SelectedTableFile) {
-		list($ext_name,$tbl_name)=split('/',$SelectedTableFile);
+		list($ext_name,$tbl_name)=explode('/',$SelectedTableFile);
 		addContextMenu($edt,$ext_name,$tbl_name,$is_print_xfer);
 	} 
+	$extList=Extension::GetList();
+	$extList['CORE']='';
+	foreach($extList as $extname=>$ver){
+		$nb=0;
+		$extension=new Extension(($extname!="CORE")?$extname:'');
+		foreach($extension->Signals as $signal) {
+		    $param_txt=str_replace('&','',$signal[1]);
+		    $edt->addSubMenu("Signaux",$signal[0]."($param_txt):".$signal[2],'$signalRet=$xfer_result->signal("'.$signal[0].'",'.$param_txt.');');
+		    $nb++;
+		}
+		if ($nb>0)
+			$edt->addSubMenu("Signaux",'-','');
+	}
 	$xfer_result->addComponent($edt);
 
 	if ($phpEditor) {
@@ -170,9 +183,9 @@ if ($phpEditor && ($code->TableName!="")) {
 
 		$xfer_result->newTab("Modèle",2);
 	
-		$xfer_result->newTab("Paramêtres",3);
+		$xfer_result->newTab("Paramètres",3);
 		$lbl=new Xfer_Comp_LabelForm('tablesDependslbl');
-		$lbl->setValue("{[bold]}{[center]}Tables dépendantes{[/center]}{[/bold]}");
+		$lbl->setValue("{[bold]}{[center]}Tables dï¿½pendantes{[/center]}{[/bold]}");
 		$lbl->setLocation(0,20);
 		$xfer_result->addComponent($lbl);
 		$edt=new Xfer_Comp_CheckList('code_tableFiles');

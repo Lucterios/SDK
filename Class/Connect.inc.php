@@ -103,9 +103,9 @@ class Connect extends AbstractClass
 			if (count($file_cnx)>1)
 				$this->LongName=trim($file_cnx[1]);
 			if (count($file_cnx)>2)
-				$this->NoView=reFill(split(";",trim($file_cnx[2])));
+				$this->NoView=reFill(explode(";",trim($file_cnx[2])));
 			if (count($file_cnx)>3)
-				$this->Modified=reFill(split(";",$file_cnx[3]));
+				$this->Modified=reFill(explode(";",$file_cnx[3]));
 		}
 	}
 	function Write()

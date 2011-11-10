@@ -22,28 +22,20 @@ require_once('../CORE/xfer.inc.php');
 require_once('../CORE/xfer_custom.inc.php');
 
 function TransformXsl($xmldata,$xsldata) {
-	if( version_compare( phpversion(),'5','>=')) {
-		if(! class_exists('XsltProcessor') || ! class_exists('DomDocument'))die('processeur XSLT non installe!');
-		$proc_xsl = new DomDocument();
-		$proc_xsl->loadXML($xsldata);
-		$proc_xml = new DomDocument();
-		$proc_xml->loadXML($xmldata);
-		$xslt = new XsltProcessor();
-		$xslt->importStylesheet($proc_xsl);
-		$obj = $xslt->transformToDoc($proc_xml);
-		if (method_exists($obj,'saveXML')) {
-			$obj->encoding = 'ISO-8859-1';
-			$res = $obj->saveXML();
-		}
-		else
-			$res=$xmldata;
+	if(! class_exists('XsltProcessor') || ! class_exists('DomDocument'))die('processeur XSLT non installe!');
+	$proc_xsl = new DomDocument();
+	$proc_xsl->loadXML($xsldata);
+	$proc_xml = new DomDocument();
+	$proc_xml->loadXML($xmldata);
+	$xslt = new XsltProcessor();
+	$xslt->importStylesheet($proc_xsl);
+	$obj = $xslt->transformToDoc($proc_xml);
+	if (method_exists($obj,'saveXML')) {
+		$obj->encoding = 'ISO-8859-1';
+		$res = $obj->saveXML();
 	}
-	else {
-		$dom_xml = domxml_open_mem($xmldata);
-		$dom_xsl = domxml_xslt_stylesheet($xsldata);
-		$dom_result = $dom_xsl->process($dom_xml);
-		$res = $dom_result->dump_mem( true,"ISO-8859-1");
-	}
+	else
+		$res=$xmldata;
 	return $res;
 }
 
@@ -65,12 +57,11 @@ function performTests($Params)
 	$xfer_result->addComponent($lbl);
 	
 	$query="http://".$_SERVER['SERVER_NAME'].":".$_SERVER['SERVER_PORT'].dirname(dirname($_SERVER['SCRIPT_NAME']))."/Tests.php?extension=$extensionname&dbuser=$dbuser&dbname=$dbname&dbpass=$dbpass&num=$testnum&delete=$delete";
-	echo "<!-- performTests URL = $query -->\n";
 	$Rep = file($query);
 	if(($Rep!==false) && (count($Rep)>0)) {
 		$rep=trim(implode("\n", $Rep));
 		$Response="";
-		if (ereg('(.*)<testsuite(.*)</testsuite>(.*)', $rep, $replistxml)) {
+		if (preg_match('/(.*)<testsuite(.*)</testsuite>(.*)/', $rep, $replistxml)) {
 			$xml_res="<testsuite".$replistxml[2]."</testsuite>";
 			$Resp_tmp = TransformXsl($xml_res,implode("\n",file("Main/unittests.xsl")));		
 			$Response.= trim(str_replace('<?xml version="1.0" encoding="ISO-8859-1"?>',"",$Resp_tmp));
@@ -78,7 +69,7 @@ function performTests($Params)
 			if ($rep!='')
 				$Response.= '{[newline]}{[hr/]}{[newline]}';
 		}
-		while (ereg('(.*)<!--(.*)-->(.*)', $rep, $replist))
+		while (preg_match('/(.*)<!--(.*)-->(.*)/', $rep, $replist))
 			$rep=trim($replist[1]).trim($replist[2]).'{[newline]}'.trim($replist[3]);
 		$rep=str_replace('<','{[',$rep);
 		$rep=str_replace('>',']}',$rep);

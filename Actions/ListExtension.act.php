@@ -154,29 +154,6 @@ if (!$ReadOnly) {
 
 if ($extensionname!="applis") {
 //#############################################
-	$xfer_result->newTab("Les Droits");
-	$lbl=new Xfer_Comp_LabelForm('rightlbl');
-	$lbl->setValue("{[bold]}{[center]}Les Droits{[/center]}{[/bold]}");
-	$lbl->setLocation(0,0,2);
-	$xfer_result->addComponent($lbl);
-	$grid=new Xfer_Comp_Grid('right');
-	$grid->newHeader('A',"N°",0);
-	$grid->newHeader('B',"Nom",4);
-	$grid->newHeader('C',"Poids",1);
-	foreach($extension->Rights as $key => $Right) {
-		$grid->setValue($key,'A',$key+1);
-		$grid->setValue($key,'B',$Right->description);
-		$grid->setValue($key,'C',$Right->weigth);
-	}
-if (!$ReadOnly) {
-	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"addRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
-	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
-	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
-}
-	$grid->setLocation(0,1,2);
-	$xfer_result->addComponent($grid);
-
-//#############################################
 	$xfer_result->newTab("Les Menus");
 	$lbl=new Xfer_Comp_LabelForm('menulbl');
 	$lbl->setValue("{[bold]}{[center]}Les Menus{[/center]}{[/bold]}");
@@ -220,6 +197,53 @@ if (!$ReadOnly) {
 	$grid->setLocation(0,1,2);
 	$xfer_result->addComponent($grid);
 }
+
+//#############################################
+	$xfer_result->newTab("Les Droits");
+	$lbl=new Xfer_Comp_LabelForm('rightlbl');
+	$lbl->setValue("{[bold]}{[center]}Les Droits{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0,2);
+	$xfer_result->addComponent($lbl);
+	$grid=new Xfer_Comp_Grid('right');
+	$grid->newHeader('A',"N°",0);
+	$grid->newHeader('B',"Nom",4);
+	$grid->newHeader('C',"Poids",1);
+	foreach($extension->Rights as $key => $Right) {
+		$grid->setValue($key,'A',$key+1);
+		$grid->setValue($key,'B',$Right->description);
+		$grid->setValue($key,'C',$Right->weigth);
+	}
+if (!$ReadOnly) {
+	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"addRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+}
+	$grid->setLocation(0,1,2);
+	$xfer_result->addComponent($grid);
+
+//#############################################
+	$xfer_result->newTab("Les signaux");
+	$lbl=new Xfer_Comp_LabelForm('signallbl');
+	$lbl->setValue("{[bold]}{[center]}Les signaux{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0,2);
+	$xfer_result->addComponent($lbl);
+	$grid=new Xfer_Comp_Grid('signal');
+	$grid->newHeader('A',"Identifiant",4);
+	$grid->newHeader('B',"Parametres",4);
+	$grid->newHeader('C',"Description",4);
+	foreach($extension->Signals as $key => $Signal) {
+		$grid->setValue($key,'A',$Signal[0]);
+		$grid->setValue($key,'B',$Signal[1]);
+		$grid->setValue($key,'C',$Signal[2]);
+	}
+if (!$ReadOnly) {
+	$grid->addAction(new Xfer_Action("_Editer","",$extensionname,"addSignal",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteSignal",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addSignal",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+}
+	$grid->setLocation(0,1,2);
+	$xfer_result->addComponent($grid);
+
 //#############################################
 	require_once("FunctionTool.inc.php");
 	$xfer_result->newTab("Les Paramètres");

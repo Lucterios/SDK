@@ -33,7 +33,7 @@ function modelPrinting($Params,$extensionname)
 		$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modelPrinting",$Params);
 		require_once("Class/Extension.inc.php");
 		$extension=new Extension($extensionname);
-		$code->ModelDefault=split("\n",$Params['model']);
+		$code->ModelDefault=explode("\n",$Params['model']);
 		$code->Description=$Params['title'];
 		$code->Write();
 		$extension->IncrementBuild();

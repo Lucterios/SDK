@@ -20,24 +20,37 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function addHelpValid($Params,$extensionname)
+function addEvent($Params,$extensionname)
 {
-	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addHelpValid",$Params);
+	$Params['type']='Event';
+	$xfer_result=&new Xfer_Container_Custom($extensionname,"addEvent",$Params);
+	$xfer_result->Caption='Ajouter un évenement';
+	$lbl=new Xfer_Comp_LabelForm('new_namelbl');
+	$lbl->setValue("{[bold]}{[center]}Evenement associé au signal{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0);
+	$xfer_result->addComponent($lbl);
 
-	$help_codefile=urldecode($Params['help_codefile']);
-
-	require_once('Class/Help.inc.php');
+	$signalList=array();
 	require_once("Class/Extension.inc.php");
-	$extension=new Extension($extensionname);
+	$extList=Extension::GetList();
+	$extList['CORE']='';
+	foreach($extList as $extname=>$ver){
+		$extension=new Extension($extname);
+		foreach($extension->Signals as $signal)
+		    $signalList[$signal[0].'@'.$extname]=$signal[0];
+	}
 
-	$help=new Help($Params['help'],$extensionname);
-	$help->CodeFile=explode("\n",$help_codefile);
-	$help->Write();
-	$help->Mng->addHelp($extensionname,$Params['help'],$Params['help_desc'],$Params['Help_menu']);
-	$extension->IncrementBuild();
+	$edt=new Xfer_Comp_Select('new_name');
+	$edt->setValue("");
+	$edt->setSelect($signalList);
+	$edt->StringSize=100;
+	$edt->setLocation(1,0);
+	$xfer_result->addComponent($edt);
+
+	$xfer_result->addAction(new Xfer_Action("_OK","ok.png",$extensionname,"addCodeValid"));
+	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
 	return $xfer_result;
 }
 
 ?>
- 
  

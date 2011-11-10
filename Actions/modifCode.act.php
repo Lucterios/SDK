@@ -41,7 +41,7 @@ function modifCode($Params,$extensionname)
 	}
 	if (array_key_exists('code_tableFiles',$Params)) {
 		global $code_tableFiles;
-		$code_tableFiles=split(';',$Params['code_tableFiles']);
+		$code_tableFiles=explode(';',$Params['code_tableFiles']);
 	}
 	if (array_key_exists('code_index',$Params)) {
 		global $code_index;

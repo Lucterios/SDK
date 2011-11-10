@@ -433,10 +433,14 @@ class generator
 			$act->CodeFunction[]='$img->setLocation(0,0,3);';
 		$act->CodeFunction[]='$xfer_result->addComponent($img);';
 		$act->CodeFunction[]='$xfer_result->m_context["IsSearch"]=1;';
-		if ($this->useMethod)
-			$act->CodeFunction[]='$xfer_result=$self->finder(1,0,$xfer_result);';
+		if ($this->useMethod) {
+			$act->CodeFunction[]='$Fields=$self->findFields();';
+			$act->CodeFunction[]='$xfer_result->setSearchGUI($self,$Fields,1);';
+		}
 		else {
-			$act->CodeFunction[]='$xfer_result->setDBSearch($self,'.$this->searchNb.',1);';
+			$act->CodeFunction[]='$field_desc = $DBObjs->getDBMetaDataField();';
+			$act->CodeFunction[]='$Fields=$DBObjs->getFieldEditable($RefTableName,'.$this->searchNb.');';
+			$act->CodeFunction[]='$xfer_result->setSearchGUI($self,$Fields,1);';
 		}
 		$act->CodeFunction[]='$xfer_result->addAction($self->NewAction("_Rechercher","search.png","List",FORMTYPE_NOMODAL,CLOSE_YES));';
 		$act->CodeFunction[]='$xfer_result->addAction($self->NewAction("_Annuler","cancel.png"));';
@@ -447,20 +451,21 @@ class generator
 	function createMethod_Finder()
 	{
 		$article=($this->genre==0)?'un':'une';
-		$meth=new Method("finder",$this->extensionName,$this->classe);
+		$meth=new Method("findFields",$this->extensionName,$this->classe);
 		if (count($meth->CodeFunction)>0) return;
 		$meth->Description="Recherche $article ".$this->descriptionS;
-		$meth->Parameters=array('posY'=>0,'simple'=>0,'xfer_result'=>0);
+		$meth->Parameters=array();
 
 		$table=new Table($this->classe,$this->extensionName);
 		$field_keys=array_keys($table->Fields);
 		$num=1;
+		$meth->CodeFunction[]='$fields=array();';
 		foreach($field_keys as $key) {
 			if ($table->Fields[$key]['type']!=9)
-				$meth->CodeFunction[]='$xfer_result->setDBSearch($self,"'.$key.'",$posY++);';
+				$meth->CodeFunction[]='$fields[]="'.$key.'";';
 			if ($this->PosSon==$num) {
-				$meth->CodeFunction[]='$xfer_result = $self->Super->finder($posY,$simple,$xfer_result);';
-				$meth->CodeFunction[]='$posY = $xfer_result->getComponentCount()+1;';
+				$meth->CodeFunction[]='$superfields = $self->Super->findFields();';
+				$meth->CodeFunction[]='foreach($superfields as $superfield) $fields[]=$superfield;';
 			}
 			if ($num==$this->searchNb) {
 				$num++;
@@ -469,9 +474,10 @@ class generator
 			$num++;
 		}			
 		if ($this->PosSon>=$num) {
-			$meth->CodeFunction[]='$xfer_result = $self->Super->finder($posY,$xfer_result,$simple);';
+			$meth->CodeFunction[]='$superfields = $self->Super->findFields();';
+			$meth->CodeFunction[]='foreach($superfields as $superfield) $fields[]=$superfield;';
 		}
-		$meth->CodeFunction[]='return $xfer_result;';
+		$meth->CodeFunction[]='return $fields;';
 		$meth->Write();
 	}
 

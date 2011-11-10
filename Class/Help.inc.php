@@ -189,7 +189,7 @@ class Help extends AbstractClass
 
 	function AddBase64Img($image)
 	{
-		List($name,$filebased64)=split(';',$image);
+		List($name,$filebased64)=explode(';',$image);
 		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);

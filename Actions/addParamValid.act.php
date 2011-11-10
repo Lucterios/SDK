@@ -58,7 +58,7 @@ function addParamValid($Params,$extensionname)
 				$param_value='n';
 			break;
 		case PARAM_TYPE_ENUM:
-			$extend['Enum']=split(";",trim($param_ValEnum));
+			$extend['Enum']=explode(";",trim($param_ValEnum));
 			break;
 	}
 	$new_param=new Param_Parameters($param_name,$param_value,$param_description,$param_type,$extend);

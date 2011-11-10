@@ -19,25 +19,24 @@
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
 require_once('../CORE/xfer_custom.inc.php');
+require_once('FunctionTool.inc.php');
 
-function addHelpValid($Params,$extensionname)
+function addSignalValid($Params,$extensionname)
 {
-	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addHelpValid",$Params);
-
-	$help_codefile=urldecode($Params['help_codefile']);
-
-	require_once('Class/Help.inc.php');
+	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addSignalValid",$Params);
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
-
-	$help=new Help($Params['help'],$extensionname);
-	$help->CodeFile=explode("\n",$help_codefile);
-	$help->Write();
-	$help->Mng->addHelp($extensionname,$Params['help'],$Params['help_desc'],$Params['Help_menu']);
+	if (isset($Params['signal'])) {
+	    $signalId=$Params['signal'];
+	}
+	else {
+	    $signalId=count($extension->Signals);
+	}
+	$signalData=array($Params['SignalIdentifiant'],$Params['SignalParams'],$Params['SignalDescription']);
+	$extension->Signals[$signalId]=$signalData;
 	$extension->IncrementBuild();
+
 	return $xfer_result;
 }
 
 ?>
- 
- 

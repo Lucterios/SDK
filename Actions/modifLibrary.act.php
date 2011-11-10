@@ -30,7 +30,7 @@ function modifLibrary($Params,$extensionname)
 
 	$code = urldecode($Params['code']);
 	$lib=new Library($Params['library'],$extension->Name);	
-	$lib->CodeFile=split("\n",$code);
+	$lib->CodeFile=explode("\n",$code);
 	$lib->Write();
 	$extension->IncrementBuild();
 	return $xfer_result;

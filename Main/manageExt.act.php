@@ -58,7 +58,7 @@ function manageExt($Params)
 	$grid->setSize(400,600);
 	$xfer_result->addComponent($grid);
 
-	$lock_user=split("-",$lock);
+	$lock_user=explode("-",$lock);
 	$lock_user=trim($lock_user[0]);
 	if ($lock=="")
 	{

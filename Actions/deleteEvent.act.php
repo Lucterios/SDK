@@ -20,24 +20,16 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function addHelpValid($Params,$extensionname)
+function deleteEvent($Params,$extensionname)
 {
-	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addHelpValid",$Params);
-
-	$help_codefile=urldecode($Params['help_codefile']);
-
-	require_once('Class/Help.inc.php');
-	require_once("Class/Extension.inc.php");
-	$extension=new Extension($extensionname);
-
-	$help=new Help($Params['help'],$extensionname);
-	$help->CodeFile=explode("\n",$help_codefile);
-	$help->Write();
-	$help->Mng->addHelp($extensionname,$Params['help'],$Params['help_desc'],$Params['Help_menu']);
-	$extension->IncrementBuild();
+	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteEvent",$Params);
+	$event=$Params['event'];
+	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer l'évenement '".str_replace('_APAS_','::',$event)."'?")) {
+		$xfer_result->m_context['type']='Event';
+		$xfer_result->redirectAction(new Xfer_Action('','',$extensionname,"deleteCode"));
+	}
 	return $xfer_result;
 }
 
 ?>
- 
  

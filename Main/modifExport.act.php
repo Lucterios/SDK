@@ -60,7 +60,7 @@ function modifExport($Params)
 	$xfer_result=&new Xfer_Container_Acknowledge("CORE","modifExport",$Params);
 	$serverurl=$Params['serverurl'];
 	$is_increm_version=($Params['IncVersion']!='n');
-	$extensions=split(';',$Params['ext']);
+	$extensions=explode(';',$Params['ext']);
 	$lasterror='';
 	foreach($extensions as $ext)
 	{

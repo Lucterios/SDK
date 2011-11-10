@@ -20,24 +20,19 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function addHelpValid($Params,$extensionname)
+function deleteSignal($Params,$extensionname)
 {
-	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addHelpValid",$Params);
-
-	$help_codefile=urldecode($Params['help_codefile']);
-
-	require_once('Class/Help.inc.php');
+	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteSignal",$Params);
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
-
-	$help=new Help($Params['help'],$extensionname);
-	$help->CodeFile=explode("\n",$help_codefile);
-	$help->Write();
-	$help->Mng->addHelp($extensionname,$Params['help'],$Params['help_desc'],$Params['Help_menu']);
-	$extension->IncrementBuild();
+	$signalId=$Params['signal'];
+	$signalData=$extension->Signals[$signalId];
+	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer le signal '".$signalData[0]."'?")) {
+		unset($extension->Signals[$signalId]);
+		$extension->IncrementBuild();
+	}
 	return $xfer_result;
 }
 
 ?>
- 
  

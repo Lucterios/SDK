@@ -95,12 +95,12 @@ function BoucleReponse($lesRequettes,$internal=false)
 			if (!is_dir($EXT_FOLDER))
 			{
 				// l'extension n'existe pas
-				$current_reponse= xfer_returnError($extension, $action, $params, new Xfer_Error("Extension '$extension' inconnue !",10001));
+				$current_reponse= xfer_returnError($extension, $action, $params, "Extension '$extension' inconnue !");
 			}
 			else if (!is_file($ACTION_FILE_NAME))
 			{
 				// le fichier n'existe pas dans l'extension
-				$current_reponse=  xfer_returnError($extension, $action, $params, new Xfer_Error("Action '$action' inconnue !",10002));
+				$current_reponse=  xfer_returnError($extension, $action, $params, "Action '$action' inconnue !");
 			}
 			else
 			{
@@ -108,7 +108,7 @@ function BoucleReponse($lesRequettes,$internal=false)
 				if (!function_exists($action))
 				{
 					// la fonction n'existe pas dans le fichier
-					$current_reponse=xfer_returnError($extension,$action,$params,new Xfer_Error("Function inconnue !",10003));
+					$current_reponse=xfer_returnError($extension,$action,$params,"Function inconnue !");
 				}
 				else
 				{
@@ -121,7 +121,7 @@ function BoucleReponse($lesRequettes,$internal=false)
 				if ($current_reponse!="")
 					$REPONSE.=$current_reponse."\n";
 				else
-					$REPONSE.=xfer_returnError($extension,$action,$params,new Xfer_Error("Résultat vide!!",10003));
+					$REPONSE.=xfer_returnError($extension,$action,$params,"Résultat vide!!");
 
 			}
 			else{

@@ -134,7 +134,7 @@ class Printing extends CodeAbstract
 			global $Print_ModelDefault;
 			if ($Print_ModelDefault!="")
 			{
-				$model_list=split("\n",rtrim($Print_ModelDefault));
+				$model_list=explode("\n",rtrim($Print_ModelDefault));
 				$this->ModelDefault=array();
 				foreach($model_list as $model_line)
 				{

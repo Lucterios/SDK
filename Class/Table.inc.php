@@ -86,39 +86,46 @@ class Table extends AbstractClass
 			$tbl_file = file($extTblFile);
 			foreach($tbl_file as $line)
 			{
-				if (substr($line,6,17)=="__DBMetaDataField")
+				$fpos=strpos($line,'$__DBMetaDataField=');
+				if ($fpos !== false)
 				{
-					eval(substr($line,4));
+					eval(substr($line,$fpos));
 					$this->Fields=$__DBMetaDataField;
 				}
-				if (substr($line,6,8)=="__toText")
+				$fpos=strpos($line,'$__toText=');
+				if ($fpos !== false)
 				{
-					eval(substr($line,4));
+					eval(substr($line,$fpos));
 					$this->ToText=$__toText;
 				}
-				if (substr($line,6,13)=="DefaultFields")
+				$fpos=strpos($line,'$DefaultFields=');
+				if ($fpos !== false)
 				{
-					eval(substr($line,4));
+					eval(substr($line,$fpos));
 					$this->DefaultFields=$DefaultFields;
 				}
-				if (substr($line,6,13)=="NbFieldsCheck")
+				$fpos=strpos($line,'$NbFieldsCheck=');
+				if ($fpos !== false)
 				{
-					eval(substr($line,4));
+					eval(substr($line,$fpos));
 					$this->NbFieldsCheck=$NbFieldsCheck;
 				}
-				if (substr($line,6,8)=="Heritage")
+				$fpos=strpos($line,'$Heritage=');
+				if ($fpos !== false)
 				{
-					eval(substr($line,4));
+					eval(substr($line,$fpos));
 					$this->Heritage=$Heritage;
 				}
-				if (substr($line,6,5)=="Title")
+				$fpos=strpos($line,'$Title=');
+				if ($fpos !== false)
 				{
-					eval(substr($line,4));
+					eval(substr($line,$fpos));
 					$this->Title=$Title ;
 				}
-				if (substr($line,6,8)=="PosChild")
+				$fpos=strpos($line,'$PosChild=');
+				if ($fpos !== false)
 				{
-					eval(substr($line,4));
+					eval(substr($line,$fpos));
 					$this->PosChild=$PosChild;
 				}
 			}
@@ -158,27 +165,27 @@ class Table extends AbstractClass
 		fwrite($fh,"\n");
 		fwrite($fh,"class DBObj_".$this->ExtensionName."_".$this->Name." extends DBObj_Basic\n");
 		fwrite($fh,"{\n");
-		fwrite($fh,"\tvar \$Title=\"".$this->Title."\";\n");
-		fwrite($fh,"\tvar \$tblname=\"".$this->Name."\";\n");
-		fwrite($fh,"\tvar \$extname=\"".$this->ExtensionName."\";\n");
-		fwrite($fh,"\tvar \$__table=\"".$this->ExtensionName."_".$this->Name."\";\n");
+		fwrite($fh,"\tpublic \$Title=\"".$this->Title."\";\n");
+		fwrite($fh,"\tpublic \$tblname=\"".$this->Name."\";\n");
+		fwrite($fh,"\tpublic \$extname=\"".$this->ExtensionName."\";\n");
+		fwrite($fh,"\tpublic \$__table=\"".$this->ExtensionName."_".$this->Name."\";\n");
 
 		fwrite($fh,"\n");
-		fwrite($fh,"\tvar \$DefaultFields=".ArrayToString($this->DefaultFields).";\n");
-		fwrite($fh,"\tvar \$NbFieldsCheck=".$this->NbFieldsCheck.";\n");
-		fwrite($fh,"\tvar \$Heritage=\"".$this->Heritage."\";\n");
-		fwrite($fh,"\tvar \$PosChild=".$this->PosChild.";\n");
+		fwrite($fh,"\tpublic \$DefaultFields=".ArrayToString($this->DefaultFields).";\n");
+		fwrite($fh,"\tpublic \$NbFieldsCheck=".$this->NbFieldsCheck.";\n");
+		fwrite($fh,"\tpublic \$Heritage=\"".$this->Heritage."\";\n");
+		fwrite($fh,"\tpublic \$PosChild=".$this->PosChild.";\n");
 
 		fwrite($fh,"\n");
 		foreach($this->Fields as $fieldname=>$field)
-			fwrite($fh,"\tvar \$".$fieldname.";\n");
+			fwrite($fh,"\tpublic \$".$fieldname.";\n");
 
-		fwrite($fh,"\tvar \$__DBMetaDataField=");
+		fwrite($fh,"\tpublic \$__DBMetaDataField=");
 		fwrite($fh,ArrayToString($this->Fields).";\n");
 		fwrite($fh,"\n");
 		if ($this->ToText!="")
 		{
-			fwrite($fh,"\tvar \$__toText='".$this->ToText."';\n");
+			fwrite($fh,"\tpublic \$__toText='".$this->ToText."';\n");
 		}
 		fwrite($fh,"}\n");
 		fwrite($fh,"\n");

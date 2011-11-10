@@ -30,6 +30,7 @@ function addExtValid($Params)
 	{
 		require_once("CORE/setup_param.inc.php");
 		require_once("Class/Library.inc.php");
+		require_once("Class/Event.inc.php");
 
 		$ext=new Extension($Params['newExt']);
 		$ext->Rights[0]=new Param_Rigth('Modification',80);
@@ -39,12 +40,10 @@ function addExtValid($Params)
 		$lib->CodeFile=array("",'function install_'.$extName.'($ExensionVersions)',"{","// Fonction appelée en fin d'installation.","}","");
 		$lib->Write();
 
-		$lib=new Library('status',$extName);	
-		$lib->CodeFile=array("",'function '.$extName.'_status(&$result)',"{","// Fonction pour ajouter une information dans la fenêtre de résumé","}","");
+		$lib=new Event('status@CORE',$extName);	
 		$lib->Write();
 
-		$lib=new Library('config',$extName);	
-		$lib->CodeFile=array("",'function '.$extName.'_config(&$xfer_result)',"{","// Fonction pour ajouter des composants dans la fenêtre de configuration","}","");
+		$lib=new Event('config@CORE',$extName);	
 		$lib->Write();
 
 		global $CNX_OBJ;

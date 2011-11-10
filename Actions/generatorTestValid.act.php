@@ -39,7 +39,6 @@ function generatorTestValid($Params,$extensionname)
 		while ((substr($content[$id],0,5)=='<?xml') || (trim($content[$id])=='')) {
 			unset($content[$id++]);
 		}
-		echo "<!-- val=$val / content=".print_r($content,true)." -->\n";
 	
 		require_once("Class/Extension.inc.php");
 		require_once("Class/Test.inc.php");
@@ -50,7 +49,6 @@ function generatorTestValid($Params,$extensionname)
 		}
 		else	
 			$tablename="";
-		echo "<!-- id=$id / extensionname=$extensionname / tablename=$tablename -->\n";
 		$extension=new Extension($extensionname);
 		$test=new Test($id,$extension->Name,$tablename);
 		foreach($content as $line)
