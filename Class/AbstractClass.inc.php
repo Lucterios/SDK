@@ -79,7 +79,7 @@ class AbstractClass
 	public $ExtensionName="";
 
 	//constructor
-	public function __construct($name,$extensionName="")
+	public function AbstractClass($name,$extensionName="")
 	{
 		$this->ExtensionName=$extensionName;
 		$this->Name=$name;

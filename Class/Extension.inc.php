@@ -141,7 +141,7 @@ class Extension
 		return $bachup_file;
 	}
 
-	public static function GetArchiveFile($suffic=".tar")
+	public function GetArchiveFile($suffic=".tar")
 	{
 		$bachup_file="";
 		$BcDir='Temp';
