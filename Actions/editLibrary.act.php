@@ -47,7 +47,7 @@ function editLibrary($Params,$extensionname)
 	$xfer_result->addComponent($edt);
 
 	require_once("Actions/phpTools.inc.php");
-	$extDir = $lib->Mng->__ExtDir($lib->ExtensionName);
+	$extDir = $lib->Mng->GetExtDir($lib->ExtensionName);
 	$file_name = $extDir.$lib->Name.$lib->Mng->Suffix;
 	$res=CheckSyntax($file_name);
 	if (is_string($res)) {

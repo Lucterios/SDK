@@ -60,8 +60,14 @@ function performTests($Params)
 	$Rep = file($query);
 	if(($Rep!==false) && (count($Rep)>0)) {
 		$rep=trim(implode("\n", $Rep));
+		$rep=str_replace('{[br /]}','',$rep);
+		$rep=str_replace("\n\n\n\n","\n",$rep);
+		$rep=str_replace("\n\n\n","\n",$rep);
+		$rep=str_replace("\n\n","\n",$rep);
+		$rep=str_replace("\n",'{[newline]}',$rep);
 		$Response="";
-		if (preg_match('/(.*)<testsuite(.*)</testsuite>(.*)/', $rep, $replistxml)) {
+		if (preg_match('/(.*)<testsuite(.*)<\/testsuite>(.*)/', $rep, $replistxml)>0) {
+			//echo "<!--- replistxml".print_r($replistxml,true)." -->\n";
 			$xml_res="<testsuite".$replistxml[2]."</testsuite>";
 			$Resp_tmp = TransformXsl($xml_res,implode("\n",file("Main/unittests.xsl")));		
 			$Response.= trim(str_replace('<?xml version="1.0" encoding="ISO-8859-1"?>',"",$Resp_tmp));
@@ -69,15 +75,12 @@ function performTests($Params)
 			if ($rep!='')
 				$Response.= '{[newline]}{[hr/]}{[newline]}';
 		}
-		while (preg_match('/(.*)<!--(.*)-->(.*)/', $rep, $replist))
+		while (preg_match('/(.*)<!--(.*)-->(.*)/', $rep, $replist)>0) {
+			//echo "<!--- replist".print_r($replist,true)." -->\n";
 			$rep=trim($replist[1]).trim($replist[2]).'{[newline]}'.trim($replist[3]);
+		}
 		$rep=str_replace('<','{[',$rep);
 		$rep=str_replace('>',']}',$rep);
-		$rep=str_replace('{[br /]}','',$rep);
-		$rep=str_replace("\n\n\n\n","\n",$rep);
-		$rep=str_replace("\n\n\n","\n",$rep);
-		$rep=str_replace("\n\n","\n",$rep);
-		$rep=str_replace("\n",'{[newline]}',$rep);
 		$rep=str_replace('{[b]}/','{[newline]}{[bold]}/',$rep);
 		$rep=str_replace('{[/b]}:','{[/bold]}{[newline]}&#160;&#160;&#160;',$rep);
 		$rep=str_replace('{[b]}','{[bold]}',$rep);

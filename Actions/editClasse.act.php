@@ -110,7 +110,7 @@ if (!$ReadOnly) {
 	$grid->newHeader('B',"Description",4);
 	$mng=new StockedManage;
 	foreach($mng->GetList($extensionname,$classe) as $Code) {
-		$cd=new Method($Code,$extensionname);
+		$cd=new Stocked($Code,$extensionname);
 		$grid->setValue($Code,'A',$mng->GetName($Code).$cd->GetParams());
 		$grid->setValue($Code,'B',$cd->Description);
 	}
@@ -138,22 +138,7 @@ if (!$ReadOnly) {
 	$grid->newHeader('C',"Type",4);
 	$grid->newHeader('D',"Obligatoire",4);
 	$grid->newHeader('E',"Paramètre",4);
-	$complet_fields=$table->Fields;
-	if ($table->Heritage!='') {
-		$pos=strpos($table->Heritage,'/');
-		$super_table=new Table(substr($table->Heritage,$pos+1),substr($table->Heritage,0,$pos));
-		$part1=array_slice($complet_fields,0,$table->PosChild);
-		$part2=array_slice($complet_fields,$table->PosChild);
-		$complet_fields=array();
-		foreach($part1 as $key=>$field)
-			$complet_fields[$key]=$field;
-		foreach($super_table->Fields as $key=>$field){
-			$field['super']=true;
-			$complet_fields[$key]=$field;
-		}
-		foreach($part2 as $key=>$field)
-			$complet_fields[$key]=$field;
-	}
+	$complet_fields=$table->getCompletFields();
 	foreach($complet_fields as $key=>$field)
 	{
 		$id=$key;
@@ -288,22 +273,34 @@ if (!$ReadOnly) {
 	$xfer_result->newTab("Les paramètres");
 	$lbl=new Xfer_Comp_LabelForm('paramlbl');
 	$lbl->setValue("{[bold]}{[center]}Les paramètres{[/center]}{[/bold]}");
-	$lbl->setLocation(0,0,3);
+	$lbl->setLocation(0,0,4);
+	$xfer_result->addComponent($lbl);
+
+	$lbl=new Xfer_Comp_Label('border1lbl');
+	$lbl->setValue(" ");
+	$lbl->setLocation(0,1,1,6);
+	$lbl->setsize(200,500);
 	$xfer_result->addComponent($lbl);
 
 	$lbl=new Xfer_Comp_LabelForm('lbltable_title');
 	$lbl->setValue("{[bold]}titre de la classe{[/bold]}");
-	$lbl->setLocation(0,1);
+	$lbl->setLocation(1,1);
 	$xfer_result->addComponent($lbl);
 
 	$edt=new Xfer_Comp_Edit('table_title');
 	$edt->setValue($table->Title);
-	$edt->setLocation(1,1);
+	$edt->setLocation(2,1);
 	$xfer_result->addComponent($edt);
+
+	$lbl=new Xfer_Comp_Label('border2lbl');
+	$lbl->setValue(" ");
+	$lbl->setLocation(3,1,1,6);
+	$lbl->setsize(200,500);
+	$xfer_result->addComponent($lbl);
 
 	$lbl=new Xfer_Comp_LabelForm('lblHeritage');
 	$lbl->setValue("{[bold]}Héritage{[/bold]}");
-	$lbl->setLocation(0,2);
+	$lbl->setLocation(1,2);
 	$xfer_result->addComponent($lbl);
 
 	require_once("Class/Table.inc.php");
@@ -317,45 +314,35 @@ if (!$ReadOnly) {
 	$edt=new Xfer_Comp_Select('heritage');
 	$edt->setSelect($DependedTable);
 	$edt->setValue($table->Heritage);
-	$edt->setLocation(1,2);
+	$edt->setLocation(2,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('table_toTextlbl');
 	$lbl->setValue("{[bold]}Text par défaut{[/bold]}");
-	$lbl->setLocation(0,3);
+	$lbl->setLocation(1,3);
 	$xfer_result->addComponent($lbl);
 
 	$edt=new Xfer_Comp_Edit('table_toText');
 	$edt->setValue($table->ToText);
-	$edt->setLocation(1,3);
+	$edt->setLocation(2,3);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('table_NbFieldsChecklbl');
 	$lbl->setValue("{[bold]}Nb de champs de recherche{[/bold]}");
-	$lbl->setLocation(0,4);
+	$lbl->setLocation(1,4);
 	$xfer_result->addComponent($lbl);
 
 	$edt=new Xfer_Comp_Float('table_NbFieldsCheck',1,count($table->tbl->Fields),0);
 	$edt->setValue($table->NbFieldsCheck);
-	$edt->setLocation(1,4);
+	$edt->setLocation(2,4);
 	$xfer_result->addComponent($edt);
 
 if (!$ReadOnly) {
 	$btn=new Xfer_Comp_Button('modifParam');
 	$btn->setAction(new Xfer_Action("_Modifier","",$extensionname,'modifTableParam',FORMTYPE_MODAL,CLOSE_NO));
-	$btn->setLocation(0,5,3);
+	$btn->setLocation(1,5,2);
 	$xfer_result->addComponent($btn);
 }
-	$lbl=new Xfer_Comp_Label('border1lbl');
-	$lbl->setValue(" ");
-	$lbl->setLocation(2,1,1,4);
-	$lbl->setsize(200,200);
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_Label('border2lbl');
-	$lbl->setValue(" ");
-	$lbl->setLocation(0,6,3);
-	$xfer_result->addComponent($lbl);
 
 //#############################################
 	require_once("Class/Test.inc.php");

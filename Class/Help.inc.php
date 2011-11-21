@@ -24,17 +24,17 @@ require_once("AbstractClass.inc.php");
 
 class HelpManage extends AbstractClassManage
 {
-	var $Suffix=".xhlp";
+	public $Suffix=".xhlp";
 
-	var $HelpDescriptions=array();
-	var $HelpTitle='';
-	var $HelpPosition=-1;
+	public $HelpDescriptions=array();
+	public $HelpTitle='';
+	public $HelpPosition=-1;
 
-	function HelpManage($ExtensionName)
+	public function HelpManage($ExtensionName)
 	{
 		$HelpTitle='';
 		$HelpPosition=-1;			
-		$extDir = $this->__ExtDir($ExtensionName);
+		$extDir = $this->GetExtDir($ExtensionName);
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);
 		$hlp_mn_file=$extDir.'menu.hlp.php';
@@ -47,7 +47,7 @@ class HelpManage extends AbstractClassManage
 		}
 	}
 
-	function addHelp($ExtensionName,$HelpName,$Description,$num)
+	public function addHelp($ExtensionName,$HelpName,$Description,$num)
 	{
 		if ($this->HelpDescriptions[$num][0]!=$HelpName)
 		{
@@ -76,7 +76,7 @@ class HelpManage extends AbstractClassManage
 		$this->writeHelp($ExtensionName);
 	}
 
-	function Delete($name,$extensionName="")
+	public function Delete($name,$extensionName="")
 	{
 		AbstractClassManage::Delete($name,$extensionName);
 		$pos=0;
@@ -88,9 +88,9 @@ class HelpManage extends AbstractClassManage
 		$this->writeHelp($extensionName);
 	}
 
-	function writeHelp($ExtensionName)
+	public function writeHelp($ExtensionName)
 	{
-		$extDir = $this->__ExtDir($ExtensionName);
+		$extDir = $this->GetExtDir($ExtensionName);
 		$hlp_mn_file=$extDir.'menu.hlp.php';
 		require_once("FunctionTool.inc.php");
 		if (!$fh=OpenInWriteFile($hlp_mn_file,"help"))
@@ -108,10 +108,11 @@ class HelpManage extends AbstractClassManage
 		fwrite($fh,$code."\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
+		chmod($hlp_mn_file, 0666);
 		return null;
 	}
 
-	function getHelp($HelpName)
+	public function getHelp($HelpName)
 	{
 		foreach($this->HelpDescriptions as $id=>$val)
 			if ($val[0]==$HelpName)
@@ -124,7 +125,7 @@ class HelpManage extends AbstractClassManage
 		return array(-1,array($HelpName,'',0));
 	}
 
-	function __ExtDir($extensionName="")
+	public function GetExtDir($extensionName="")
 	{
 		if (($extensionName=="") || ($extensionName=="CORE"))
 			$extDir = "../CORE/help/";
@@ -139,10 +140,10 @@ class HelpManage extends AbstractClassManage
 		return $extDir;
 	}
 
- 	function GetImageList($extensionName)
+ 	public function GetImageList($extensionName)
 	{
 		$imgs=array();
-		$extDir = $this->__ExtDir($extensionName);
+		$extDir = $this->GetExtDir($extensionName);
 		if (is_dir($extDir))
 		{
 			$dh=opendir($extDir);
@@ -157,9 +158,9 @@ class HelpManage extends AbstractClassManage
 		return $imgs;
 	}
 
-	function DeleteImage($name,$extensionName="")
+	public function DeleteImage($name,$extensionName="")
 	{
-		$extDir = $this->__ExtDir($extensionName);
+		$extDir = $this->GetExtDir($extensionName);
 		$extFile = $extDir.$name;
 		if (is_file($extFile))
 		{
@@ -171,26 +172,26 @@ class HelpManage extends AbstractClassManage
 
 class Help extends AbstractClass
 {
-	var $CodeFile=array();
-	var $Mng;
+	public $CodeFile=array();
+	public $Mng;
 
   	//constructor
-  	function Help($name,$extensionName="")
+  	public function __construct($name,$extensionName="")
 	{
 		$this->Mng=new HelpManage($extensionName);
-		$this->AbstractClass($name,$extensionName);
+		parent::__construct($name,$extensionName);
                 $this->CodeLineBegin=1;
 	}
 
-	function getDescription()
+	public function getDescription()
 	{
 		return $this->Mng->getHelp($this->Name);
 	}
 
-	function AddBase64Img($image)
+	public function AddBase64Img($image)
 	{
 		List($name,$filebased64)=explode(';',$image);
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);
 		$extImgFile = $extDir.$name;
@@ -199,23 +200,24 @@ class Help extends AbstractClass
 			if (fwrite($handle,$content) === FALSE)
 				return "Erreur d'écriture";
 			fclose($handle);
+			chmod($extImgFile, 0666);
 			return '';
 		}
 		else
 			return "Erreur d'ouverture";
 	}
 
-	function AddImage($file)
+	public function AddImage($file)
 	{
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$extImgFile = $extDir.$file['name'];
 		copy($file['tmp_name'],$extImgFile);
 	}
 
-	function Write()
+	public function Write()
 	{
 		require_once("FunctionTool.inc.php");
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);
 		$extLibFile = $extDir.$this->Name.$this->Mng->Suffix;
@@ -230,13 +232,14 @@ class Help extends AbstractClass
 			fwrite($fh,$code."\n");
 		}
 		fclose($fh);
+		chmod($extLibFile, 0666);
 		return "";
 	}
 
-	function Read()
+	public function Read()
 	{
 		$this->CodeFile=array();
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$extHelpFile = $extDir.$this->Name.$this->Mng->Suffix;
 		if (is_file($extHelpFile))
 		{

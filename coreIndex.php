@@ -20,7 +20,7 @@
 //
 
 
-list($usec, $sec) = split(" ", microtime());
+list($usec, $sec) = explode(" ", microtime());
 // avant toute chose, on stipule qu'on retourne du text/plain
 header("http-content: text/plain");
 
@@ -86,7 +86,7 @@ try {
 		require_once("Main/BoucleReponse.inc.php");
 		$REPONSE.= BoucleReponse($lesRequettes);
 	}
-} catch (Exception $e) {              // Devrait ï¿½tre attrapï¿½e
+} catch (Exception $e) {              // Devrait être attrapée
 	require_once "CORE/xfer_exception.inc.php";
 	$Xfer_erro=new Xfer_Container_Exception("CORE","coreIndex");
 	$Xfer_erro->setData($e);

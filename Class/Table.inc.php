@@ -24,9 +24,9 @@ require_once("AbstractClass.inc.php");
 
 class TableManage extends AbstractClassManage
 {
-	var $Suffix=".tbl.php";
+	public $Suffix=".tbl.php";
 
-	function GetDependList($depends,$extensionName="")
+	public function GetDependList($depends,$extensionName="")
 	{
 		$tbl_dep_list=array();
 		$tbl_dep_list[$extensionName]=$this->GetList($extensionName);
@@ -38,7 +38,7 @@ class TableManage extends AbstractClassManage
 		}
 		return $tbl_dep_list;
 	}
-	function Delete($name,$extensionName="")
+	public function Delete($name,$extensionName="")
 	{
 		AbstractClassManage::Delete($name,$extensionName);
 		require_once("Action.inc.php");
@@ -51,30 +51,30 @@ class TableManage extends AbstractClassManage
 
 class Table extends AbstractClass
 {
-	var $Title = "";
-	var $Fields=array();
-	var $ToText="";
-	var $DefaultFields=array();
-	var $NbFieldsCheck=1;
-	var $Heritage = "";
-	var $PosChild=-1;
-	var $Mng;
+	public $Title = "";
+	public $Fields=array();
+	public $ToText="";
+	public $DefaultFields=array();
+	public $NbFieldsCheck=1;
+	public $Heritage = "";
+	public $PosChild=-1;
+	public $Mng;
 
   	//constructor
-  	function Table($name,$extensionName="")
+  	public function __construct($name,$extensionName="")
 	{
 		$this->Mng=new TableManage();
-		$this->AbstractClass($name,$extensionName);
+		parent::__construct($name,$extensionName);
 	}
 
-	function FileName()
+	public function FileName()
 	{
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$extTblFile = $extDir.$this->Name.$this->Mng->Suffix;
 		return $extTblFile;
 	}
 
-	function Read()
+	public function Read()
 	{
 		$this->Fields=array();
 		$this->ToText="";
@@ -141,7 +141,7 @@ class Table extends AbstractClass
 		return "";
 	}
 
-	function GetTinyField($parent_tbl_name)
+	public function GetTinyField($parent_tbl_name)
 	{
 		$field_list=array();
 		foreach($this->Fields as $fname=>$fld)
@@ -152,7 +152,7 @@ class Table extends AbstractClass
 		return $field_list;
 	}
 
-	function Write()
+	public function Write()
 	{
 		require_once("FunctionTool.inc.php");
 		$extTblFile = $this->FileName();
@@ -191,10 +191,11 @@ class Table extends AbstractClass
 		fwrite($fh,"\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
+		chmod($extTblFile, 0666);
 		return "";
 	}
 
-	function getReferenceList() {
+	public function getReferenceList() {
 		$list=array();
 		foreach($this->Fields as $field=>$value) {
 			if ($value['type']==10)
@@ -203,7 +204,7 @@ class Table extends AbstractClass
 		return $list;
 	}
 
-	function UpField($field_name)
+	public function UpField($field_name)
 	{
 		if (substr($field_name,0,3)=='___')
 		{
@@ -246,7 +247,7 @@ class Table extends AbstractClass
 		return "";
 	}
 
-	function DownField($field_name)
+	public function DownField($field_name)
 	{
 		if (substr($field_name,0,3)=='___')
 		{
@@ -269,7 +270,7 @@ class Table extends AbstractClass
 		return "";
 	}
 
-	function ModifyField($field_name,$description,$type,$notnull,$param)
+	public function ModifyField($field_name,$description,$type,$notnull,$param)
 	{
 		if ($notnull)
 			$notnull=true;
@@ -282,7 +283,7 @@ class Table extends AbstractClass
 		return $this->Write();
 	}
 
-	function DelField($field_name)
+	public function DelField($field_name)
 	{
 		if ((substr($field_name,0,3)!='___') && array_key_exists($field_name,$this->Fields))
 		{
@@ -292,7 +293,7 @@ class Table extends AbstractClass
 		return "";
 	}
 
-	function DelRow($rownum)
+	public function DelRow($rownum)
 	{
 		if (array_key_exists($rownum,$this->DefaultFields))
 		{
@@ -301,6 +302,28 @@ class Table extends AbstractClass
 		}
 		return "";
 	}
+
+	public function getCompletFields()
+	{
+		$complet_fields=$this->Fields;
+		if ($this->Heritage!='') {
+			$pos=strpos($this->Heritage,'/');
+			$super_table=new Table(substr($this->Heritage,$pos+1),substr($this->Heritage,0,$pos));
+			$part1=array_slice($complet_fields,0,$this->PosChild);
+			$part2=array_slice($complet_fields,$this->PosChild);
+			$complet_fields=array();
+			foreach($part1 as $key=>$field)
+				$complet_fields[$key]=$field;
+			foreach($super_table->getCompletFields() as $key=>$field){
+				$field['super']=true;
+				$complet_fields[$key]=$field;
+			}
+			foreach($part2 as $key=>$field)
+				$complet_fields[$key]=$field;
+		}
+		return $complet_fields;
+	}
+
 }
 
 ?>

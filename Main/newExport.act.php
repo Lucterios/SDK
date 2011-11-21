@@ -46,11 +46,15 @@ function newExport($Params)
 		$tmp=trim($conf_file[$i]);
 		$UrlServers[$tmp]=$tmp;
 	}
+	$UrlServers['']='---';
 	if (array_key_exists('UrlServerUpdate',$Params))
 		$UrlServerUpdate=trim($Params['UrlServerUpdate']);
 	else
 		$UrlServerUpdate=trim($conf_file[2]);
-	$query=$UrlServerUpdate."/actions/liste.php?project=$Project";
+	if ($UrlServerUpdate!='')
+		$query=$UrlServerUpdate."/actions/liste.php?project=$Project";
+	else
+		$query="";
 
 	require_once("Class/Extension.inc.php");
 	$ext=new Extension('applis');
@@ -147,11 +151,13 @@ function newExport($Params)
 	$chk->setLocation(1,3);
 	$xfer_result->addComponent($chk);
 
-	$link=new Xfer_Comp_LinkLabel('link');
-	$link->setValue("Site web du serveur de mise à jours");
-	$link->setLink("$UrlServerUpdate");
-	$link->setLocation(0,4,2);
-	$xfer_result->addComponent($link);
+	if ($UrlServerUpdate!='') {
+		$link=new Xfer_Comp_LinkLabel('link');
+		$link->setValue("Site web du serveur de mise à jours");
+		$link->setLink("$UrlServerUpdate");
+		$link->setLocation(0,4,2);
+		$xfer_result->addComponent($link);
+	}
 
 	$otherDist=array();
 	foreach($versDist as $mod=>$ver)
@@ -170,9 +176,8 @@ function newExport($Params)
 		$lbl->setLocation(0,6,2);
 		$xfer_result->addComponent($lbl);
 	
-	
-		$grid=new Xfer_Comp_Grid('other');
 		$grid->newHeader('A',"Nom",4);
+		$grid=new Xfer_Comp_Grid('other');
 		$grid->newHeader('B',"Version Distant",4);
 		foreach($otherDist as $mod_name=>$mod_ver)
 		{

@@ -24,26 +24,26 @@ require_once("AbstractClass.inc.php");
 
 class LibraryManage extends AbstractClassManage
 {
-	var $Suffix=".inc.php";
+	public $Suffix=".inc.php";
 }
 
 class Library extends AbstractClass
 {
-	var $CodeFile=array();
-	var $Mng;
+	public $CodeFile=array();
+	public $Mng;
 
   	//constructor
-  	function Library($name,$extensionName="")
+  	public function __construct($name,$extensionName="")
 	{
 		$this->Mng=new LibraryManage();
                 $this->CodeLineBegin=1;
-		$this->AbstractClass($name,$extensionName);
+		parent::__construct($name,$extensionName);
 	}
 
-	function Write()
+	public function Write()
 	{
 		require_once("FunctionTool.inc.php");
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$extLibFile = $extDir.$this->Name.$this->Mng->Suffix;
 		if (!$fh=OpenInWriteFile($extLibFile,"library"))
 		{
@@ -59,13 +59,14 @@ class Library extends AbstractClass
 		fwrite($fh,"//@END@\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
+		chmod($extLibFile, 0666);
 		return "";
 	}
 
-	function Read()
+	public function Read()
 	{
 		$this->CodeFile=array();
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$extLibFile = $extDir.$this->Name.$this->Mng->Suffix;
 		if (is_file($extLibFile))
 		{

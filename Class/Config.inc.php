@@ -24,16 +24,16 @@ require_once("AbstractClass.inc.php");
 
 class ConfigManage extends AbstractClassManage
 {
-	var $Suffix=".php";
+	public $Suffix=".php";
 	
-	function __ExtDir()
+	public function GetExtDir()
 	{
 		return "../conf/";
 	}
-	function GetList()
+	public function GetList()
 	{
 		$file_list=array();
-		$extDir = $this->__ExtDir();
+		$extDir = $this->GetExtDir();
 		if (is_dir($extDir))
 		{
 			$dh=opendir($extDir);
@@ -54,30 +54,30 @@ class ConfigManage extends AbstractClassManage
 
 class Config extends AbstractClass
 {
-	var $dbcnf=array();
-	var $debugMode=false;
-	var $xmlSaving="";
-	var $Mng;
+	public $dbcnf=array();
+	public $debugMode=false;
+	public $xmlSaving="";
+	public $Mng;
 
   	//constructor
-  	function Config($name,$extensionName="")
+  	public function __construct($name,$extensionName="")
 	{
 		$this->Mng=new ConfigManage();
-		$this->AbstractClass($name,$extensionName);
+		parent::__construct($name,$extensionName);
 	}
 
-	function CallHeader()
+	public function CallHeader()
 	{
 		setcookie("APAS_SDKUSER","",0);
 		unset($_COOKIE['APAS_SDKUSER']);
 	}
 
-	function Read()
+	public function Read()
 	{
 		$this->dbcnf=array("dbtype"=>"mysql","dbhost"=>"localhost","dbuser"=>"root","dbpass"=>"","dbname"=>"lucterios");
 		$this->debugMode=false;
 		$this->xmlSaving="";
-		$extDir = $this->Mng->__ExtDir();
+		$extDir = $this->Mng->GetExtDir();
 		$cnxfile = $extDir.$this->Name.$this->Mng->Suffix;
 		if (is_file($cnxfile))
 		{
@@ -90,9 +90,9 @@ class Config extends AbstractClass
 				$this->xmlSaving=$XML_SAVING;
 		}
 	}
-	function Write()
+	public function Write()
 	{
-		$extDir = $this->Mng->__ExtDir();
+		$extDir = $this->Mng->GetExtDir();
 		$cnxfile = $extDir.$this->Name.$this->Mng->Suffix;
 		if ($fh=fopen($cnxfile,"w+"))
 		{
@@ -122,6 +122,7 @@ class Config extends AbstractClass
 			fwrite($fh,"/******************************************************************************/\n");
 			fwrite($fh,"?>\n");
 			fclose($fh);
+			chmod($cnxfile, 0666);
 		}
 		return (is_file($cnxfile)==true);
 	}

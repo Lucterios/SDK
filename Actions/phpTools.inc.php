@@ -13,12 +13,10 @@ function CheckSyntax($fileName)
 	$cmd='php -l "'.$fileName.'"';
 	$output = shell_exec($cmd);
 
+	$pos=strpos($output,'Errors parsing');
         // Try to find the parse error text and chop it off
-	$syntaxError = preg_replace("/Errors parsing.*$/", "", $output, -1, $count);
-
-	// If the error text above was matched, throw an exception containing the syntax error
-	if($count > 0)
-		return $syntaxError;
+	if ($pos!==false)
+		return $output;
 	else
 		return true;
 }

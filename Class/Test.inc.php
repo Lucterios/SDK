@@ -25,19 +25,19 @@ require_once("CodeAbstract.inc.php");
 
 class TestManage extends CodeAbstractManage
 {
-	var $Suffix=".test.php";
+	public $Suffix=".test.php";
 }
 
 class Test extends CodeAbstract
 {
   	//constructor
-  	function Test($name,$extensionName="",$tableName="")
+  	public function __construct($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new TestManage();
-		parent::CodeAbstract($name,$extensionName,$tableName);
+		parent::__construct($name,$extensionName,$tableName);
 	}
 
-	function WriteParams($fh)
+	protected function WriteParams($fh)
 	{
 		foreach($this->Parameters as $Param_name=>$Param_val)
 		{
@@ -51,7 +51,7 @@ class Test extends CodeAbstract
 		fwrite($fh,"{\n");
 	}
 
-	function Write()
+	public function Write()
 	{
 		require_once("FunctionTool.inc.php");
 		$extCodeFile = $this->GetFileName();
@@ -82,6 +82,7 @@ class Test extends CodeAbstract
 		fwrite($fh,"\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
+		chmod($extCodeFile, 0666);
 		return "";
 	}
 

@@ -98,7 +98,7 @@ if (($extension->Name!='applis') && ($extension->Name!='CORE')) {
 	$edt=new Xfer_Comp_Label('extensiondesc');
 	$edt->setValue($extension->Description);
 	$edt->setLocation(2,4,4);
-	$edt->setSize(10,10);
+	$edt->setSize(20,10);
 	$xfer_result->addComponent($edt);
 
 	$btn=new Xfer_Comp_Button('refreshBtn');
@@ -270,7 +270,7 @@ if (!$ReadOnly) {
 	$grid->newHeader('B',"Description",4);
 	$mng=new StockedManage;
 	foreach($mng->GetList($extensionname) as $Code) {
-		$cd=new Method($Code,$extensionname);
+		$cd=new Stocked($Code,$extensionname);
 		$grid->setValue($Code,'A',$mng->GetName($Code).$cd->GetParams());
 		$grid->setValue($Code,'B',$cd->Description);
 	}

@@ -232,7 +232,7 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 
 	require_once "Class/Image.inc.php";
 	$img_mng=new ImageManage();
-	$dir_img=$img_mng->__ExtDir($extensionname);
+	$dir_img=$img_mng->GetExtDir($extensionname);
 	$images=$img_mng->GetList($extensionname);
 	$lbl=new Xfer_Comp_LabelForm('iconlbl');
 	$lbl->setValue("Icon");

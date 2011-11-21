@@ -66,7 +66,7 @@ class Extension
 	public $ExtendTables=array();
 	public $Signals=array();
 
-	public static function __ExtDir($name)
+	public static function GetExtDir($name)
 	{
 		if (($name=="") || ($name=="CORE"))
 			$extDir = "../CORE/";
@@ -108,7 +108,7 @@ class Extension
 		if ($module=="CORE")
 			$module="";
 		$lock_info="";
-		$extDir = Extension::__ExtDir($module);
+		$extDir = Extension::GetExtDir($module);
 		$lockfile=$extDir."apaslock.sdk";
 		if (is_file($lockfile))
 		{
@@ -159,7 +159,7 @@ class Extension
 	{
 		if ($BackupFile!="")
 		{
-			$extDir = Extension::__ExtDir($module);
+			$extDir = Extension::GetExtDir($module);
 			if (!is_dir("Backup")) mkdir("Backup");
 			unlink($BackupFile);
 			require_once("../CORE/ArchiveTar.inc.php");
@@ -278,7 +278,7 @@ class Extension
 		if ($module=="CORE")
 			$module="";
 		$error="";
-		$extDir = Extension::__ExtDir($module);
+		$extDir = Extension::GetExtDir($module);
 		$lockfile=$extDir."apaslock.sdk";
 		$lock_info=Extension::GetLock($module);
 		if ($CnxObj->CheckLockText($lock_info))
@@ -292,6 +292,7 @@ class Extension
 				fwrite($fh,$CnxObj->Name."\n");
 				fwrite($fh,date("d F Y G:i:s")."\n");
 				fclose($fh);
+				chmod($lockfile, 0666);
 			}
 			$bachup_file=Extension::GetBackupFile($module);
 			Extension::ArchiveExtension($module,$bachup_file);
@@ -305,7 +306,7 @@ class Extension
 	{
 		if (is_file($archiveFile))
 		{
-			$extDir = Extension::__ExtDir($module);
+			$extDir = Extension::GetExtDir($module);
 			require_once("FunctionTool.inc.php");
 			deleteDir($extDir);
 			if ($module=="")
@@ -323,7 +324,7 @@ class Extension
 		if ($module=="CORE")
 			$module="";
 		$error="";
-		$extDir = Extension::__ExtDir($module);
+		$extDir = Extension::GetExtDir($module);
 		$lock_info=Extension::GetLock($module);
 		if ($CNX_OBJ->CheckLockText($lock_info))
 		{
@@ -351,7 +352,7 @@ class Extension
 	public function Read()
 	{
 		require_once("../CORE/setup_param.inc.php");
-		$extDir = Extension::__ExtDir($this->Name);
+		$extDir = Extension::GetExtDir($this->Name);
 		$extSetupFile = $extDir."setup.inc.php";
 		if (is_file($extSetupFile))
 		{
@@ -439,21 +440,20 @@ class Extension
 	{
 		require_once("../CORE/setup_param.inc.php");
 		require_once("FunctionTool.inc.php");
-		$extDir = Extension::__ExtDir($this->Name);
+		$extDir = Extension::GetExtDir($this->Name);
 		if (!is_dir($extDir))
 		{
-			mkdir($extDir);
-			chmod($extDir,0777);
+			mkdir($extDir,0777);
 		}
 		if (!is_dir($extDir))
 		{
-			return "Extension non crï¿½ï¿½!<br>";
+			return "Extension non créé!<br>";
 			exit;
 		}
 
 		if (!$fh=OpenInWriteFile($extDir."/setup.inc.php","setup"))
 		{
-			return "Fichier setup non crï¿½ï¿½!";
+			return "Fichier setup non créé!";
 			exit;
 		}
 
@@ -542,6 +542,7 @@ class Extension
 
 		fwrite($fh,"?>");
 		fclose($fh);
+		chmod($extDir."/setup.inc.php", 0666);
 
 		return "";
 	}

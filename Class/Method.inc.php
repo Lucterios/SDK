@@ -25,16 +25,16 @@ require_once("CodeAbstract.inc.php");
 
 class MethodManage extends CodeAbstractManage
 {
-	var $Suffix=".mth.php";
+	public $Suffix=".mth.php";
 }
 
 class Method extends CodeAbstract
 {
   	//constructor
-  	function Method($name,$extensionName="",$tableName="")
+  	public function __construct($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new MethodManage();
-		parent::CodeAbstract($name,$extensionName,$tableName);
+		parent::__construct($name,$extensionName,$tableName);
 	}
 }
 

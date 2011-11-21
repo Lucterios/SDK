@@ -37,6 +37,7 @@ function paramModifLicence($Params)
 					fwrite($fh,"$conf_line\n"); 
 			}
 			fclose($fh);
+			chmod("CNX/LICENSE", 0666);
 		}
 		
 	}

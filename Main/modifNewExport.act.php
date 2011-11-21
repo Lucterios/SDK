@@ -81,7 +81,20 @@ function modifNewExport($Params)
 		if (is_file($arch_file))
 			unlink($arch_file);
 		Extension::ArchiveExtension($ext_obj->Name,$arch_file,($ext!='CORE'),'gz');
-		$lasterror.=sendModuleToUpdateServer($serverurl,$Project,$Pass,$ext,$arch_file);
+		if ($serverurl!='') {
+			$lasterror.=sendModuleToUpdateServer($serverurl,$Project,$Pass,$ext,$arch_file);
+		}
+		else {
+			if (!is_dir('./depoyed'))
+			      mkdir('./depoyed',0777);
+			$filename=realpath(".");
+			$filename.="/depoyed/$ext";
+			$filename.='_'.implode('-',$ext_obj->Version);
+			$filename.='.lpk';
+			copy($arch_file,$filename);
+			chmod($filename, 0666);
+			$lasterror.="Génération en '$filename'.{[newline]}";
+		}
 		unlink($arch_file);	
 	}
 	$xfer_result->message($lasterror,1);

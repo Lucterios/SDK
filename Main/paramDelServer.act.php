@@ -46,6 +46,7 @@ function paramDelServer($Params)
 						fwrite($fh,"$conf_line\n"); 
 				}
 				fclose($fh);
+				chmod("CNX/Server_Update.dt", 0666);
 			}
 		}
 	}

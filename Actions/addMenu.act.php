@@ -93,7 +93,7 @@ function addMenu($Params,$extensionname)
 
 	require_once "Class/Image.inc.php";
 	$img_mng=new ImageManage();
-	$dir_img=$img_mng->__ExtDir($extension->Name);
+	$dir_img=$img_mng->GetExtDir($extension->Name);
 	$images=$img_mng->GetList($extension->Name);
 	$lbl=new Xfer_Comp_LabelForm('iconlbl');
 	$lbl->setValue("{[bold]}Icon{[/bold]}");

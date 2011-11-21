@@ -37,6 +37,7 @@ function paramModifTest($Params)
 		fwrite($fh,"$dbPass\n"); 
 		fwrite($fh,"$dbname\n"); 
 		fclose($fh);
+		chmod("CNX/DBUnitTest.dt", 0666);
 	}
 	return $xfer_result;
 }

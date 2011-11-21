@@ -1,6 +1,6 @@
 #!/bin/sh
 # phpdoc_generator.sh
-# PHPdoc Gï¿½ï¿½ateur pour Lucterios API
+# PHPdoc Générateur pour Lucterios API
 
 rm -rf Help/*
 

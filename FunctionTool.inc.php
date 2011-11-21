@@ -63,7 +63,7 @@ function StringToArray($string)
 	{
 		$result=array();
 		$string=substr($string,6,-2);
-		$list= split(",",$string);
+		$list= explode(",",$string);
 		foreach($list as $item)
 		{
 			$pos=strrpos($item,"=>");

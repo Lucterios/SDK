@@ -38,6 +38,10 @@ function addField($Params,$extensionname)
 		$field_name='';
 		$field=array('description'=>'','type'=>0,'notnull'=>false,'params'=>array('Min'=>0,'Max'=>1000,'Prec'=>2,'Size'=>50,'Multi'=>'n','Enum'=>array(),'RefField'=>'','TableName'=>''));
 	}
+	if (substr($field_name,0,2)=='__') {
+		require_once("CORE/Lucterios_Error.inc.php");
+		throw new LucteriosException(IMPORTANT,"Edition impossible, champs venant d'un classe mère!");
+	}
 
 	$select_xml="";
 	$script_ref="childFields=new Array();\n";

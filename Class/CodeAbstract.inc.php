@@ -27,19 +27,19 @@ define('SEP',"_APAS_");
 
 class CodeAbstractManage extends AbstractClassManage
 {
-	var $Suffix=".inc.php";
-    	var $SEP="_APAS_";
+	public $Suffix=".inc.php";
+    	public $SEP="_APAS_";
 
-	function GetFileName($name,$extensionName="",$tableName="")
+	public function GetFileName($name,$extensionName="",$tableName="")
 	{
-		$extDir = $this->__ExtDir($extensionName);
+		$extDir = $this->GetExtDir($extensionName);
 		if ($tableName=="")
 			return $extDir.$name.$this->Suffix;
 		else
 			return $extDir.$tableName.$this->SEP.$name.$this->Suffix;
 	}
 
-	function GetNameWithSep($name,$tableName)
+	public function GetNameWithSep($name,$tableName)
 	{
 		if ($tableName=="")
 			return $name;
@@ -47,7 +47,7 @@ class CodeAbstractManage extends AbstractClassManage
 			return $tableName.$this->SEP.$name;
 	}
 
-	function Delete($name,$extensionName="",$tableName="")
+	public function Delete($name,$extensionName="",$tableName="")
 	{
 		$result=false;
 		$extFile = $this->GetFileName($name,$extensionName,$tableName);
@@ -59,7 +59,7 @@ class CodeAbstractManage extends AbstractClassManage
 		return $result;
 	}
 
-	function GetTableName($FileName)
+	public function GetTableName($FileName)
 	{
 		$pos=strpos($FileName,$this->SEP);
 		if ($pos === false)
@@ -68,7 +68,7 @@ class CodeAbstractManage extends AbstractClassManage
 			return substr($FileName,0,$pos);
 	}
 
-	function GetNameNoTable($FileName)
+	public function GetNameNoTable($FileName)
 	{
 		$pos=strpos($FileName,$this->SEP);
 		if ($pos === false)
@@ -77,7 +77,7 @@ class CodeAbstractManage extends AbstractClassManage
 			return substr($FileName,$pos+strlen($this->SEP));
 	}
 
-	function GetName($FileName)
+	public function GetName($FileName)
 	{
 		$tbl=$this->GetTableName($FileName);
 		$nm=$this->GetNameNoTable($FileName);
@@ -87,14 +87,14 @@ class CodeAbstractManage extends AbstractClassManage
 			return "$tbl::$nm";
 	}
 
-	function IsInTable($extensionName="",$FileName,$tableName="")
+	public function IsInTable($extensionName="",$FileName,$tableName="")
 	{
 		if ($tableName=="*")
 			return true;
 		elseif ($tableName=="")
 		{
 			$table_name=$this->GetTableName($FileName);
-			return (!is_file($this->__ExtDir($extensionName)."/$table_name.tbl.php"));
+			return (!is_file($this->GetExtDir($extensionName)."/$table_name.tbl.php"));
 		}
 		elseif (($tableName!="") && (substr($FileName,0,strlen($tableName)+strlen($this->SEP))==($tableName.$this->SEP)))
 			return true;
@@ -102,10 +102,10 @@ class CodeAbstractManage extends AbstractClassManage
 			return false;
 	}
 
-	function GetList($extensionName="",$tableName="")
+	public function GetList($extensionName="",$tableName="")
 	{
 		$file_list=array();
-		$extDir = $this->__ExtDir($extensionName);
+		$extDir = $this->GetExtDir($extensionName);
 		if (is_dir($extDir))
 		{
 			$dh=opendir($extDir);
@@ -130,34 +130,28 @@ class CodeAbstractManage extends AbstractClassManage
 
 class CodeAbstract extends AbstractClass
 {
-	var $TableName="";
+	public $TableName="";
 
-	var $Description="";
-	var $IndexName="";
-	var $TableFiles=array();
-	var $CodeFunction=array();
-	var $Parameters=array();
-	var $CodeLineBegin=0;
-	var $CodeLineEnd=0;
-	var $Mng;
+	public $Description="";
+	public $IndexName="";
+	public $TableFiles=array();
+	public $CodeFunction=array();
+	public $Parameters=array();
+	public $CodeLineBegin=0;
+	public $CodeLineEnd=0;
+	public $Mng;
 
   	//constructor
-  	function CodeAbstract($name,$extensionName="",$tableName="")
-	{
-		// $this->Mng=new CodeAbstractManage();	
-		$this->__init($name,$extensionName,$tableName);
-	}
-
-  	function __init($name,$extensionName="",$tableName="")
+  	public function __construct($name,$extensionName="",$tableName="")
 	{
 		if ($tableName!="")
 			$this->TableName=$tableName;
 		else
 			$this->TableName=$this->Mng->GetTableName($name);
-		$this->AbstractClass($this->Mng->GetNameNoTable($name),$extensionName);
+		parent::__construct($this->Mng->GetNameNoTable($name),$extensionName);
 	}
 
-	function GetParams($WithSep=true)
+	public function GetParams($WithSep=true)
 	{
 		$params="";
 		if ($WithSep)
@@ -176,7 +170,7 @@ class CodeAbstract extends AbstractClass
 		return $params;
 	}
 
-	function SetParams($code_params)
+	public function SetParams($code_params)
 	{
 		$this->Parameters=array();
 		$params=explode(",",$code_params);
@@ -196,7 +190,7 @@ class CodeAbstract extends AbstractClass
 		}
 	}
 
-	function Modify($code_id,$tablename)
+	public function Modify($code_id,$tablename)
 	{
 		global $script_code;
 		global $code_name;
@@ -240,12 +234,12 @@ class CodeAbstract extends AbstractClass
 		}
 	}
 
-	function GetFileName()
+	public function GetFileName()
 	{
 		return $this->Mng->GetFileName($this->Name,$this->ExtensionName,$this->TableName);
 	}
 
-	function GetName($sep="::")
+	public function GetName($sep="::")
 	{
 		if ($this->TableName=="")
 			return $this->Name;
@@ -253,21 +247,14 @@ class CodeAbstract extends AbstractClass
 			return $this->TableName.$sep.$this->Name;
 	}
 
-	function CheckFile()
-	{
-		/*set_error_handler("userErrorHandler");
-		require_once($this->GetFileName());
-		restore_error_handler();*/
-	}
-
-	function Check()
+	public function Check()
 	{
 		$extCodeFile = $this->GetFileName();
 		if (!is_file($extCodeFile))
 			$this->Write();
 	}
 	
-	function WriteTables($fh)
+	protected function WriteTables($fh)
 	{
 		fwrite($fh,"//@TABLES@\n");
 		if ($this->TableName!="")
@@ -284,11 +271,11 @@ class CodeAbstract extends AbstractClass
 		fwrite($fh,"//@TABLES@\n");
 	}
 
-	function WriteSpecial($fh)
+	protected function WriteSpecial($fh)
 	{
 	}
 
-	function WriteParams($fh)
+	protected function WriteParams($fh)
 	{
 		foreach($this->Parameters as $Param_name=>$Param_val)
 		{
@@ -310,12 +297,12 @@ class CodeAbstract extends AbstractClass
 		fwrite($fh,"{\n");
 	}
 
-	function WriteEnding($fh)
+	protected function WriteEnding($fh)
 	{
 		fwrite($fh,"}\n");
 	}
 
-	function Write()
+	public function Write()
 	{
 		require_once("FunctionTool.inc.php");
 		$extCodeFile = $this->GetFileName();
@@ -348,15 +335,16 @@ class CodeAbstract extends AbstractClass
 		fwrite($fh,"\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
+		chmod($extCodeFile, 0666);
 		return "";
 	}
 
-	function ReadSpecial($source,$hi,$line_idx)
+	protected function ReadSpecial($source,$hi,$line_idx)
 	{
 		return $line_idx;
 	}
 
-	function Read()
+	public function Read()
 	{
 		$this->XferCnt='';
 		$this->TableFiles=array();

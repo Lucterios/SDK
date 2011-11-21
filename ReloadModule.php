@@ -24,7 +24,7 @@ require_once "CORE/extensionManager.inc.php";
 
 function refreshExtension($Ext)
 {
-	list($a,$b)=split('/',$Ext->installComplete());
+	list($a,$b)=explode('/',$Ext->installComplete());
 	$install=$Ext->message;
 	if (!isset($act) && ($a!=$b))
 		$install.="{[newline]}{[bold]}Des erreurs de mise à jours sont apparues ($a/$b).{[/bold]}";

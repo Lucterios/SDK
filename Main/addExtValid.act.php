@@ -25,7 +25,7 @@ function addExtValid($Params)
 	$xfer_result=&new Xfer_Container_Acknowledge("CORE","addExtValid",$Params);
 	require_once("Class/Extension.inc.php");
 	$extName=$Params['newExt'];
-	$extSetupFile = Extension::__ExtDir($extName)."setup.inc.php";
+	$extSetupFile = Extension::GetExtDir($extName)."setup.inc.php";
 	if (!is_file($extSetupFile))
 	{
 		require_once("CORE/setup_param.inc.php");

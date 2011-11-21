@@ -25,17 +25,17 @@ require_once("CodeAbstract.inc.php");
 
 class EventManage extends CodeAbstractManage
 {
-	var $Suffix=".evt.php";
+	public $Suffix=".evt.php";
 }
 
 class Event extends CodeAbstract
 {
   	//constructor
-  	function Event($name,$extensionName="",$tableName="")
+  	public function __construct($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new EventManage();
 		list($eventname,$extname)=explode('@',$name);		
-		parent::CodeAbstract($eventname,$extensionName,$tableName);
+		parent::__construct($eventname,$extensionName,$tableName);
 		if ($extname!='') {
 			require_once("Class/Extension.inc.php");
 			$extension=new Extension($extname);
@@ -55,7 +55,7 @@ class Event extends CodeAbstract
 		      $this->Parameters['xfer_result']=NULL;
 	}
 
-	function WriteParams($fh)
+	protected function WriteParams($fh)
 	{
 		foreach($this->Parameters as $Param_name=>$Param_val)
 		{

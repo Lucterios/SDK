@@ -24,8 +24,8 @@ require_once("AbstractClass.inc.php");
 
 class ImageManage extends AbstractClassManage
 {
-	var $Suffix="";
-	function __ExtDir($extensionName="")
+	public $Suffix="";
+	public function GetExtDir($extensionName="")
 	{
 		if (($extensionName=="") || ($extensionName=="CORE"))
 			$extDir = "../images/";
@@ -43,28 +43,28 @@ class ImageManage extends AbstractClassManage
 
 class Image extends AbstractClass
 {
-	var $Mng;
+	public $Mng;
 
   	//constructor
-  	function Image($name,$extensionName="")
+  	public function __construct($name,$extensionName="")
 	{
 		$this->Mng=new ImageManage();
-		$this->AbstractClass($name,$extensionName);
+		parent::__construct($name,$extensionName);
 	}
 
-	function Add($file)
+	public function Add($file)
 	{
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);
 		$extImgFile = $extDir.$file['name'];
 		copy($file['tmp_name'],$extImgFile);
 	}
 
-	function AddBase64Img($image)
+	public function AddBase64Img($image)
 	{
 		List($name,$filebased64)=explode(';',$image);
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);
 		$extImgFile = $extDir.$name;
@@ -73,15 +73,16 @@ class Image extends AbstractClass
 			if (fwrite($handle,$content) === FALSE)
 				return "Erreur d'écriture";
 			fclose($handle);
+			chmod($extImgFile, 0666);
 			return '';
 		}
 		else
 			return "Erreur d'ouverture";
 	}
 
-	function AddBase64($filename,$filebased64)
+	public function AddBase64($filename,$filebased64)
 	{                           
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);
 		$extImgFile = $extDir.$filename;
@@ -93,6 +94,7 @@ class Image extends AbstractClass
 			if (fwrite($handle,$content) === FALSE)
 				return "Erreur d'écriture";
 			fclose($handle);
+			chmod($extImgFile, 0666);
 			return '';
 		}
 		else

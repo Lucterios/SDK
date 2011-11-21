@@ -34,7 +34,7 @@ function addContextMenu($editor,$ExtensionName,$TableName,$is_print_xfer)
 		$editor->addSubMenu("$ExtensionName.$TableName",'-','');
 		require_once("CORE/DBObject.inc.php");
 		global $field_dico;
-		foreach($tbl->Fields as $fld_name=>$fld_obj) {
+		foreach($tbl->getCompletFields() as $fld_name=>$fld_obj) {
 			$tp=$fld_obj['type'];
 			$text="[".$field_dico[$tp][1]."] ".$fld_name." : ".$fld_obj['description'];
 			$editor->addSubMenu("$ExtensionName.$TableName",$text,'->'.$fld_name);
@@ -152,22 +152,24 @@ if ($phpEditor && ($code->TableName!="")) {
 	$edt->Encode=true;
 	$edt->FirstLine=$CodeLineBegin;
 	$edt->setLocation(0,15,4);
-	foreach($SelectedTableFiles as $SelectedTableFile) {
-		list($ext_name,$tbl_name)=explode('/',$SelectedTableFile);
-		addContextMenu($edt,$ext_name,$tbl_name,$is_print_xfer);
-	} 
-	$extList=Extension::GetList();
-	$extList['CORE']='';
-	foreach($extList as $extname=>$ver){
-		$nb=0;
-		$extension=new Extension(($extname!="CORE")?$extname:'');
-		foreach($extension->Signals as $signal) {
-		    $param_txt=str_replace('&','',$signal[1]);
-		    $edt->addSubMenu("Signaux",$signal[0]."($param_txt):".$signal[2],'$signalRet=$xfer_result->signal("'.$signal[0].'",'.$param_txt.');');
-		    $nb++;
+	if ($phpEditor) {
+		foreach($SelectedTableFiles as $SelectedTableFile) {
+			list($ext_name,$tbl_name)=explode('/',$SelectedTableFile);
+			addContextMenu($edt,$ext_name,$tbl_name,$is_print_xfer);
+		} 
+		$extList=Extension::GetList();
+		$extList['CORE']='';
+		foreach($extList as $extname=>$ver){
+			$nb=0;
+			$extension=new Extension(($extname!="CORE")?$extname:'');
+			foreach($extension->Signals as $signal) {
+			    $param_txt=str_replace('&','',$signal[1]);
+			    $edt->addSubMenu("Signaux",$signal[0]."($param_txt):".$signal[2],'$signalRet=$xfer_result->signal("'.$signal[0].'",'.$param_txt.');');
+			    $nb++;
+			}
+			if ($nb>0)
+				$edt->addSubMenu("Signaux",'-','');
 		}
-		if ($nb>0)
-			$edt->addSubMenu("Signaux",'-','');
 	}
 	$xfer_result->addComponent($edt);
 
@@ -185,13 +187,14 @@ if ($phpEditor && ($code->TableName!="")) {
 	
 		$xfer_result->newTab("Paramètres",3);
 		$lbl=new Xfer_Comp_LabelForm('tablesDependslbl');
-		$lbl->setValue("{[bold]}{[center]}Tables dï¿½pendantes{[/center]}{[/bold]}");
+		$lbl->setValue("{[bold]}{[center]}Tables dépendantes{[/center]}{[/bold]}");
 		$lbl->setLocation(0,20);
 		$xfer_result->addComponent($lbl);
 		$edt=new Xfer_Comp_CheckList('code_tableFiles');
 		$edt->setSelect($DependedTable);
 		$edt->setValue($SelectedTableFiles);
 		$edt->setLocation(1,20);
+		$edt->setsize(200,200);
 		$xfer_result->addComponent($edt);
 	}
 	if (!$cnx->IsReadOnly($extensionname))

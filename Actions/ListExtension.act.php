@@ -172,7 +172,7 @@ if ($extensionname!="applis") {
 		$img="";
 		require_once "Class/Image.inc.php";
 		$img_mng=new ImageManage();
-		$dir_img=$img_mng->__ExtDir($extensionname);
+		$dir_img=$img_mng->GetExtDir($extensionname);
 		if (is_file($dir_img.$Menu->icon))
 			$img=$Menu->icon;
 		if ($Menu->modal!=0) $modal_txt='oui'; else $modal_txt='n';
@@ -322,7 +322,7 @@ if (!$ReadOnly) {
 	$grid=new Xfer_Comp_Grid('image');
 	$grid->newHeader('A',"Image",100);
 	$grid->newHeader('B',"Nom",4);
-	$extdir=$mng->__ExtDir($extensionname);
+	$extdir=$mng->GetExtDir($extensionname);
 	foreach($extension->GetImageList() as $img)
 		if (is_file($extdir.$img)){
 			$grid->setValue($img,'A',$extdir.$img);
@@ -343,7 +343,7 @@ if (!$ReadOnly) {
 	$lbl->setLocation(0,0,3);
 	$xfer_result->addComponent($lbl);
 	$help_mng=new HelpManage($extensionname);
-	$extdir=$help_mng->__ExtDir($extensionname);
+	$extdir=$help_mng->GetExtDir($extensionname);
 
 	$lbl=new Xfer_Comp_LabelForm('help_titlebl');
 	$lbl->setValue("{[bold]}Titre de l'aide{[/bold]}");
@@ -400,7 +400,7 @@ if (!$ReadOnly) {
 	$grid=new Xfer_Comp_Grid('imageHelp');
 	$grid->newHeader('A',"Image",100);
 	$grid->newHeader('B',"Nom",4);
-	$extdir=$help_mng->__ExtDir($extensionname);
+	$extdir=$help_mng->GetExtDir($extensionname);
 	foreach($help_mng->GetImageList($extensionname) as $img)
 		if (is_file($extdir.$img)){
 			$grid->setValue($img,'A',$extdir.$img);

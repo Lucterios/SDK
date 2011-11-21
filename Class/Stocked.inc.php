@@ -44,21 +44,21 @@ function OpenSQLWriteFile($filename,$title)
 
 class StockedManage extends CodeAbstractManage
 {
-	var $Suffix=".fsk";
+	public $Suffix=".fsk";
 }
 
 class Stocked extends CodeAbstract
 {
   	//constructor
-  	function Stocked($name,$extensionName="",$tableName="")
+  	public function __construct($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new StockedManage();
-		parent::CodeAbstract($name,$extensionName,$tableName);
+		parent::__construct($name,$extensionName,$tableName);
 		if (($this->TableName!='') && (count($this->CodeFunction)==0))
 			$this->Parameters['ObjId']='int(10)';
 	}
 
-	function GetParams($WithSep=true)
+	public function GetParams($WithSep=true)
 	{
 		$params="";
 		if ($WithSep)
@@ -75,7 +75,7 @@ class Stocked extends CodeAbstract
 		return $params;
 	}
 
-	function SetParams($code_params)
+	public function SetParams($code_params)
 	{
 		$this->Parameters=array();
 		$code_params=trim($code_params);
@@ -83,20 +83,24 @@ class Stocked extends CodeAbstract
 			$params=explode(",",$code_params);
 			foreach($params as $param)
 			{
-				$param_val=explode(" +",trim($param));
+				$param_val=explode(" ",trim($param));
+				while (($key=array_search('', $param_val))!==false) {
+					unset($param_val[$key]);
+				}
 				if (count($param_val)>0)
 				{
-					$val_name=$param_val[0];
+					$val_name=trim($param_val[0]);
 				}
+				$param_val=array_values($param_val);
 				if (count($param_val)==1)
 					$this->Parameters[$val_name]='INTEGER';
-				elseif (count($param_val)==2)
-					$this->Parameters[$val_name]=$param_val[1];
+				elseif (count($param_val)>=2)
+					$this->Parameters[$val_name]=trim($param_val[1]);
 			}
 		}
 	}
 
-	function WriteParams($fh)
+	protected function WriteParams($fh)
 	{
 		foreach($this->Parameters as $Param_name=>$Param_val)
 		{
@@ -122,13 +126,13 @@ class Stocked extends CodeAbstract
 		fwrite($fh,"DECLARE result TEXT DEFAULT '';\n");
 	}
 
-	function WriteEnding($fh)
+	protected function WriteEnding($fh)
 	{
 		fwrite($fh,"RETURN result;\n");
 		fwrite($fh,"END\n");
 	}
 
-	function Write()
+	public function Write()
 	{
 		$extCodeFile = $this->GetFileName();
 		if (!$fh=OpenSQLWriteFile($extCodeFile,get_class($this)))
@@ -152,10 +156,11 @@ class Stocked extends CodeAbstract
 		$this->WriteEnding($fh);
 		fwrite($fh,"\n");
 		fclose($fh);
+		chmod($extCodeFile, 0666);
 		return "";
 	}
 
-	function Read()
+	public function Read()
 	{
 		$this->XferCnt='';
 		$this->TableFiles=array();

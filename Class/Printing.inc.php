@@ -24,19 +24,19 @@ require_once("CodeAbstract.inc.php");
 
 class PrintingManage extends CodeAbstractManage
 {
-	var $Suffix=".prt.php";
+	public $Suffix=".prt.php";
 }
 
 class Printing extends CodeAbstract
 {
-	var $ModelDefault=array();
-	var $IndexName="";
+	public $ModelDefault=array();
+	public $IndexName="";
 
   	//constructor
-  	function Printing($name,$extensionName="",$tableName="")
+  	public function __construct($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new PrintingManage();
-		parent::CodeAbstract($name,$extensionName,$tableName);
+		parent::__construct($name,$extensionName,$tableName);
 		if (!is_file($this->GetFileName()))
 		{
 			$this->CodeFunction=array("\$xml_data.=\"<DATA>\";","\$xml_data.=\"</DATA>\";");
@@ -44,7 +44,7 @@ class Printing extends CodeAbstract
 		}
 	}
 
-	function WriteSpecial($fh)
+	protected function WriteSpecial($fh)
 	{
 		fwrite($fh,"//@MODEL_DEFAULT@\n");
 		fwrite($fh,"\$MODEL_DEFAULT=\"\n");
@@ -61,7 +61,7 @@ class Printing extends CodeAbstract
 		fwrite($fh,"\n");
 	}
 
-	function WriteParams($fh)
+	protected function WriteParams($fh)
 	{
 		global $xfer_dico;
 		list($xfer_file,$xfer_class)=$xfer_dico[$this->XferCnt];
@@ -104,13 +104,13 @@ class Printing extends CodeAbstract
 		fwrite($fh,"\$xml_data='';\n");
 	}
 
-	function WriteEnding($fh)
+	protected function WriteEnding($fh)
 	{
 		fwrite($fh,"return \$xml_data;\n");
 		fwrite($fh,"}\n");
 	}
 
-	function ReadSpecial($source,$hi,$line_idx)
+	protected function ReadSpecial($source,$hi,$line_idx)
 	{
 		if (substr($source,0,17)=="//@MODEL_DEFAULT@")
 		{
@@ -127,7 +127,7 @@ class Printing extends CodeAbstract
 		return $line_idx;
 	}
 
-	function Modify($code_id,$tablename)
+	public function Modify($code_id,$tablename)
 	{
 		if (parent::Modify($code_id,$tablename))
 		{

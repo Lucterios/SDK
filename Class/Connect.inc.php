@@ -38,15 +38,15 @@ require_once("AbstractClass.inc.php");
 
 class ConnectManage extends AbstractClassManage
 {
-	var $Suffix=".info";
-	function __ExtDir()
+	public $Suffix=".info";
+	public function GetExtDir()
 	{
 		return "./CNX/";
 	}
-	function GetList($WithAdmin=true)
+	public function GetList($WithAdmin=true)
 	{
 		$file_list=array();
-		$extDir = $this->__ExtDir();
+		$extDir = $this->GetExtDir();
 		if (is_dir($extDir))
 		{
 			$dh=opendir($extDir);
@@ -68,32 +68,32 @@ class ConnectManage extends AbstractClassManage
 
 class Connect extends AbstractClass
 {
-	var $Pwcrypt="";
-	var $LongName="";
-	var $NoView=array();
-	var $Modified=array();
-	var $Mng;
+	public $Pwcrypt="";
+	public $LongName="";
+	public $NoView=array();
+	public $Modified=array();
+	public $Mng;
 
   	//constructor
-  	function Connect($name,$extensionName="")
+  	public function __construct($name,$extensionName="")
 	{
 		$this->Mng=new ConnectManage();
-		$this->AbstractClass($name,$extensionName);
+		parent::__construct($name,$extensionName);
 	}
 
-	function CallHeader()
+	public function CallHeader()
 	{
 		setcookie("APAS_SDKUSER","",0);
 		unset($_COOKIE['APAS_SDKUSER']);
 	}
 
-	function Read()
+	public function Read()
 	{
 		$this->Pwcrypt="";
 		$this->LongName="";
 		$this->NoView=array();
 		$this->ReadOnly=array();
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$cnxfile = $extDir.$this->Name.$this->Mng->Suffix;
 		if (is_file($cnxfile))
 		{
@@ -108,9 +108,9 @@ class Connect extends AbstractClass
 				$this->Modified=reFill(explode(";",$file_cnx[3]));
 		}
 	}
-	function Write()
+	public function Write()
 	{
-		$extDir = $this->Mng->__ExtDir($this->ExtensionName);
+		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$cnxfile = $extDir.$this->Name.$this->Mng->Suffix;
 		if ($fh=fopen($cnxfile,"w+"))
 		{
@@ -122,18 +122,18 @@ class Connect extends AbstractClass
 		}
 		return (is_file($cnxfile)==true);
 	}
-	function CheckLockText($LockText)
+	public function CheckLockText($LockText)
 	{
 		$size=strlen($this->Name);
 		$text=substr($LockText,0,$size);
 		return ($text==$this->Name);
 	}
 
-	function ChangePWD($PassWord)
+	public function ChangePWD($PassWord)
 	{
 		$this->Pwcrypt=md5($this->Name.$PassWord);
 	}
-	function IsValid($PassWord)
+	public function IsValid($PassWord)
 	{
 		if (($this->Name=="admin") && ($this->Pwcrypt==""))
 		{
@@ -150,17 +150,17 @@ class Connect extends AbstractClass
 		}
 	}
 
-	function CanWriteModule($ModuleName)
+	public function CanWriteModule($ModuleName)
 	{
 		return (!in_array($ModuleName,$this->NoView) && in_array($ModuleName,$this->Modified));
 	}
 
-	function IsViewModule($ModuleName)
+	public function IsViewModule($ModuleName)
 	{
 		return (!in_array($ModuleName,$this->NoView));
 	}
 
-	function IsReadOnly($ModuleName)
+	public function IsReadOnly($ModuleName)
 	{
 		if ($this->CanWriteModule($ModuleName))
 		{

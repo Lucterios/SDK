@@ -38,9 +38,9 @@ define('LOCK_MODE_EVENT',2);
 
 class ActionManage extends CodeAbstractManage
 {
-	var $Suffix=".act.php";
+	public $Suffix=".act.php";
 
-	function GetActionId($name,$extensionName="",$tableName)
+	public function GetActionId($name,$extensionName="",$tableName)
 	{
 		require_once("Class/Extension.inc.php");
 		$ext=new Extension($extensionName);
@@ -52,7 +52,7 @@ class ActionManage extends CodeAbstractManage
 		return $id;
 	}
 
-	function Delete($name,$extensionName="",$tableName="")
+	public function Delete($name,$extensionName="",$tableName="")
 	{
 		$result=parent::Delete($name,$extensionName,$tableName);
 		if ($result)
@@ -67,30 +67,30 @@ class ActionManage extends CodeAbstractManage
 
 class Action extends CodeAbstract
 {
-	var $TableName="";
-	var $IndexName="";
+	public $TableName="";
+	public $IndexName="";
 
-	var $XferCnt="custom";
+	public $XferCnt="custom";
 
-	var $WithTransaction=false;
-	var $LockMode=LOCK_MODE_NO;
+	public $WithTransaction=false;
+	public $LockMode=LOCK_MODE_NO;
 
-	var $RigthName="";
+	public $RigthName="";
 
   	//constructor
-  	function Action($name,$extensionName="",$tableName="")
+  	public function __construct($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new ActionManage();
-		parent::CodeAbstract($name,$extensionName,$tableName);
+		parent::__construct($name,$extensionName,$tableName);
 	}
 
-	function Check()
+	public function Check()
 	{
 		$this->XferCnt="custom";
 		parent::Check();
 	}
 
-	function Modify($code_id,$tablename)
+	public function Modify($code_id,$tablename)
 	{
 		if (parent::Modify($code_id,$tablename))
 		{
@@ -116,7 +116,7 @@ class Action extends CodeAbstract
 			return false;
 	}
 
-	function Read()
+	public function Read()
 	{
 		parent::Read();
 		require_once("Class/Extension.inc.php");
@@ -133,7 +133,7 @@ class Action extends CodeAbstract
 			}
 	}
 
-	function WriteSpecial($fh)
+	protected function WriteSpecial($fh)
 	{
 		if ($this->XferCnt=='')
 			$this->XferCnt="custom";
@@ -145,7 +145,7 @@ class Action extends CodeAbstract
 		fwrite($fh,"\n");
 	}
 
-	function WriteParams($fh)
+	protected function WriteParams($fh)
 	{
 		global $xfer_dico;
 		list($xfer_file,$xfer_class)=$xfer_dico[$this->XferCnt];
@@ -215,7 +215,7 @@ class Action extends CodeAbstract
 		}
 	}
 
-	function WriteEnding($fh)
+	protected function WriteEnding($fh)
 	{
 		if ($this->LockMode==LOCK_MODE_EVENT)
 
@@ -242,7 +242,7 @@ class Action extends CodeAbstract
 		fwrite($fh,"}\n");
 	}
 
-	function ReadSpecial($source,$hi,$line_idx)
+	protected function ReadSpecial($source,$hi,$line_idx)
 	{
 		if (substr($source,0,8)=='//@XFER:')
 			$this->XferCnt=substr($source,8,-1);
