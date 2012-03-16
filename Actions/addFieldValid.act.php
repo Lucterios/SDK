@@ -57,7 +57,7 @@ function addFieldValid($Params,$extensionname)
 			$param=array("TableName"=>$Params['field_TableName'], "RefField"=>$Params['field_RefField']);
 			break;
 		case "10": //reference
-			$param=array("TableName"=>$Params['field_TableName']);
+			$param=array("TableName"=>$Params['field_TableName'],"CascadeMerge"=>($Params['field_ValCascadeMerge']=='o'));
 			break;
 		case "11": //function
 			$field_Function=$Params['field_Function'];

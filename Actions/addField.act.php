@@ -36,7 +36,7 @@ function addField($Params,$extensionname)
 		$field=$table->Fields[$field_name];
 	} else {
 		$field_name='';
-		$field=array('description'=>'','type'=>0,'notnull'=>false,'params'=>array('Min'=>0,'Max'=>1000,'Prec'=>2,'Size'=>50,'Multi'=>'n','Enum'=>array(),'RefField'=>'','TableName'=>''));
+		$field=array('description'=>'','type'=>0,'notnull'=>false,'params'=>array('Min'=>0,'Max'=>1000,'Prec'=>2,'Size'=>50,'Multi'=>'n','Enum'=>array(),'RefField'=>'','TableName'=>'','CascadeMerge'=>'n'));
 	}
 	if (substr($field_name,0,2)=='__') {
 		require_once("CORE/Lucterios_Error.inc.php");
@@ -116,6 +116,7 @@ parent.get('field_ValPrec').setEnabled((type=='1') || (type=='13'));
 parent.get('field_ValSize').setEnabled(type=='2');
 parent.get('field_ValMulti').setEnabled(type=='2');
 parent.get('field_ValEnum').setEnabled(type=='8');
+parent.get('field_ValCascadeMerge').setEnabled(type=='10');
 parent.get('field_TableName').setEnabled((type=='9') || (type=='10'));
 parent.get('field_RefField').setEnabled(type=='9');
 parent.get('field_Function').setEnabled(type=='11');
@@ -257,6 +258,15 @@ if (type=='9') {
 	$edt->setLocation(2,12);
 	$xfer_result->addComponent($edt);
 
+	$lbl=new Xfer_Comp_LabelForm('field_ValCascadeMergelbl');
+	$lbl->setValue("Cascade la fusion");
+	$lbl->setLocation(1,13);
+	$xfer_result->addComponent($lbl);
+	$edt=new Xfer_Comp_Check('field_ValCascadeMerge');
+	$edt->setValue($field['params']['CascadeMerge']);
+	$edt->setLocation(2,13);
+	$xfer_result->addComponent($edt);
+
 	$functionList=array();
 	require_once("Class/Stocked.inc.php");	
 	$mng=new StockedManage();
@@ -264,12 +274,12 @@ if (type=='9') {
 		$functionList[$extensionname."_FCT_".$storage]=$mng->GetName($storage);
 	$lbl=new Xfer_Comp_LabelForm('field_Functionlbl');
 	$lbl->setValue("Fonction");
-	$lbl->setLocation(1,13);
+	$lbl->setLocation(1,14);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Select('field_Function');
 	$edt->setValue($field['params']['Function']);
 	$edt->setSelect($functionList);
-	$edt->setLocation(2,13);
+	$edt->setLocation(2,14);
 	$xfer_result->addComponent($edt);
 
 
@@ -281,21 +291,21 @@ if (type=='9') {
 
 	$lbl=new Xfer_Comp_LabelForm('field_MethodGetlbl');
 	$lbl->setValue("Methode (get)");
-	$lbl->setLocation(1,14);
+	$lbl->setLocation(1,15);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Select('field_MethodGet');
 	$edt->setValue($field['params']['MethodGet']);
 	$edt->setSelect($methodList);
-	$edt->setLocation(2,14);
+	$edt->setLocation(2,15);
 	$xfer_result->addComponent($edt);
 	$lbl=new Xfer_Comp_LabelForm('field_MethodSetlbl');
 	$lbl->setValue("Methode (set)");
-	$lbl->setLocation(1,15);
+	$lbl->setLocation(1,16);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Select('field_MethodSet');
 	$edt->setValue($field['params']['MethodSet']);
 	$edt->setSelect($methodList);
-	$edt->setLocation(2,15);
+	$edt->setLocation(2,16);
 	$xfer_result->addComponent($edt);
 
 
