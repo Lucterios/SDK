@@ -61,7 +61,7 @@ elseif(array_key_exists("login", $GLOBAL) && array_key_exists("pass", $GLOBAL))
 
 		require_once "setup.inc.php";
 		$SDK_Version="$version_max.$version_min.$version_release.$version_build";
-
+		
 		require_once "$ApplisDir/setup.inc.php";
 		$server_dir=$_SERVER["PHP_SELF"];
 		$pos=strpos($server_dir,'coreIndex.php');

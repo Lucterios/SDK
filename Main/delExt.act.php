@@ -24,7 +24,14 @@ function delExt($Params)
 {
 	$xfer_result=&new Xfer_Container_Acknowledge("CORE","delExt",$Params);
 	$ext=$Params['ext'];
+	if (in_array($ext,array("CORE","applis"))) {
+		require_once("CORE/Lucterios_Error.inc.php");
+		throw new LucteriosException(IMPORTANT,"Suppression de '$ext' impossible");
+	}
+	require_once("conf/cnf.inc.php");
+	require_once("CORE/dbcnx.inc.php");
 	require_once("CORE/extensionManager.inc.php");
+	global $connect;
 	$extension=new Extension($ext,Extension::getFolder($ext,"../"));
 	$deps=$extension->getDependants(array(),'../');
 	if (count($deps)==0)
@@ -46,6 +53,7 @@ function delExt($Params)
 		$server_dir=substr($server_dir,0,$sep);
 		$refresh_url="http://$server_name:$server_port/$server_dir/DeleteModule.php?extensionname=$ext";
 		$message=file_get_contents($refresh_url);
+		echo "<!-- message:\n$message -->\n";
 		$xfer_result->redirectAction(new Xfer_Action('menu','','CORE','menu'));
 	}
 	return $xfer_result;

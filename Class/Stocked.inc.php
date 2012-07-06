@@ -25,6 +25,8 @@ require_once("CodeAbstract.inc.php");
 
 function OpenSQLWriteFile($filename,$title)
 {
+	require_once("FunctionTool.inc.php");
+	addNewFileInGit($filename);
 	require_once("ConnectionSDK.inc.php");
 	global $SDKUSER;
 	if ($fh=fopen($filename,"w+"))

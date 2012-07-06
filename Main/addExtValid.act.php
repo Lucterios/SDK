@@ -31,8 +31,10 @@ function addExtValid($Params)
 		require_once("CORE/setup_param.inc.php");
 		require_once("Class/Library.inc.php");
 		require_once("Class/Event.inc.php");
+    
+		$ext=new Extension($extName);
+		$repo=$ext->GetGitRepoObj(true);
 
-		$ext=new Extension($Params['newExt']);
 		$ext->Rights[0]=new Param_Rigth('Modification',80);
 		$ext->Write();
 
@@ -46,16 +48,16 @@ function addExtValid($Params)
 		$lib=new Event('config@CORE',$extName);	
 		$lib->Write();
 
-		global $CNX_OBJ;
-
-		Extension::ModifLock($Params['newExt'],$CNX_OBJ);
-
-		$CNX_OBJ->Modified[]=$extName;
-		$CNX_OBJ->Write();
-
 		$cnx_adm=new Connect('admin');
 		$cnx_adm->Modified[]=$extName;
 		$cnx_adm->Write();
+
+
+		global $CNX_OBJ;
+		$CNX_OBJ->Modified[]=$extName;
+		$CNX_OBJ->Write();
+		$repo->commit("Création de '$extName'");
+		sleep(2);
 	}
 	$xfer_result->redirectAction(new Xfer_Action('menu','','CORE','menu'));
 	return $xfer_result;

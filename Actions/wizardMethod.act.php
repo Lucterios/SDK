@@ -35,12 +35,26 @@ function wizardMethod($Params,$extensionname)
 	$xfer_result->addComponent($lbl);
 
 	$lbl=new Xfer_Comp_LabelForm('descriptionlbl');
-	$lbl->setValue("Description");
+	$lbl->setValue("Description{[newline]}(sing./plur.)");
 	$lbl->setLocation(0,1,2);
 	$xfer_result->addComponent($lbl);
-	$edt=new Xfer_Comp_Edit('description');
+
+	$edt=new Xfer_Comp_Select('genre');
+	$edt->setValue(0);
+	$edt->setSelect(array(0=>'Masc.',1=>'Fem.'));
+	$edt->setLocation(2,1);
+	$xfer_result->addComponent($edt);
+
+	$edt=new Xfer_Comp_Edit('descriptionS');
 	$edt->setValue($classe);
-	$edt->setLocation(2,1,3);
+	$edt->setLocation(3,1);
+	$edt->setSize(20,100);
+	$edt->needed=true;
+	$xfer_result->addComponent($edt);
+	$edt=new Xfer_Comp_Edit('descriptionP');
+	$edt->setValue($classe."s");
+	$edt->setLocation(4,1);
+	$edt->setSize(20,100);
 	$edt->needed=true;
 	$xfer_result->addComponent($edt);
 

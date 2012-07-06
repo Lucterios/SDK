@@ -89,23 +89,40 @@ class Connect extends AbstractClass
 
 	public function Read()
 	{
-		$this->Pwcrypt="";
-		$this->LongName="";
-		$this->NoView=array();
-		$this->ReadOnly=array();
 		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
-		$cnxfile = $extDir.$this->Name.$this->Mng->Suffix;
-		if (is_file($cnxfile))
-		{
-			$file_cnx = file($cnxfile);
-			if (count($file_cnx)>0)
-				$this->Pwcrypt=trim($file_cnx[0]);
-			if (count($file_cnx)>1)
-				$this->LongName=trim($file_cnx[1]);
-			if (count($file_cnx)>2)
-				$this->NoView=reFill(explode(";",trim($file_cnx[2])));
-			if (count($file_cnx)>3)
-				$this->Modified=reFill(explode(";",$file_cnx[3]));
+		if (is_file($extDir.'withlogon')) {
+			$this->Pwcrypt="";
+			$this->LongName="";
+			$this->NoView=array();
+			$this->Modified=array();
+			$cnxfile = $extDir.$this->Name.$this->Mng->Suffix;
+			if (is_file($cnxfile))
+			{
+				$file_cnx = file($cnxfile);
+				if (count($file_cnx)>0)
+					$this->Pwcrypt=trim($file_cnx[0]);
+				if (count($file_cnx)>1)
+					$this->LongName=trim($file_cnx[1]);
+				if (count($file_cnx)>2)
+					$this->NoView=reFill(explode(";",trim($file_cnx[2])));
+				if (count($file_cnx)>3)
+					$this->Modified=reFill(explode(";",$file_cnx[3]));
+			}
+		}
+		else {
+			$this->Name="";
+			$this->Pwcrypt=md5("");
+			$this->LongName="Utilisateur générique";
+			$this->NoView=array();
+			$this->Modified=array('CORE');
+			$ext_dir="../extensions/";
+			$dh=opendir($ext_dir);
+			while (($file = readdir($dh)) != false)
+			{
+				if (is_dir($ext_dir.$file)) {
+					$this->Modified[]=$file;
+				}
+			}
 		}
 	}
 	public function Write()
@@ -121,12 +138,6 @@ class Connect extends AbstractClass
 			fclose($fh);
 		}
 		return (is_file($cnxfile)==true);
-	}
-	public function CheckLockText($LockText)
-	{
-		$size=strlen($this->Name);
-		$text=substr($LockText,0,$size);
-		return ($text==$this->Name);
 	}
 
 	public function ChangePWD($PassWord)
@@ -164,11 +175,9 @@ class Connect extends AbstractClass
 	{
 		if ($this->CanWriteModule($ModuleName))
 		{
-			$lock=Extension::GetLock($ModuleName);
-			if ($lock=="")
-				return true;
-			else
-				return (!$this->CheckLockText($lock));
+			$extObj=new Extension($ModuleName);
+			$repo=$extObj->GetGitRepoObj();
+			return ($repo==NULL);
 		}
 		else
 			return true;

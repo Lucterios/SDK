@@ -18,17 +18,41 @@
 // 
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
-require_once('CORE/xfer_custom.inc.php');
-require_once("Actions/wizardClasse.inc.php");
+require_once('../CORE/xfer_custom.inc.php');
 
-function wizardClasseValid($Params,$extensionname)
+function paramUserGit($Params)
 {
-	require_once("Class/Extension.inc.php");
-	require_once("Class/Table.inc.php");
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"wizardClasseValid",$Params);
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramUserGit",$Params);
+	$xfer_result->Caption="Modifier les config de GIT";
 
-	$gen=new generator($Params,$extensionname);
-	$gen->execute();
+	$gitUser=$Params['gitUser'];
+	$gitEmail=$Params['gitEmail'];
+
+	$conf_file=file("CNX/Conf_Manage.dt");
+	$conf_file[0]=$gitUser;
+	$conf_file[1]=$gitEmail;
+
+	if ($fh=fopen("CNX/Conf_Manage.dt","w+"))
+	{
+		for($i=0;$i<count($conf_file);$i++) {
+			$conf_line=trim($conf_file[$i]);
+			if (($i<2) || ($conf_line!=''))
+				fwrite($fh,"$conf_line\n"); 
+		}
+		fclose($fh);
+		chmod("CNX/Conf_Manage.dt", 0666);
+	}
+
+	require_once("Class/Extension.inc.php");
+	$mods=Extension::GetList($cnx,false);
+	foreach($mods as $mod_name=>$mod_ext)
+	{
+		$repo=$mod_ext->GetGitRepoObj();
+		if ($repo!=null) {
+		      $repo->run('config --local user.name "'.$gitUser.'"');
+		      $repo->run('config --local user.email "'.$gitEmail.'"');
+		}
+	}
 
 	return $xfer_result;
 }

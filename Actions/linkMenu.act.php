@@ -20,16 +20,29 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function cancelLock($Params)
+function linkMenu($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","cancelLock",$Params);
-	$ext=$Params['ext'];
-	global $CNX_OBJ;
-	$cnx=$CNX_OBJ;
+	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"linkMenu",$Params);
+	$xfer_result->Caption='Lier à un Menu';
+
+	$action_name=$Params['action'];
+	
+	require_once("../CORE/setup_param.inc.php");
 	require_once("Class/Extension.inc.php");
-	$lasterror=Extension::CancelLock($ext,$cnx);
-	if ($lasterror!="")
-		$xfer_result->message($lasterror,XFER_DBOX_ERROR);
+	$extension=new Extension($extensionname);
+	unset($xfer_result->m_context['menu']);
+	foreach($extension->Menus as $MenuIndex=>$MenuItem) {
+		if ($MenuItem->act==$action_name) {
+			$xfer_result->m_context['menu']=$MenuIndex;
+		}
+	}
+	if (!isset($xfer_result->m_context['menu'])) {
+		require_once("Class/Action.inc.php");
+		$cd=new Action($action_name,$extensionname);
+		echo "<!-- name:$action_name - action:".print_r($cd,true)." -->\n";
+		$xfer_result->m_context['actiontitle']=$cd->Description;
+	}
+	$xfer_result->redirectAction(new Xfer_Action('','',$extensionname,'addMenu',FORMTYPE_MODAL,CLOSE_NO));
 	return $xfer_result;
 }
 

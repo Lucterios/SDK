@@ -20,40 +20,62 @@
 //
 
 require_once("PathInitial.inc.php");
+require_once("CORE/dbcnx.inc.php");
 require_once "CORE/extensionManager.inc.php";
 
 function refreshExtension($Ext)
 {
 	list($a,$b)=explode('/',$Ext->installComplete());
 	$install=$Ext->message;
+	$install=implode("{[newline]}",explode("\n",$install));
 	if (!isset($act) && ($a!=$b))
 		$install.="{[newline]}{[bold]}Des erreurs de mise à jours sont apparues ($a/$b).{[/bold]}";
 	return $install;
 }
 
 if (isset($act)) {
-	if (isset($extensionname) && ($extensionname!='')) 
-	{
-		$rootPath="../";
-		$ext_path=Extension::getFolder($extensionname,$rootPath);
-		$Ext=new Extension($extensionname,$ext_path);
-		echo refreshExtension($Ext);
-	}
-	else
-	{
-		echo "{[center]}{[bold]}{[underline]}Reload{[/underline]}{[/bold]}{[/center]}{[newline]}";
-		$rootPath="../";
-		$install='';
-		$set_of_ext=array();	
-		$ext_list=getExtensions($rootPath);
-		foreach($ext_list as $name=>$dir)
-			$set_of_ext[]=new Extension($name,$dir);
-		$set_of_ext=sortExtension($set_of_ext,$rootPath);
-		foreach($set_of_ext as $ext)
+	try{
+		if (!$connect->connected)
+			createDataBase();
+
+		if (isset($extensionname) && ($extensionname!='')) 
 		{
-			echo "{[center]}{[bold]}".$ext->Name."{[/bold]}{[/center]}";
-			echo refreshExtension($ext);
+			$rootPath="../";
+			$ext_path=Extension::getFolder($extensionname,$rootPath);
+			$Ext=new Extension($extensionname,$ext_path);
+			echo refreshExtension($Ext);
 		}
+		else
+		{
+			echo "{[center]}{[bold]}{[underline]}Reload{[/underline]}{[/bold]}{[/center]}{[newline]}";
+			$rootPath="../";
+			$install='';
+			$set_of_ext=array();	
+			$ext_list=getExtensions($rootPath);
+			foreach($ext_list as $name=>$dir)
+				$set_of_ext[]=new Extension($name,$dir);
+			$set_of_ext=sortExtension($set_of_ext,$rootPath);
+			foreach($set_of_ext as $ext)
+			{
+				echo "{[center]}{[bold]}".$ext->Name."{[/bold]}{[/center]}";
+				echo refreshExtension($ext);
+			}
+		}
+	}
+	catch(Exception $e){
+		echo "{[bold]}".$e->getMessage()."{[/bold]}{[newline]}";
+		$trace="";
+		foreach($e->getTrace() as $num => $trace_line) {
+			if($num == 0) {
+				$trace_line['file'] = $e->getFile();
+				$trace_line['line'] = $e->getLine();
+			}
+			$trace .= $num."|";
+			$trace .= $trace_line['file']."|";
+			$trace .= $trace_line['line']."|";
+			$trace .= str_replace('_APAS_','::',$trace_line['function'])."{[newline]}";
+		}
+		echo implode("{[newline]}",explode("\n",$trace));
 	}
 }
 else

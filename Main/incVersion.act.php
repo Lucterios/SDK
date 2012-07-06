@@ -18,20 +18,27 @@
 // 
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
-require_once('CORE/xfer_custom.inc.php');
-require_once("Actions/wizardClasse.inc.php");
-
-function wizardClasseValid($Params,$extensionname)
+function incVersion($Params)
 {
+	require_once('../CORE/xfer.inc.php');
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","incVersion",$Params);
+	$increm_version=$Params['IncVersion'];
+	$ext=$Params['ext'];
 	require_once("Class/Extension.inc.php");
-	require_once("Class/Table.inc.php");
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"wizardClasseValid",$Params);
+	$ext_obj=new Extension($ext);
 
-	$gen=new generator($Params,$extensionname);
-	$gen->execute();
-
+	switch($increm_version) {
+		case 0: //non
+			break;
+		case 1: //Révision
+			$ext_obj->IncrementRelease();
+			break;
+		case 2: //Sous-version
+			$ext_obj->IncrementSubVersion();
+			break;
+		case 3: //Version
+			$ext_obj->IncrementVersion();
+			break;
+	}
 	return $xfer_result;
-}
-
-?>
- 
+} 

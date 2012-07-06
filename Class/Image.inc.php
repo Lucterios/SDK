@@ -39,6 +39,20 @@ class ImageManage extends AbstractClassManage
 			$extDir = "../extensions/$extensionName/images/";
 		return $extDir;
 	}
+
+	public function Delete($name,$extensionName="")
+	{
+		$extDir = $this->GetExtDir($extensionName);
+		$extName = $name.$this->Suffix;
+		if (is_file($extDir.$extName))
+		{
+			require_once("Extension.inc.php");
+			$extObj=new Extension($extensionName);
+			$repo=$extObj->GetGitRepoObj();
+			$repo->run("rm 'images/$extName'");
+		}
+	}
+
 }
 
 class Image extends AbstractClass
@@ -59,6 +73,7 @@ class Image extends AbstractClass
 			mkdir($extDir,0777);
 		$extImgFile = $extDir.$file['name'];
 		copy($file['tmp_name'],$extImgFile);
+		$this->AddGitFile("images/".$file['name']);
 	}
 
 	public function AddBase64Img($image)
@@ -74,6 +89,7 @@ class Image extends AbstractClass
 				return "Erreur d'écriture";
 			fclose($handle);
 			chmod($extImgFile, 0666);
+			$this->AddGitFile("images/$name");
 			return '';
 		}
 		else
@@ -95,6 +111,7 @@ class Image extends AbstractClass
 				return "Erreur d'écriture";
 			fclose($handle);
 			chmod($extImgFile, 0666);
+			$this->AddGitFile("images/$filename");
 			return '';
 		}
 		else

@@ -18,18 +18,23 @@
 // 
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
-require_once('CORE/xfer_custom.inc.php');
-require_once("Actions/wizardClasse.inc.php");
+require_once('../CORE/xfer_custom.inc.php');
 
-function wizardClasseValid($Params,$extensionname)
+function cancelGitExt($Params)
 {
-	require_once("Class/Extension.inc.php");
-	require_once("Class/Table.inc.php");
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"wizardClasseValid",$Params);
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","cancelGitExt",$Params);
+	$xfer_result->Caption="Annulation GIT";
 
-	$gen=new generator($Params,$extensionname);
-	$gen->execute();
-
+	if ($xfer_result->confirme("Voulez-vous annuler vos modification?{[newline]}Vous revenez alors au précédent 'commit' GIT.")) {
+	
+		$ext=$Params['ext'];
+		require_once("Class/Extension.inc.php");
+		$extObj=new Extension($ext);
+		$repo=$extObj->GetGitRepoObj();
+		$ret=$repo->run("reset --hard");
+		$ret=implode("{[newline]}",explode("\n",$ret));
+		$xfer_result->message($ret);
+	}
 	return $xfer_result;
 }
 

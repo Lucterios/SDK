@@ -24,18 +24,27 @@ require_once "CORE/extensionManager.inc.php";
 
 if (isset($extensionname)) 
 {
-	$text='';
-	$rootPath="../";
-	$extension=new Extension($extensionname,Extension::getFolder($extensionname,$rootPath));
-	$deps=$extension->getDependants(array(),$rootPath);
-	foreach($deps as $dep) {
-		$ext_dep=new Extension($dep,Extension::getFolder($dep,$rootPath));
-		$ext_dep->delete();
-		$text.=$ext_dep->message;
+	try{
+		$text='';
+		$rootPath="../";
+		$extDir=Extension::getFolder($extensionname,$rootPath);
+		$extension=new Extension($extensionname,$extDir);
+		$text.="extDir:$extDir";
+		$deps=$extension->getDependants(array(),$rootPath);
+		foreach($deps as $dep) {
+			$ext_dep=new Extension($dep,Extension::getFolder($dep,$rootPath));
+			$ext_dep->delete();
+			$text.=$ext_dep->message;
+		}
+		$text.=" ret:".$extension->delete();
+		$text.=$extension->message;
+		deleteDir($extDir);
+		echo $text;
 	}
-	$extension->delete();
-	$text.=$extension->message;
-	echo $text;
+	catch(Exception $e){
+		echo "{[bold]}".$e->getMessage()."{[/bold]}{[newline]}";
+		echo implode("{[newline]}",explode("\n",$e->getErrorTrace()));
+	}
 }
 else
 {

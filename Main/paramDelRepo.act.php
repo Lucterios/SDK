@@ -18,18 +18,36 @@
 // 
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
-require_once('CORE/xfer_custom.inc.php');
-require_once("Actions/wizardClasse.inc.php");
+require_once('../CORE/xfer_custom.inc.php');
 
-function wizardClasseValid($Params,$extensionname)
+function paramDelRepo($Params)
 {
-	require_once("Class/Extension.inc.php");
-	require_once("Class/Table.inc.php");
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"wizardClasseValid",$Params);
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramDelRepo",$Params);
+	$xfer_result->Caption="Supprimer un repository";
+	$depRepo=$Params['depRepository'];
+	$conf_file=file("CNX/Conf_Manage.dt");
+	$depRepo_name=$conf_file[$depRepo];
 
-	$gen=new generator($Params,$extensionname);
-	$gen->execute();
-
+	if ($xfer_result->confirme("Voulez-vous supprimer le repository '$depRepo_name' ?")) {
+		$new_conf_file=array();
+		for($i=0;$i<count($conf_file);$i++) 
+			if ($i!=$depRepo)
+				$new_conf_file[]=$conf_file[$i];
+		if (count($conf_file)==0)
+			unlink("CNX/Conf_Manage.dt");
+		else {
+			if ($fh=fopen("CNX/Conf_Manage.dt","w+"))
+			{
+				for($i=0;$i<count($new_conf_file);$i++) {
+					$conf_line=trim($new_conf_file[$i]);
+					if (($i<2) || ($conf_line!=''))
+						fwrite($fh,"$conf_line\n"); 
+				}
+				fclose($fh);
+				chmod("CNX/Conf_Manage.dt", 0666);
+			}
+		}
+	}
 	return $xfer_result;
 }
 

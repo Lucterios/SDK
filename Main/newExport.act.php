@@ -44,9 +44,15 @@ function newExport($Params)
 	$Pass=trim($conf_file[1]);
 	for($i=2;$i<count($conf_file);$i++) {
 		$tmp=trim($conf_file[$i]);
-		$UrlServers[$tmp]=$tmp;
+		if ($tmp=='')
+			$UrlServers['']='---';
+		else
+			$UrlServers[$tmp]=$tmp;
 	}
-	$UrlServers['']='---';
+	if (count($UrlServers)==0) {
+		require_once("CORE/Lucterios_Error.inc.php");
+		throw new LucteriosException(IMPORTANT,"Aucun serveur de mise à jours");
+	}
 	if (array_key_exists('UrlServerUpdate',$Params))
 		$UrlServerUpdate=trim($Params['UrlServerUpdate']);
 	else
@@ -139,17 +145,6 @@ function newExport($Params)
 	$edt->setLocation(1,2);
 	$edt->setAction(new Xfer_Action("","","CORE","newExport",FORMTYPE_REFRESH,CLOSE_NO));
 	$xfer_result->addComponent($edt);
-
-	$lbl=new Xfer_Comp_LabelForm('inclbl');
-	$lbl->setValue("{[bold]}Incrémenter la version{[/bold]}");
-	$lbl->setLocation(0,3);
-	$xfer_result->addComponent($lbl);
-
-	$chk=new Xfer_Comp_Select('IncVersion');
-	$chk->setSelect(array(0=>'<non>',1=>"Révision",2=>"Sous-version",3=>"Version"));
-	$chk->setValue(0);
-	$chk->setLocation(1,3);
-	$xfer_result->addComponent($chk);
 
 	if ($UrlServerUpdate!='') {
 		$link=new Xfer_Comp_LinkLabel('link');

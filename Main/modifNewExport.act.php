@@ -48,7 +48,6 @@ function modifNewExport($Params)
 	require_once('../CORE/xfer.inc.php');
 	$xfer_result=&new Xfer_Container_Acknowledge("CORE","modifNewExport",$Params);
 	$serverurl=$Params['UrlServerUpdate'];
-	$increm_version=$Params['IncVersion'];
 	$extensions=explode(';',$Params['ext']);
 	$conf_file=file("CNX/Server_Update.dt");
 	$Project=trim($conf_file[0]);
@@ -64,19 +63,6 @@ function modifNewExport($Params)
 			$ext_obj=$appli_ext;
 		else
 			$ext_obj=new Extension($ext);
-		switch($increm_version) {
-			case 0: //non
-				break;
-			case 1: //Révision
-				$ext_obj->IncrementRelease();
-				break;
-			case 2: //Sous-version
-				$ext_obj->IncrementSubVersion();
-				break;
-			case 3: //Version
-				$ext_obj->IncrementVersion();
-				break;
-		}
 		$arch_file=$ext_obj->GetArchiveFile('.lpk');
 		if (is_file($arch_file))
 			unlink($arch_file);

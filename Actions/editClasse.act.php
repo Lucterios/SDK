@@ -66,6 +66,7 @@ function editClasse($Params,$extensionname)
 if (!$ReadOnly) {
 	$grid->addAction(new Xfer_Action("_Supprimer","",$extensionname,"deleteAction",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
 	$grid->addAction(new Xfer_Action("_Ajouter","",$extensionname,"addAction",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	$grid->addAction(new Xfer_Action("_Menu...","",$extensionname,"linkMenu",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
 	if (count($table->Fields)>0)
 		$grid->addAction(new Xfer_Action("_Générateur","",$extensionname,"wizardClasse",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
 }

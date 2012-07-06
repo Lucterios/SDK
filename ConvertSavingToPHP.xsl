@@ -139,7 +139,7 @@
 
 	<xsl:template match="LINK">
 		<xsl:call-template name='COMP'><xsl:with-param name="class">Xfer_Comp_LinkLabel</xsl:with-param></xsl:call-template>
-		<xsl:text>$test->assertEquals("</xsl:text><xsl:value-of select="LINK/text()"/><xsl:text>",$comp->Link,"Liens de </xsl:text><xsl:value-of select="@name"/><xsl:text>");
+		<xsl:text>$test->assertEquals("</xsl:text><xsl:value-of select="LINK/text()"/><xsl:text>",$comp->m_Link,"Liens de </xsl:text><xsl:value-of select="@name"/><xsl:text>");
 </xsl:text>
 	</xsl:template>
 

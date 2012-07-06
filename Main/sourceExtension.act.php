@@ -21,10 +21,10 @@
 require_once('../CORE/xfer_custom.inc.php');
 require_once('Main/connection.inc.php');
 
-function reserveExtension($Params)
+function sourceExtension($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","reserveExtension",$Params);
-	$xfer_result->Caption="Réservation d'extension";
+	$xfer_result=&new Xfer_Container_Custom("CORE","sourceExtension",$Params);
+	$xfer_result->Caption="Gestion de configuration";
 
 	$lbl=new Xfer_Comp_LabelForm('title');
 	$lbl->setValue("{[bold]}{[center]}Les extensions de votre application{[/center]}{[/bold]}");
@@ -34,26 +34,26 @@ function reserveExtension($Params)
 	$grid=new Xfer_Comp_Grid('ext');
 	$grid->newHeader('A',"Nom",4);
 	$grid->newHeader('B',"Version",4);
-	$grid->newHeader('C',"Vérou",4);
+	$grid->newHeader('C',"Info GIT",4);
 
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;
 
 	require_once("Class/Extension.inc.php");
-	$mods=Extension::GetList($cnx);
-	foreach($mods as $mod_name=>$mod_ver)
+	$mods=Extension::GetList($cnx,false);
+	foreach($mods as $mod_name=>$mod_ext)
 	{
 		if ($cnx->CanWriteModule($mod_name)) {
-			$lock=Extension::GetLock($mod_name);
 			$grid->setValue($mod_name,'A',$mod_name);
-			$grid->setValue($mod_name,'B',$mod_ver);
-			$grid->setValue($mod_name,'C',$lock);
+			$grid->setValue($mod_name,'B',$mod_ext->GetVersion());
+			$grid->setValue($mod_name,'C',$mod_ext->GetInfoGit());
 		}
 	}
 	$grid->setLocation(0,1);
-	$grid->addAction(new Xfer_Action("_Editer","","CORE","manageExt",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
-	$grid->addAction(new Xfer_Action("_Ajouter","","CORE","addExt",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
-	$grid->addAction(new Xfer_Action("_Rafraichir DB","","CORE","refreshExts",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	$grid->addAction(new Xfer_Action("_Editer","edit.png","CORE","manageSourceExt",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Supprimer","suppr.png","CORE","delExt",FORMTYPE_MODAL,CLOSE_YES,SELECT_SINGLE));
+	$grid->addAction(new Xfer_Action("_Ajouter","add.png","CORE","addExt",FORMTYPE_MODAL,CLOSE_YES,SELECT_NONE));
+	$grid->addAction(new Xfer_Action("_Rafraichir DB","refresh.png","CORE","refreshExts",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
 	$xfer_result->addComponent($grid);
 	
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));

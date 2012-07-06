@@ -46,6 +46,28 @@ function getStringToWrite($Text,$WithCote=true)
 		return $new_text;
 }
 
+global $GIT_STATUS_TAB;
+$GIT_STATUS_TAB=array(  
+'M '=>'modifié',
+' M'=>'modifié localement',
+'A '=>'ajouté',
+' A'=>'ajouté localement',
+'AM'=>'ajouté et modifié',
+'D '=>'supprimé',
+' D'=>'supprimé localement',
+'R '=>'renommé',
+'C '=>'copié',
+'U '=>'mise à jour, mais non fusionné',
+'DD'=>'non-fusionné, supprimé local/distant',
+'AU'=>'non-fusionné, ajouté local',
+'UD'=>'non-fusionné, supprimé distant',
+'UA'=>'non-fusionné, ajoutée distant',
+'DU'=>'non-fusionné, supprimé local',
+'AA'=>'non-fusionné, ajoutée local/distant',
+'UU'=>'non-fusionné, modifiée local/distant',
+'??'=>'non-géré',
+'!!'=>'ignoré');
+
 class Extension
 {
 	public $Name="";
@@ -75,7 +97,7 @@ class Extension
 		return $extDir;
 	}
 
-	public static function GetList($CNX_OBJ=null)
+	public static function GetList($CNX_OBJ=null,$onlyVersion=true)
 	{
 		require_once("../CORE/setup_param.inc.php");
 		$ext_name=array();
@@ -97,48 +119,13 @@ class Extension
 			 (($CNX_OBJ!=null) && $CNX_OBJ->IsViewModule($extname) && (($extname=='CORE') || ($extname=='applis'))))
 			{
 				$ext=new Extension($extname);
-				$ext_list[$extname]=$ext->GetVersion();
+				if ($onlyVersion)
+				  $ext_list[$extname]=$ext->GetVersion();
+				else
+				  $ext_list[$extname]=$ext;
 			}
 		}
 		return $ext_list;
-	}
-
-	public static function GetLock($module)
-	{
-		if ($module=="CORE")
-			$module="";
-		$lock_info="";
-		$extDir = Extension::GetExtDir($module);
-		$lockfile=$extDir."apaslock.sdk";
-		if (is_file($lockfile))
-		{
-			$file_cnx = file($lockfile);
-			if (count($file_cnx)==2)
-			{
-				$user=trim($file_cnx[0]);
-				$date=trim($file_cnx[1]);
-				$lock_info="$user - $date";
-			}
-		}
-		return $lock_info;
-	}
-
-	public static function GetBackupFile($module,$lock=null)
-	{
-		$bachup_file="";
-		$BcDir='Backup';
-		if (!is_dir($BcDir)) mkdir($BcDir);
-		if ($lock==null)
-			$lock=Extension::GetLock($module);
-		if ($lock!="")
-		{
-			if ($module=="") $module="CORE";
-			$ext_obj=new Extension($module);
-			$file_list=glob("$BcDir/".$module."_".str_replace(array(" - "," ",":"),array("~","_","-"),$lock)."^*.tar");
-			if (count($file_list)==1)
-				$bachup_file=$file_list[0];
-		}
-		return $bachup_file;
 	}
 
 	public function GetArchiveFile($suffic=".tar")
@@ -188,153 +175,11 @@ class Extension
 		return false;
 	}
 
-	public static function BackupFiles($module)
-	{
-		$ext_list=array();
-		$extDir = "Backup/";
-		if (is_dir($extDir))
-		{
-			$dh=opendir($extDir);
-			while (($file = readdir($dh)) != false)
-				if (substr($file,0,strlen($module))==$module)
-				{
-					$archive=substr($file,strlen($module)+1,-4);
-					$pos=strpos($archive,"~");
-					$user="";
-					$date="";
-					if ($pos>=0)
-					{
-						$user=substr($archive,0,$pos);
-						$date=str_replace(array("_","-"),array(" ",":"),substr($archive,$pos+1));
-						$vers="";
-					}
-					else
-					{
-						$user="";
-						$date=str_replace(array("_","-"),array(" ",":"),$archive);
-					}
-					$pos_v=strpos($date,"^");
-					$vers="";
-					if ($pos_v>=0)
-					{
-						$vers=substr($date,$pos_v+1);
-						$date=substr($date,0,$pos_v);
-					}
-					$ext_list[$file]=array($vers,$user,$date);
-				}
-		}
-		return $ext_list;
-	}
-
 	//constructor
 	public function __construct($name)
 	{
 		$this->Name=$name;
 		$this->Read();
-	}
-
-	public function codeSignature($pass)
-	{
-		$text=$this->Name;
-		$text.=$this->Appli;
-		$text.=$this->Description;
-		$text.=$pass;
-		return md5($text);
-	}
-
-	public function Unsign($pass)
-	{
-		$error="";
-		if (($this->SignBy!='') && ($this->SignMD5!=''))
-		{
-			if ($this->SignMD5==$this->codeSignature($pass))
-			{
-				$this->SignBy='';
-				$this->SignMD5='';
-			}
-			else
-				$error="Mauvais mot de passe!";
-		}
-		else
-			$error="Extension non signï¿½e!";
-		return $error;
-	}
-
-	public function Sign($CNX_OBJ,$pass)
-	{
-		$error="";
-		if (($this->SignBy=='') && ($this->SignMD5==''))
-		{
-			$this->SignBy=$CNX_OBJ->LongName;
-			$this->SignMD5=$this->codeSignature($pass);
-		}
-		else
-			$error="Extension déjà signée!";
-		return $error;
-	}
-
-	public function ModifLock($module,$CnxObj)
-	{
-		if ($module=="CORE")
-			$module="";
-		$error="";
-		$extDir = Extension::GetExtDir($module);
-		$lockfile=$extDir."apaslock.sdk";
-		$lock_info=Extension::GetLock($module);
-		if ($CnxObj->CheckLockText($lock_info))
-		{
-			unlink($lockfile);
-		}
-		elseif ($lock_info=="")
-		{
-			if ($fh=fopen($lockfile,"w+"))
-			{
-				fwrite($fh,$CnxObj->Name."\n");
-				fwrite($fh,date("d F Y G:i:s")."\n");
-				fclose($fh);
-				chmod($lockfile, 0666);
-			}
-			$bachup_file=Extension::GetBackupFile($module);
-			Extension::ArchiveExtension($module,$bachup_file);
-		}
-		else
-			$error="Module vï¿½rouillï¿½";
-		return $error;
-	}
-
-	public function reloadArchive($module,$archiveFile)
-	{
-		if (is_file($archiveFile))
-		{
-			$extDir = Extension::GetExtDir($module);
-			require_once("FunctionTool.inc.php");
-			deleteDir($extDir);
-			if ($module=="")
-				deleteDir("../images/");
-			require_once("../CORE/ArchiveTar.inc.php");
-			$tar = new ArchiveTar($archiveFile);
-			$tar->extract("../");
-			$lockfile=$extDir."apaslock.sdk";
-			unlink($lockfile);
-		}
-	}
-
-	public function CancelLock($module,$CNX_OBJ)
-	{
-		if ($module=="CORE")
-			$module="";
-		$error="";
-		$extDir = Extension::GetExtDir($module);
-		$lock_info=Extension::GetLock($module);
-		if ($CNX_OBJ->CheckLockText($lock_info))
-		{
-			$bachup_file=Extension::GetBackupFile($module,$lock_info);
-			Extension::reloadArchive($module,$bachup_file);
-			unlink($bachup_file);
-		}
-		else
-			$error="Annulation impossible";
-		return $error;
 	}
 
   	public function Delete($name)
@@ -347,6 +192,64 @@ class Extension
 	public function GetVersion()
 	{
 		return $this->Version[0].".".$this->Version[1].".".$this->Version[2].".".$this->Version[3];
+	}
+
+	public function GetGitRepoObj($initGit=false) {
+		if (($this->Name=="") || ($this->Name=="CORE"))
+			$extDir = "../";
+		else
+			$extDir = Extension::GetExtDir($this->Name);
+		try {
+		  require_once("Git.php");
+		  if ($initGit) {
+			$repo=Git::create($extDir);
+			$conf_file=file("CNX/Conf_Manage.dt");
+			$gitUser=$conf_file[0];
+			$gitEmail=$conf_file[1];
+			$repo->run('config --local user.name "'.$gitUser.'"');
+			$repo->run('config --local user.email "'.$gitEmail.'"');
+		  }
+		  else
+			$repo=Git::open($extDir);
+		}
+		catch(Exception $e){
+		  $repo=NULL;
+		}
+		return $repo;
+	}
+
+	public static function CreateGitRepoByClone($currentDir,$repoUrl,$gitUser,$gitEmail) {
+		require_once("Git.php");
+		$repo=new GitRepo($currentDir, true, false);
+		@mkdir($currentDir);
+		$repo->run("clone $repoUrl ".realpath($currentDir));
+		$repo->run('config --local user.name "'.$gitUser.'"');
+		$repo->run('config --local user.email "'.$gitEmail.'"');
+	}
+
+	public function GetInfoGit() {
+		$git_info="";
+		$repo=$this->GetGitRepoObj();
+		if ($repo!=NULL) {
+		  $branch=$repo->active_branch();
+		  if ($branch!='')
+		      $git_info.="Branche:".$branch;
+		  $status=$repo->getStatusNumber();
+		  if ($status['?']>0)
+		      $git_info.=" Non-archivés:".$status['?'];
+		  if ($status['A']>0)
+		      $git_info.=" Ajoutés:".$status['A'];
+		  if ($status['D']>0)
+		      $git_info.=" Supprimés:".$status['D'];
+		  if ($status['M']>0)
+		      $git_info.=" Modifiés:".$status['M'];
+		  if ($status['U']>0)
+		      $git_info.=" Non-mergés:".$status['U'];
+		}
+		else {
+		  $git_info="** Non gérer par GIT **";
+		}
+		return $git_info;
 	}
 
 	public function Read()
@@ -451,7 +354,7 @@ class Extension
 			exit;
 		}
 
-		if (!$fh=OpenInWriteFile($extDir."/setup.inc.php","setup"))
+		if (!$fh=OpenInWriteFile($extDir."setup.inc.php","setup"))
 		{
 			return "Fichier setup non créé!";
 			exit;

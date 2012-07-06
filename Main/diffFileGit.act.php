@@ -20,16 +20,18 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function modifLock($Params)
+function diffFileGit($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","modifLock",$Params);
-	$ext=$Params['ext'];
-	global $CNX_OBJ;
-	$cnx=$CNX_OBJ;
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","addExtValid",$Params);
 	require_once("Class/Extension.inc.php");
-	$lasterror=Extension::ModifLock($ext,$cnx);
-	if ($lasterror!="")
-		$xfer_result->message($lasterror,XFER_DBOX_ERROR);
+	$extName=$Params['ext'];
+	$file_selected=$Params['files'];
+	require_once("Class/Extension.inc.php");
+	$extObj=new Extension($extName);
+	$repo=$extObj->GetGitRepoObj();
+	$diff_file=$repo->run("diff '$file_selected'");
+	$diff_file=implode('{[newline]}',explode("\n",$diff_file));
+	$xfer_result->message($diff_file);
 	return $xfer_result;
 }
 

@@ -23,7 +23,6 @@ require_once('../CORE/xfer_custom.inc.php');
 function addMenu($Params,$extensionname)
 {
 	$xfer_result=&new Xfer_Container_Custom($extensionname,"addMenu",$Params);
-	$xfer_result->Caption='Ajouter un Menu';
 
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;
@@ -32,8 +31,15 @@ function addMenu($Params,$extensionname)
 	$extension=new Extension($extensionname);
 	if (array_key_exists('menu',$Params)) {
 		$menu=$extension->Menus[$Params['menu']];
-	} else 
-		$menu=new Param_Menu('','');
+		$xfer_result->Caption='Ajouter un Menu';
+	} else {
+		if (array_key_exists('action',$Params))
+			$act_name=$Params['action'];
+		if (array_key_exists('actiontitle',$Params))
+			$act_title=$Params['actiontitle'];
+		$menu=new Param_Menu($act_title,'',$act_name,'','',0,0,$act_title);
+		$xfer_result->Caption='Modifier un Menu';
+	}
 	
 	$lbl=new Xfer_Comp_LabelForm('descriptionlbl');
 	$lbl->setValue("{[bold]}Description{[/bold]}");

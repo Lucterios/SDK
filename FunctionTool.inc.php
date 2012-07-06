@@ -19,21 +19,45 @@
 //	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 //
 
+function addNewFileInGit($filename) {
+	if (!is_file($filename)) {
+		$extensionName='';
+		$file_expl=explode('/',$filename);
+		if (($file_expl[0]=='..') && ($file_expl[1]=='extensions')) {
+		      $extensionName=$file_expl[2];
+		      $newFile=substr($filename,5+strlen($file_expl[1])+strlen($extensionName));
+		}
+		else if (($file_expl[0]=='..') && ($file_expl[1]=='CORE')) {
+		      $extensionName='CORE';
+		      $newFile=substr($filename,4+strlen($file_expl[1]));
+		}
+		if ($extensionName!='') {
+			if ($fh=fopen($filename,"w+")) {
+				fwrite($fh,"\n");
+				fclose($fh);
+			}
+			require_once("Class/Extension.inc.php");
+			$extObj=new Extension($extensionName);
+			$extObj->Name=$extensionName;
+			$repo=$extObj->GetGitRepoObj();
+			$repo->add("'$newFile'");
+		}
+	}
+}
+
 function OpenInWriteFile($filename,$title)
 {
-	require_once("ConnectionSDK.inc.php");
-	global $SDKUSER;
+	addNewFileInGit($filename);
 	if ($fh=fopen($filename,"w+"))
 	{
 		fwrite($fh,"<?php\n");
 		if (is_file('CNX/LICENSE'))
 		{
-			$license_lines = file('CNX/LICENSE');
+			$license_lines = trim(file('CNX/LICENSE'));
 			foreach($license_lines as $license_line)
 				fwrite($fh,"// $license_line"); 
 		}
 		fwrite($fh,"// $title file write by SDK tool\n"); 
-		fwrite($fh,"// --- Last modification: Date ".date("d F Y G:i:s")." By $SDKUSER ---\n"); 
 		fwrite($fh,"\n");
 	}
 	return $fh;

@@ -41,10 +41,13 @@ class AbstractClassManage
 	public function Delete($name,$extensionName="")
 	{
 		$extDir = $this->GetExtDir($extensionName);
-		$extFile = $extDir.$name.$this->Suffix;
-		if (is_file($extFile))
+		$extName = $name.$this->Suffix;
+		if (is_file($extDir.$extName))
 		{
-			unlink($extFile);
+			require_once("Extension.inc.php");
+			$extObj=new Extension($extensionName);
+			$repo=$extObj->GetGitRepoObj();
+			$repo->run("rm '$extName'");
 		}
 	}
 
@@ -84,6 +87,15 @@ class AbstractClass
 		$this->ExtensionName=$extensionName;
 		$this->Name=$name;
 		$this->Read();
+	}
+
+	protected function AddGitFile($fileName)	
+	{
+		require_once("Extension.inc.php");
+		$extObj=new Extension($this->ExtensionName);
+		$repo=$extObj->GetGitRepoObj();
+		$res=$repo->add("'$fileName'");
+		echo "<!--- res:$res -->\n";
 	}
 
 	public function Write()

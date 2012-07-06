@@ -20,47 +20,38 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function paramAddServer($Params)
+function commitGitExt($Params)
 {
-	if (array_key_exists('new_server',$Params)) {
-		$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramAddServer",$Params);
-		$xfer_result->Caption="Ajout de serveur";
+	if (array_key_exists('git_message',$Params)) {
+		$xfer_result=&new Xfer_Container_Acknowledge("CORE","commitGitExt",$Params);
+		$xfer_result->Caption="Commit GIT";
 	
-		$Project=trim($Params['depProjet']);
-		$Pass=trim($Params['depPass']);
-		$new_server=trim($Params['new_server']);
-	
-		$conf_file=file("CNX/Server_Update.dt");
-		$conf_file[0]=$Project;
-		$conf_file[1]=$Pass;
-		$conf_file[]=$new_server;
-
-		if ($fh=fopen("CNX/Server_Update.dt","w+"))
-		{
-			for($i=0;$i<count($conf_file);$i++) {
-				$conf_line=trim($conf_file[$i]);
-				fwrite($fh,"$conf_line\n"); 
-			}
-			fclose($fh);
-			chmod("CNX/Server_Update.dt", 0666);
-		}
-		
+		$git_message=trim($Params['git_message']);
+		$git_message=implode("\n",explode("{[newline]}",$git_message));
+		$ext=$Params['ext'];
+		require_once("Class/Extension.inc.php");
+		$extObj=new Extension($ext);
+		$repo=$extObj->GetGitRepoObj();
+		$ret=$repo->commit($git_message);
+		$ret=implode("{[newline]}",explode("\n",$ret));
+		$xfer_result->message($ret);
 	}
 	else {
-		$xfer_result=&new Xfer_Container_Custom("CORE","paramAddServer",$Params);
-		$xfer_result->Caption="Ajout de serveur";
+		$xfer_result=&new Xfer_Container_Custom("CORE","commitGitExt",$Params);
+		$xfer_result->Caption="Ajout de repository";
 
-		$lbl=new Xfer_Comp_LabelForm('new_serverLbl');
+		$lbl=new Xfer_Comp_LabelForm('git_messageLbl');
 		$lbl->setLocation(0,0);
-		$lbl->setValue('{[bold]}Nouveau serveur{[/bold]}');
+		$lbl->setValue('{[bold]}Message GIT{[/bold]}');
 		$xfer_result->addComponent($lbl);
 	
-		$lbl=new Xfer_Comp_Edit('new_server');
+		$lbl=new Xfer_Comp_Memo('git_message');
 		$lbl->setLocation(1,0);
 		$lbl->setValue();
+		$lbl->needed=true;
 		$xfer_result->addComponent($lbl);
 	
-		$xfer_result->addAction(new Xfer_Action("_Valider","ok.png","CORE","paramAddServer"));
+		$xfer_result->addAction(new Xfer_Action("_Valider","ok.png","CORE","commitGitExt"));
 		$xfer_result->addAction(new Xfer_Action("_Annuler","cancel.png"));
 	}
 	return $xfer_result;

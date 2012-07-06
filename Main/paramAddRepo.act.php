@@ -20,47 +20,46 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function paramAddServer($Params)
+function paramAddRepo($Params)
 {
-	if (array_key_exists('new_server',$Params)) {
-		$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramAddServer",$Params);
-		$xfer_result->Caption="Ajout de serveur";
+	if (array_key_exists('new_repo',$Params)) {
+		$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramAddRepo",$Params);
+		$xfer_result->Caption="Ajout de repository";
 	
-		$Project=trim($Params['depProjet']);
-		$Pass=trim($Params['depPass']);
-		$new_server=trim($Params['new_server']);
+		$new_server=trim($Params['new_repo']);
 	
-		$conf_file=file("CNX/Server_Update.dt");
-		$conf_file[0]=$Project;
-		$conf_file[1]=$Pass;
+		$conf_file=file("CNX/Conf_Manage.dt");
+		$conf_file[0]=$conf_file[0];
+		$conf_file[1]=$conf_file[1];
 		$conf_file[]=$new_server;
 
-		if ($fh=fopen("CNX/Server_Update.dt","w+"))
+		if ($fh=fopen("CNX/Conf_Manage.dt","w+"))
 		{
 			for($i=0;$i<count($conf_file);$i++) {
 				$conf_line=trim($conf_file[$i]);
-				fwrite($fh,"$conf_line\n"); 
+				if (($i<2) || ($conf_line!=''))
+					fwrite($fh,"$conf_line\n"); 
 			}
 			fclose($fh);
-			chmod("CNX/Server_Update.dt", 0666);
+			chmod("CNX/Conf_Manage.dt", 0666);
 		}
 		
 	}
 	else {
-		$xfer_result=&new Xfer_Container_Custom("CORE","paramAddServer",$Params);
-		$xfer_result->Caption="Ajout de serveur";
+		$xfer_result=&new Xfer_Container_Custom("CORE","paramAddRepo",$Params);
+		$xfer_result->Caption="Ajout de repository";
 
-		$lbl=new Xfer_Comp_LabelForm('new_serverLbl');
+		$lbl=new Xfer_Comp_LabelForm('new_repoLbl');
 		$lbl->setLocation(0,0);
-		$lbl->setValue('{[bold]}Nouveau serveur{[/bold]}');
+		$lbl->setValue('{[bold]}Nouveau repository{[/bold]}');
 		$xfer_result->addComponent($lbl);
 	
-		$lbl=new Xfer_Comp_Edit('new_server');
+		$lbl=new Xfer_Comp_Edit('new_repo');
 		$lbl->setLocation(1,0);
 		$lbl->setValue();
 		$xfer_result->addComponent($lbl);
 	
-		$xfer_result->addAction(new Xfer_Action("_Valider","ok.png","CORE","paramAddServer"));
+		$xfer_result->addAction(new Xfer_Action("_Valider","ok.png","CORE","paramAddRepo"));
 		$xfer_result->addAction(new Xfer_Action("_Annuler","cancel.png"));
 	}
 	return $xfer_result;

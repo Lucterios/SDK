@@ -18,18 +18,18 @@
 // 
 // 	Contributeurs: Fanny ALLEAUME, Pierre-Olivier VERSCHOORE, Laurent GAY
 
-require_once('CORE/xfer_custom.inc.php');
-require_once("Actions/wizardClasse.inc.php");
+require_once('../CORE/xfer_custom.inc.php');
 
-function wizardClasseValid($Params,$extensionname)
+function pullGitExt($Params)
 {
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","pullGitExt",$Params);
+	$ext=$Params['ext'];
 	require_once("Class/Extension.inc.php");
-	require_once("Class/Table.inc.php");
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"wizardClasseValid",$Params);
-
-	$gen=new generator($Params,$extensionname);
-	$gen->execute();
-
+	$extObj=new Extension($ext);
+	$repo=$extObj->GetGitRepoObj();
+	$ret=$repo->run("pull");
+	$ret=implode("{[newline]}",explode("\n",$ret));
+	$xfer_result->message($ret);
 	return $xfer_result;
 }
 

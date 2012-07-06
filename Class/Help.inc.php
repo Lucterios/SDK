@@ -78,7 +78,15 @@ class HelpManage extends AbstractClassManage
 
 	public function Delete($name,$extensionName="")
 	{
-		AbstractClassManage::Delete($name,$extensionName);
+		$extDir = $this->GetExtDir($extensionName);
+		$extName = $name.$this->Suffix;
+		if (is_file($extDir.$extName))
+		{
+			require_once("Extension.inc.php");
+			$extObj=new Extension($extensionName);
+			$repo=$extObj->GetGitRepoObj();
+			$repo->run("rm 'help/$extName'");
+		}
 		$pos=0;
 		$new_desc=array();
 		foreach($this->HelpDescriptions as $val)
@@ -164,7 +172,10 @@ class HelpManage extends AbstractClassManage
 		$extFile = $extDir.$name;
 		if (is_file($extFile))
 		{
-			unlink($extFile);
+			require_once("Extension.inc.php");
+			$extObj=new Extension($extensionName);
+			$repo=$extObj->GetGitRepoObj();
+			$repo->run("rm 'help/$name'");
 		}
 	}
 
@@ -201,6 +212,7 @@ class Help extends AbstractClass
 				return "Erreur d'écriture";
 			fclose($handle);
 			chmod($extImgFile, 0666);
+			$this->AddGitFile("help/$name");
 			return '';
 		}
 		else
@@ -212,6 +224,7 @@ class Help extends AbstractClass
 		$extDir = $this->Mng->GetExtDir($this->ExtensionName);
 		$extImgFile = $extDir.$file['name'];
 		copy($file['tmp_name'],$extImgFile);
+		$this->AddGitFile("help/".$file['name']);
 	}
 
 	public function Write()
@@ -221,6 +234,7 @@ class Help extends AbstractClass
 		if (!is_dir($extDir))
 			mkdir($extDir,0777);
 		$extLibFile = $extDir.$this->Name.$this->Mng->Suffix;
+		addNewFileInGit($extLibFile);
 		if (!$fh=fopen($extLibFile,"w+"))
 		{
 			return "Fichier help '$extLibFile' non créé!";
