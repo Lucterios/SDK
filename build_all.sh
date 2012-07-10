@@ -2,7 +2,7 @@
 
 VersionMaj=0
 VersionMin=99
-VersionRev=1
+VersionRev=2
 current_date_sec=`date +%s`
 VersionBuild=$(( (current_date_sec-1214866800)/7200 ))
 

@@ -144,11 +144,11 @@ class GitRepo {
 							$this->repo_path = $repo_path;
 							if ($_init) $this->run('init');
 						} else {
-							throw new Exception('"$repo_path" is not a git repository');
+							throw new Exception("'$repo_path' is not a git repository");
 						}
 					}
 				} else {
-					throw new Exception('"$repo_path" is not a directory');
+					throw new Exception("'$repo_path' is not a directory");
 				}
 			} else {
 				if ($create_new) {
@@ -160,7 +160,7 @@ class GitRepo {
 						throw new Exception('cannot create repository in non-existent directory');
 					}
 				} else {
-					throw new Exception('"$repo_path" does not exist');
+					throw new Exception("'$repo_path' does not exist");
 				}
 			}
 		}

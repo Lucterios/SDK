@@ -64,17 +64,8 @@ if (isset($act)) {
 	}
 	catch(Exception $e){
 		echo "{[bold]}".$e->getMessage()."{[/bold]}{[newline]}";
-		$trace="";
-		foreach($e->getTrace() as $num => $trace_line) {
-			if($num == 0) {
-				$trace_line['file'] = $e->getFile();
-				$trace_line['line'] = $e->getLine();
-			}
-			$trace .= $num."|";
-			$trace .= $trace_line['file']."|";
-			$trace .= $trace_line['line']."|";
-			$trace .= str_replace('_APAS_','::',$trace_line['function'])."{[newline]}";
-		}
+		require_once ("FunctionTool.inc.php");
+		$trace=getTraceException($e);
 		echo implode("{[newline]}",explode("\n",$trace));
 	}
 }

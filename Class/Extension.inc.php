@@ -220,8 +220,8 @@ class Extension
 
 	public static function CreateGitRepoByClone($currentDir,$repoUrl,$gitUser,$gitEmail) {
 		require_once("Git.php");
-		$repo=new GitRepo($currentDir, true, false);
 		@mkdir($currentDir);
+		$repo=new GitRepo($currentDir, true, false);
 		$repo->run("clone $repoUrl ".realpath($currentDir));
 		$repo->run('config --local user.name "'.$gitUser.'"');
 		$repo->run('config --local user.email "'.$gitEmail.'"');

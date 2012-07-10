@@ -63,18 +63,21 @@ function linkGitExt($Params)
 	$gitEmail=$conf_file[1];
 	$tmp_dir="./tmp/$extName/";
 	$sucess=false;
-	for($i=0;$i<count($conf_file);$i++) {
+	for($i=2;$i<count($conf_file);$i++) {
 	      $conf_item=$conf_file[$i];
 	      if (!$sucess) {
 		    try {
 			$repo_url=trim($conf_item).trim($repo_name).".git";
 			$msg.="$repo_url:";
 			deleteDir($tmp_dir);
-			Extension::CreateGitRepoByClone($tmp_dir,$repo_url,$gitUser,$gitEmail)
+			Extension::CreateGitRepoByClone($tmp_dir,$repo_url,$gitUser,$gitEmail);
 			$msg.=" importé";
 			moveItem($tmp_dir,$extDir);
 			$sucess=true;
 		    }catch(Exception $e) {
+			require_once ("FunctionTool.inc.php");
+			$trace=getTraceException($e);
+			echo "<!-- error:".$e->getMessage()."\ntrace:$trace -->\n";
 			$msg.=" non supporté !";
 		    }
 		    $msg.="{[newline]}";
