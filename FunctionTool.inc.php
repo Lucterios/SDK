@@ -53,11 +53,11 @@ function OpenInWriteFile($filename,$title)
 		fwrite($fh,"<?php\n");
 		if (is_file('CNX/LICENSE'))
 		{
-			$license_lines = trim(file('CNX/LICENSE'));
+			$license_lines = file('CNX/LICENSE');
 			foreach($license_lines as $license_line)
-				fwrite($fh,"// $license_line"); 
+				fwrite($fh,"// ".trim($license_line)."\n"); 
 		}
-		fwrite($fh,"// $title file write by SDK tool\n"); 
+		fwrite($fh,"// $title file write by Lucterios SDK tool\n"); 
 		fwrite($fh,"\n");
 	}
 	return $fh;
