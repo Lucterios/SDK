@@ -246,7 +246,6 @@ class Help extends AbstractClass
 			fwrite($fh,$code."\n");
 		}
 		fclose($fh);
-		chmod($extLibFile, 0666);
 		return "";
 	}
 

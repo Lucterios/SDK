@@ -34,7 +34,10 @@ class Event extends CodeAbstract
   	public function __construct($name,$extensionName="",$tableName="")
 	{
 		$this->Mng=new EventManage();
-		list($eventname,$extname)=explode('@',$name);		
+		if (strpos($name,'@')===false)
+			list($eventname,$extname)=array($name,'');
+		else
+			list($eventname,$extname)=explode('@',$name);
 		parent::__construct($eventname,$extensionName,$tableName);
 		if ($extname!='') {
 			require_once("Class/Extension.inc.php");

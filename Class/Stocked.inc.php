@@ -158,7 +158,6 @@ class Stocked extends CodeAbstract
 		$this->WriteEnding($fh);
 		fwrite($fh,"\n");
 		fclose($fh);
-		chmod($extCodeFile, 0666);
 		return "";
 	}
 

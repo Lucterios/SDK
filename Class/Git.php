@@ -220,6 +220,8 @@ class GitRepo {
 		$status = trim(proc_close($resource));
 		if ($status && ($stderr!='')) throw new Exception($stderr);
 
+		$stdout=trim("$stdout\n$stderr");
+
 		return $stdout;
 	}
 

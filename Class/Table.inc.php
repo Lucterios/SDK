@@ -191,7 +191,6 @@ class Table extends AbstractClass
 		fwrite($fh,"\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
-		chmod($extTblFile, 0666);
 		return "";
 	}
 

@@ -59,7 +59,6 @@ class Library extends AbstractClass
 		fwrite($fh,"//@END@\n");
 		fwrite($fh,"?>\n");
 		fclose($fh);
-		chmod($extLibFile, 0666);
 		return "";
 	}
 

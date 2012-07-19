@@ -88,7 +88,7 @@ function performTests($Params)
 		$Response.= $rep;
 	}
 	else
-		$Response = "Erreur '$query'";
+		$Response = "Erreur '$query'{[newline]}$Rep";
 	
 	$lbl=new Xfer_Comp_LabelForm('resultlbl');
 	$lbl->setValue($Response);

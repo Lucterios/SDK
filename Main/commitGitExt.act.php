@@ -37,6 +37,11 @@ function commitGitExt($Params)
 		$xfer_result->message($ret);
 	}
 	else {
+		$ext=$Params['ext'];
+		require_once("Class/Extension.inc.php");
+		$extObj=new Extension($ext);
+		$repo=$extObj->GetGitRepoObj();
+
 		$xfer_result=&new Xfer_Container_Custom("CORE","commitGitExt",$Params);
 		$xfer_result->Caption="Ajout de repository";
 
@@ -45,9 +50,10 @@ function commitGitExt($Params)
 		$lbl->setValue('{[bold]}Message GIT{[/bold]}');
 		$xfer_result->addComponent($lbl);
 	
+		$last_msg=$repo->run('log -n 1 --pretty=format:"%s"');
 		$lbl=new Xfer_Comp_Memo('git_message');
 		$lbl->setLocation(1,0);
-		$lbl->setValue();
+		$lbl->setValue(str_replace("\n","{[newline]}",$last_msg));
 		$lbl->needed=true;
 		$xfer_result->addComponent($lbl);
 	

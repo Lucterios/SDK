@@ -89,6 +89,11 @@ class AbstractClass
 		$this->Read();
 	}
 
+	public function GetName($sep="::") 
+	{
+		return $this->Name;
+	}
+
 	protected function AddGitFile($fileName)	
 	{
 		require_once("Extension.inc.php");

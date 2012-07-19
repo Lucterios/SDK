@@ -34,7 +34,7 @@ function manageSourceExt($Params)
 
 	$lbl=new Xfer_Comp_LabelForm('title1');
 	$lbl->setValue("{[center]}{[bold]}$extObj->Titre{[/bold]} ($ext) {[italic]}".$extObj->GetVersion()."{[/italic]}{[/center]}");
-	$lbl->setLocation(0,0);
+	$lbl->setLocation(0,0,2);
 	$xfer_result->addComponent($lbl);
 
 	$git_info=$extObj->GetInfoGit();
@@ -48,6 +48,17 @@ function manageSourceExt($Params)
 		$repo=$extObj->GetGitRepoObj();
 		$status=$repo->getStatus();
 
+		$lbl=new Xfer_Comp_LabelForm('lblgitlog');
+		$lbl->setValue("{[bold]}{[center]}Les 10 derniers commit{[/center]}{[/bold]}");
+		$lbl->setLocation(0,1);
+		$xfer_result->addComponent($lbl);
+
+		$msg=$repo->run('log -n 10 --pretty=format:"%ar - {[font color=blue]}%an{[/font]} : {[font color=green]}%s{[/font]} {[font color=red]}%d{[/font]}"');
+		$lbl=new Xfer_Comp_LabelForm('gitlog');
+		$lbl->setValue(str_replace("\n","{[newline]}",$msg));
+		$lbl->setLocation(1,1,3);
+		$xfer_result->addComponent($lbl);
+
 		$modify=false;
 		$grid=new Xfer_Comp_Grid('files');
 		$grid->newHeader('A',"Nom",4);
@@ -60,27 +71,27 @@ function manageSourceExt($Params)
 			else
 			    $grid->setValue($file_name,'B',"[$status_val]");
 		}
-		$grid->setLocation(0,1,4);
-		$grid->setSize(500,800);
+		$grid->setLocation(0,2,4);
+		$grid->setSize(500,500);
 		$grid->addAction(new Xfer_Action("Diff","","CORE","diffFileGit",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
 		$xfer_result->addComponent($grid);
 
 		$lbl=new Xfer_Comp_LabelForm('inclbl');
 		$lbl->setValue("{[bold]}Incrémenter la version{[/bold]}");
-		$lbl->setLocation(1,2);
+		$lbl->setLocation(1,3);
 		$xfer_result->addComponent($lbl);
 
 		$chk=new Xfer_Comp_Select('IncVersion');
 		$chk->setSelect(array(0=>'<non>',1=>"Révision",2=>"Sous-version",3=>"Version"));
 		$chk->setValue(0);
-		$chk->setLocation(2,2);
+		$chk->setLocation(2,3);
 		$chk->JavaScript = "var type=current.getValue();
 parent.get('incBtn').setEnabled(type!=0);";
 		$xfer_result->addComponent($chk);
 
 		$btn=new Xfer_Comp_Button('incBtn');
 		$btn->setAction(new Xfer_Action("","ok.png","CORE","incVersion",FORMTYPE_MODAL,CLOSE_NO));
-		$btn->setLocation(3,2);
+		$btn->setLocation(3,3);
 		$xfer_result->addComponent($btn);
 
 		if ($modify) {

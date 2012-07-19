@@ -49,12 +49,15 @@ function getStringToWrite($Text,$WithCote=true)
 global $GIT_STATUS_TAB;
 $GIT_STATUS_TAB=array(  
 'M '=>'modifié',
-' M'=>'modifié localement',
+' M'=>'modifié',
+'MM'=>'modifié',
 'A '=>'ajouté',
-' A'=>'ajouté localement',
+' A'=>'ajouté',
+'AA'=>'ajouté',
 'AM'=>'ajouté et modifié',
 'D '=>'supprimé',
-' D'=>'supprimé localement',
+' D'=>'supprimé',
+'DD'=>'supprimé',
 'R '=>'renommé',
 'C '=>'copié',
 'U '=>'mise à jour, mais non fusionné',
@@ -445,7 +448,6 @@ class Extension
 
 		fwrite($fh,"?>");
 		fclose($fh);
-		chmod($extDir."/setup.inc.php", 0666);
 
 		return "";
 	}

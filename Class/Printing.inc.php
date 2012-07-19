@@ -64,7 +64,7 @@ class Printing extends CodeAbstract
 	protected function WriteParams($fh)
 	{
 		global $xfer_dico;
-		list($xfer_file,$xfer_class)=$xfer_dico[$this->XferCnt];
+		@list($xfer_file,$xfer_class)=$xfer_dico[$this->XferCnt];
 		foreach($this->Parameters as $Param_name=>$Param_val)
 		{
 			fwrite($fh,"//@PARAM@ $Param_name");

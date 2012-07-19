@@ -122,7 +122,6 @@ class Config extends AbstractClass
 			fwrite($fh,"/******************************************************************************/\n");
 			fwrite($fh,"?>\n");
 			fclose($fh);
-			chmod($cnxfile, 0666);
 		}
 		return (is_file($cnxfile)==true);
 	}
