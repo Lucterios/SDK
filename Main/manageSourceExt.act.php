@@ -37,12 +37,6 @@ function manageSourceExt($Params)
 	$lbl->setLocation(0,0,2);
 	$xfer_result->addComponent($lbl);
 
-	$git_info=$extObj->GetInfoGit();
-	$lbl=new Xfer_Comp_LabelForm('title2');
-	$lbl->setValue("{[bold]}{[center]}$git_info{[/center]}{[/bold]}");
-	$lbl->setLocation(3,0);
-	$xfer_result->addComponent($lbl);
-
 	if (substr($git_info,0,2)!='**') {
 		global $GIT_STATUS_TAB;
 		$repo=$extObj->GetGitRepoObj();

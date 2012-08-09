@@ -234,9 +234,10 @@ class Extension
 		$git_info="";
 		$repo=$this->GetGitRepoObj();
 		if ($repo!=NULL) {
+		  $git_info.=$repo->run('log -n 1 --pretty=format:"%ar - {[font color=red]}%d{[/font]}"');
 		  $branch=$repo->active_branch();
 		  if ($branch!='')
-		      $git_info.="Branche:".$branch;
+		      $git_info.=" Branche:".$branch;
 		  $status=$repo->getStatusNumber();
 		  if ($status['?']>0)
 		      $git_info.=" Non-archivés:".$status['?'];
