@@ -234,11 +234,12 @@ class Extension
 		$git_info="";
 		$repo=$this->GetGitRepoObj();
 		if ($repo!=NULL) {
-		  $git_info.=$repo->run('log -n 1 --pretty=format:"%ar - {[font color=red]}%d{[/font]}"');
+		  $git_info.=$repo->run('log -n 1 --pretty=format:"%ar - {[font color=blue]}%d{[/font]}"');
 		  $branch=$repo->active_branch();
 		  if ($branch!='')
 		      $git_info.=" Branche:".$branch;
 		  $status=$repo->getStatusNumber();
+		  $git_info.="{[font color=red]}";
 		  if ($status['?']>0)
 		      $git_info.=" Non-archivés:".$status['?'];
 		  if ($status['A']>0)
@@ -249,6 +250,7 @@ class Extension
 		      $git_info.=" Modifiés:".$status['M'];
 		  if ($status['U']>0)
 		      $git_info.=" Non-mergés:".$status['U'];
+		  $git_info.="{[/font]}";
 		}
 		else {
 		  $git_info="** Non gérer par GIT **";
