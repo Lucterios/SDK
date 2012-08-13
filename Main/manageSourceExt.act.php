@@ -37,9 +37,9 @@ function manageSourceExt($Params)
 	$lbl->setLocation(0,0,2);
 	$xfer_result->addComponent($lbl);
 
-	if (substr($git_info,0,2)!='**') {
+	$repo=$extObj->GetGitRepoObj();
+	if ($repo!=NULL) {
 		global $GIT_STATUS_TAB;
-		$repo=$extObj->GetGitRepoObj();
 		$status=$repo->getStatus();
 
 		$lbl=new Xfer_Comp_LabelForm('lblgitlog');

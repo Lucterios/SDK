@@ -31,10 +31,12 @@ function pullAllGitExt($Params)
 	foreach($mods as $mod_name=>$mod_ext)
 	{
 		$repo=$mod_ext->GetGitRepoObj();
-		$ret=$repo->run("pull");
-		$title="{[center]}{[underline]}{[bold]}$mod_name{[/bold]}{[/underline]}{[/center]}";
-		$value=implode("{[newline]}",explode("\n",$ret));
-		$result[]="$title{[newline]}$value";
+		if ($repo!=NULL) {
+			$ret=$repo->run("pull");
+			$title="{[center]}{[underline]}{[bold]}$mod_name{[/bold]}{[/underline]}{[/center]}";
+			$value=implode("{[newline]}",explode("\n",$ret));
+			$result[]="$title{[newline]}$value";
+		}
 	}
 	$xfer_result->message(implode("{[newline]}",$result));
 	return $xfer_result;
