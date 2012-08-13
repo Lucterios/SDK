@@ -56,6 +56,7 @@ function sourceExtension($Params)
 	$grid->addAction(new Xfer_Action("_Rafraichir DB","refresh.png","CORE","refreshExts",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
 	$xfer_result->addComponent($grid);
 	
+	$xfer_result->addAction(new Xfer_Action("'_Pull' tout","refresh.png","CORE","pullAllGitExt",FORMTYPE_MODAL,CLOSE_NO));
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
 	return $xfer_result;
 }
