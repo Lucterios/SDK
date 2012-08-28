@@ -1,4 +1,4 @@
-<?
+<?php
 header('Content-Type: text/html; charset=ISO-8859-1');
 
 $appli_dir="../applis";
@@ -21,7 +21,7 @@ if (is_file($appli_dir."/setup.inc.php")) {
 ?>
 <html>
 <head>
-  <title><? echo $extention_description;?></title>
+  <title><?php echo $extention_description;?></title>
 	<style type="text/css">
 	<!--
 		BODY {
@@ -144,10 +144,10 @@ if (is_file($appli_dir."/setup.inc.php")) {
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                 <tr>
                     <td>
-                        <img src='<? echo $appli_dir."/images/logo.gif";?>' alt='logo' />
+                        <img src='<?php echo $appli_dir."/images/logo.gif";?>' alt='logo' />
                     </td>
                     <td align="center">
-                        <h1 class="banniere">SDK <? echo $extention_description;?></h1>
+                        <h1 class="banniere">SDK <?php echo $extention_description;?></h1>
                     </td>
                 </tr>
             </table>
@@ -166,7 +166,7 @@ if (is_file($appli_dir."/setup.inc.php")) {
 			<li>Installer un client Lucterios</li>
 			<li>Ajouter une configuration:
 			<ul>
-<?
+<?php
 		global $extention_description;
 		global $extention_appli;
 		$server_name=$_SERVER["SERVER_NAME"];
@@ -195,7 +195,7 @@ if (is_file($appli_dir."/setup.inc.php")) {
             <table border="0" cellspacing="0" cellpadding="0" width="100%">
                 <tr>
                     <td class="pied">
-                        <? echo $copy_right;?> - Mise à jour <? echo date ("d/m/Y", filemtime("index.php")); ?>
+                        <?php echo $copy_right;?> - Mise à jour <?php echo date ("d/m/Y", filemtime("index.php")); ?>
                     </td>
                 </tr>
             </table>

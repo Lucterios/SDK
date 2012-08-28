@@ -96,7 +96,7 @@ class Config extends AbstractClass
 		$cnxfile = $extDir.$this->Name.$this->Mng->Suffix;
 		if ($fh=fopen($cnxfile,"w+"))
 		{
-			fwrite($fh,"<?\n");
+			fwrite($fh,"<?php\n");
 			fwrite($fh,"/******************************************************************************/\n");
 			fwrite($fh,"/* Fichier cnf.db.php\n");
 			fwrite($fh,"/* fichier de configuration de la base de données de l'application\n");
