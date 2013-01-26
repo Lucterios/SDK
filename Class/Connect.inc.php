@@ -39,7 +39,7 @@ require_once("AbstractClass.inc.php");
 class ConnectManage extends AbstractClassManage
 {
 	public $Suffix=".info";
-	public function GetExtDir()
+	public function GetExtDir($extensionName = '')
 	{
 		return "./CNX/";
 	}
