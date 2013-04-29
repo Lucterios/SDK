@@ -27,6 +27,19 @@ function paramAddRepo($Params)
 		$xfer_result->Caption="Ajout de repository";
 	
 		$new_server=trim($Params['new_repo']);
+		if ($new_server[-1]!='/')
+		  $new_server.='/';
+		  
+		/*if (substr($new_server,0,6)=='ssh://') {
+		    require_once("Class/Git.php");
+		    $cmd = $new_server;
+		    $cmd = str_replace('://',' ',$cmd);
+		    $pos = strpos($cmd, '/');
+		    if ($pos!==false)
+		      $cmd = substr($cmd,0,$pos); 
+		    list($out,$ret) = my_exec($cmd,array('yes'));
+		    print "<!-- paramAddRepo SSH cm='$cmd' ret=$ret out=".print_r($out,True)." -->\n";
+		}*/
 	
 		$conf_file=file("CNX/Conf_Manage.dt");
 		$conf_file[0]=$conf_file[0];

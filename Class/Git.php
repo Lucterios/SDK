@@ -69,6 +69,28 @@ class Git {
 	
 }
 
+
+function exec_command($command, $cwd) {
+  $descriptorspec = array(
+    1 => array("pipe", "w"),
+    2 => array("pipe", "w")
+  );
+  $env = array('HOME' => $_SERVER["DOCUMENT_ROOT"]);
+  $proc=proc_open($command, $descriptorspec, $pipes, $cwd, $env);
+  $stdout = stream_get_contents($pipes[1]);
+  $stderr = stream_get_contents($pipes[2]);
+  foreach ($pipes as $pipe) {
+	  fclose($pipe);
+  }
+
+  $status = trim(proc_close($proc));
+  if ($status && ($stderr!='')) throw new Exception($stderr);
+
+  $stdout=trim("$stdout\n$stderr");
+
+  return $stdout;
+}
+
 // ------------------------------------------------------------------------
 
 /**
@@ -204,25 +226,7 @@ class GitRepo {
 	 * @return  string
 	 */	
 	protected function run_command($command) {
-		$descriptorspec = array(
-			1 => array('pipe', 'w'),
-			2 => array('pipe', 'w'),
-		);
-		$pipes = array();
-		$resource = proc_open($command, $descriptorspec, $pipes, $this->repo_path);
-
-		$stdout = stream_get_contents($pipes[1]);
-		$stderr = stream_get_contents($pipes[2]);
-		foreach ($pipes as $pipe) {
-			fclose($pipe);
-		}
-
-		$status = trim(proc_close($resource));
-		if ($status && ($stderr!='')) throw new Exception($stderr);
-
-		$stdout=trim("$stdout\n$stderr");
-
-		return $stdout;
+		return exec_command($command, $this->repo_path);
 	}
 
 	/**
@@ -431,6 +435,11 @@ class GitRepo {
 		return $status_list;
 	}
 
+}
+
+function get_ssh_key() {
+    $stdout = exec_command("bash Class/ssh_config.sh", null);
+    return str_replace("\n","{[newline]}",$stdout);
 }
 
 /* End Of File */

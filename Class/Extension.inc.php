@@ -131,53 +131,6 @@ class Extension
 		return $ext_list;
 	}
 
-	public function GetArchiveFile($suffic=".tar")
-	{
-		$bachup_file="";
-		$BcDir='Temp';
-		if (!is_dir($BcDir)) mkdir($BcDir);
-		$version=$this->GetVersion();
-		$version=str_replace('.','-',$version);
-		if ($this->Name!='applis')
-			$bachup_file="$BcDir/".$this->Name."_".$version.$suffic;
-		else
-			$bachup_file="$BcDir/".$this->Appli."_".$version.$suffic;
-		return $bachup_file;
-	}
-
-	public static function ArchiveExtension($module,$BackupFile,$NoDirectory=false,$compress=null)
-	{
-		if ($BackupFile!="")
-		{
-			$extDir = Extension::GetExtDir($module);
-			if (!is_dir("Backup")) mkdir("Backup");
-			unlink($BackupFile);
-			require_once("../CORE/ArchiveTar.inc.php");
-			$tar = new ArchiveTar($BackupFile,$compress);
-			if ($NoDirectory)
- 				$tar->addModify($extDir,"",$extDir);
-			else {
-				if (substr($extDir,0,3)=='../')
-				  $tar->addModify($extDir,"","../");
-				else
-				  $tar->add($extDir);
-			}
-			if (($module=="") || ($module=="CORE"))
-			{
-				$tar->addModify("../images/","","../");
-				$tar->addModify("../conf/cnf.inc.php","","../");
-				$tar->addModify("../index.php","","../");
-				$tar->addModify("../coreIndex.php","","../");
-				$tar->addModify("../install.php","","../");
-				$tar->addModify("../Tests.php","","../");
-				$tar->addModify("../Help.php","","../");
-				$tar->addModify("../BackgroundTask.php","","../");
-			}
-			return true;
-		}
-		return false;
-	}
-
 	//constructor
 	public function __construct($name)
 	{

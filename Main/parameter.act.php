@@ -22,6 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function parameter($Params)
 {
+	require_once('Class/Git.php');
 	$xfer_result=&new Xfer_Container_Custom("CORE","parameter",$Params);
 	$xfer_result->Caption="Paramètrages";
 
@@ -33,47 +34,58 @@ function parameter($Params)
 	//------------------------------------------------------
 	$xfer_result->newTab('Gestion de configuration');
 	$conf_file=file("CNX/Conf_Manage.dt");
+	$gitUser=$conf_file[0];
+	$gitEmail=$conf_file[1];
+
+	$lbl=new Xfer_Comp_LabelForm('sshkeyLbl');
+	$lbl->setLocation(0,1);
+	$lbl->setValue('{[bold]}Clef SSH{[/bold]}');
+	$xfer_result->addComponent($lbl);
+
+	$lbl=new Xfer_Comp_Memo('sshkey');
+	$lbl->setLocation(1,1,4);
+	$lbl->setSize(10,10);
+	$lbl->setValue(get_ssh_key());	
+	$xfer_result->addComponent($lbl);  
+
+	$lbl=new Xfer_Comp_LabelForm('gitUserLbl');
+	$lbl->setLocation(0,2);
+	$lbl->setValue('{[bold]}user.name{[/bold]}');
+	$xfer_result->addComponent($lbl);
+
+	$lbl=new Xfer_Comp_Edit('gitUser');
+	$lbl->setLocation(1,2);
+	$lbl->setValue($gitUser);
+	$xfer_result->addComponent($lbl);
+
+	$lbl=new Xfer_Comp_LabelForm('gitEmailLbl');
+	$lbl->setLocation(0,3);
+	$lbl->setValue('{[bold]}user.email{[/bold]}');
+	$xfer_result->addComponent($lbl);
+
+	$lbl=new Xfer_Comp_Edit('gitEmail');
+	$lbl->setLocation(1,3);
+	$lbl->setValue($gitEmail);
+	$xfer_result->addComponent($lbl);
+
+	$lbl=new Xfer_Comp_Button('gitBtn');
+	$lbl->setLocation(2,2,2,2);
+	$lbl->setAction(new Xfer_Action("","ok.png","CORE","paramUserGit",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	$xfer_result->addComponent($lbl);
 
 	$lbl=new Xfer_Comp_LabelForm('depRepositoryLbl');
-	$lbl->setLocation(0,1);
+	$lbl->setLocation(0,4);
 	$lbl->setValue('{[bold]}Repositories{[/bold]}');
 	$xfer_result->addComponent($lbl);
 
 	$grid=new Xfer_Comp_Grid('depRepository');
 	$grid->addHeader('repo','Repository');
-	$gitUser=$conf_file[0];
-	$gitEmail=$conf_file[1];
 	for($i=2;$i<count($conf_file);$i++)
 		$grid->setValue($i, 'repo',trim($conf_file[$i]));
-	$grid->setLocation(1,1,3);
+	$grid->setSize(300,10);
+	$grid->setLocation(1,4,3);
 	$grid->addAction(new Xfer_Action("_Ajouter","add.png","CORE","paramAddRepo",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
 	$grid->addAction(new Xfer_Action("_Supprimer","suppr.png","CORE","paramDelRepo",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
-
-
-	$lbl=new Xfer_Comp_LabelForm('gitUserLbl');
-	$lbl->setLocation(1,2);
-	$lbl->setValue('{[bold]}user.name{[/bold]}');
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_Edit('gitUser');
-	$lbl->setLocation(2,2);
-	$lbl->setValue($gitUser);
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_LabelForm('gitEmailLbl');
-	$lbl->setLocation(1,3);
-	$lbl->setValue('{[bold]}user.email{[/bold]}');
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_Edit('gitEmail');
-	$lbl->setLocation(2,3);
-	$lbl->setValue($gitEmail);
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_Button('gitBtn');
-	$lbl->setLocation(3,2,2,2);
-	$lbl->setAction(new Xfer_Action("","ok.png","CORE","paramUserGit",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
-	$xfer_result->addComponent($lbl);
 
 	$errorGit=array();
 	if ($gitUser=='')
@@ -82,51 +94,10 @@ function parameter($Params)
 	  $errorGit[]='La config GIT "user.email" est vide!';
 
 	$lbl=new Xfer_Comp_LabelForm('gitConfErrorLbl');
-	$lbl->setLocation(1,4,4);
+	$lbl->setLocation(0,5,4);
 	$lbl->setValue("{[center]}{[bold]}{[font color='red']}".implode('{[newline]}',$errorGit)."{[/font]}{[/bold]}{[/center]}");
 	$xfer_result->addComponent($lbl);
-
-	$xfer_result->addComponent($grid);
-
-	//------------------------------------------------------
-	$xfer_result->newTab('Déploiement');
-
-	$conf_file=file("CNX/Server_Update.dt");
-	$Project=trim($conf_file[0]);
-	$Pass=trim($conf_file[1]);
-
-	$lbl=new Xfer_Comp_LabelForm('depProjetLbl');
-	$lbl->setLocation(0,0);
-	$lbl->setValue('{[bold]}Projet{[/bold]}');
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_Edit('depProjet');
-	$lbl->setLocation(1,0);
-	$lbl->setValue($Project);
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_LabelForm('depPassLbl');
-	$lbl->setLocation(2,0);
-	$lbl->setValue('{[bold]}Mot de passe{[/bold]}');
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_Edit('depPass');
-	$lbl->setLocation(3,0);
-	$lbl->setValue($Pass);
-	$xfer_result->addComponent($lbl);
-
-	$lbl=new Xfer_Comp_LabelForm('depServerLbl');
-	$lbl->setLocation(0,1);
-	$lbl->setValue('{[bold]}Serveurs{[/bold]}');
-	$xfer_result->addComponent($lbl);
-
-	$grid=new Xfer_Comp_Grid('depServer');
-	$grid->addHeader('server','Serveur');
-	for($i=2;$i<count($conf_file);$i++)
-		$grid->setValue($i, 'server',trim($conf_file[$i]));
-	$grid->setLocation(1,1,3);
-	$grid->addAction(new Xfer_Action("_Ajouter","add.png","CORE","paramAddServer",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
-	$grid->addAction(new Xfer_Action("_Supprimer","suppr.png","CORE","paramDelServer",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
+	
 	$xfer_result->addComponent($grid);
 
 	//------------------------------------------------------

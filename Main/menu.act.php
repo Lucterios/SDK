@@ -54,10 +54,6 @@ try {
 	$menu_tool1 = new Xfer_Menu_Item('tool1','Gestion de configuration','reserve.png','CORE','sourceExtension',0,'ctrl R',"Pour gerer les sources d'une extension de l'application via GIT.");
 	$menu_tools->addSubMenu($menu_tool1);
 
-	if (exportAllowed("CNX/Server_Update.dt")) {
-		$menu_tool2b = new Xfer_Menu_Item('tool2','Déploiement','export.png','CORE','newExport',0,'ctrl D',"Pour dépoyer une extension de l'application sur le nouveau serveur.");
-		$menu_tools->addSubMenu($menu_tool2b);
-	}
 	if ($CNX_OBJ->Name!="") {
 		$menu_tool3 = new Xfer_Menu_Item('tool3','Mot de Passe','passwd.png','CORE','password',1,'ctrl P',"Pour changer votre mot de passe.");
 		$menu_tools->addSubMenu($menu_tool3);
