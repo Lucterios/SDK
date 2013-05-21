@@ -29,7 +29,6 @@
 			</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Methodes.pkg}</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Impression.pkg}</para></listitem>
-			<listitem><para>{@tutorial Lucterios.Depoyement.pkg}</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Architecture.pkg}</para></listitem>
 		</itemizedlist>
 	</refsect1>

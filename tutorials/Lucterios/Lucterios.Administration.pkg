@@ -19,33 +19,29 @@
 		<para>Une fois connecte dans votre SDK, le menu <i>Outils</i> permets d'avoir acces au differents fonctionnalites de gestions du developpement de votre application.</para>
 		<refsect2 id="{@id installation}">
 			<title>Installation du SDK</title>
-			<para>Pour installer le SDK il suffit d'extraire le package telecharge dans le repertoire où vous avez installe votre serveur <i>Lucterios</i>.L'URL d'acces est simplement http:\\<i>url de Lucterios</i>\SDK.</para>
+			<para>Pour installer le SDK, vous devez dispos&eacute; d'une installation de Lucterios (ou un de ses d&eacute;riv&eacute;s) sur votre ordinateur.<br/>
+Depuis votre r&eacute;pertoire d'installation de votre instance, cr&eacute;ez le sous r&eacute;pertoire <i>SDK</i> à cot&eacute; de <i>CORE</i> et <i>extensions</i>.<br/>
+Maintenant, depuis votre installation Lucterios, lancez le "mise &agrave; jours &amp; installation", l'extension SDK est maintenant disponible.<br/>
+Une fois install&eacute;, vous pouvez acc&eacute;der à votre SDK via votre client Java de consultation: ajouter la configuration:<br/>
+  - Nom: SDK<br/>
+  - Serveur: localhost<br/>
+  - Répertoire: Lucterios/SDK<br/>
+  - Mode/port: Normal/80<br/>
+La connexion au SDK se fait avec un alias et un mot de passe vide.
+			</para>
 		</refsect2>
-		<refsect2 id="{@id administrateur}">
-			<title>L'administrateur</title>
-			<para>A la premiere utilisation de votre SDK, aucun utilisateur ne sera reference sur votre serveur. Connecter vous avec le login <i>admin</i> et le mot de passe de votre choix: <u>Attention</u>: Ce mot de passe est alors concidere comme celui de l'administrateur.</para>
-			<para>L'administrateur peut, bien que ce soit deconseille, travailler comme n'importe quel autre utilisateur mais surtout peut ajouter ou modifier des droits utilisateurs.</para>
+		<refsect2 id="{@id gestion_configuration}">
+			<title>Gestion de configuration</title>
+			<para></para>
 		</refsect2>
 
-		<refsect2 id="{@id reservation}">
-			<title>Reservations</title>
-			<para>Dans ce menu, l'utilisateur peut voir la liste de toute les extensions qui lui sont accesible ainsi que leur version courrante.</para>
-			<para>Pour modifier une extension, il doit la reserver. Si un autre utlisateur l'a deja verouillee, elle ne sera alors que consultable en lecture seul.
-			Une fois les modifications effectuees, l'utlisateur peut soit valider la reservation (et la rendre modifiable par quelqu'un d'autre) ou annuler la reservation: une archive de l'extension sera alors restauree.</para>
-			<para>Il est possible de signer une extension avec un mot de passe. Elle est alors non reservable sans la designer avec ce meme mot de passe.</para>
+		<refsect2 id="{@id parametrages}">
+			<title>Param&egrave;trages</title>
+			<para></para>
 		</refsect2>
-		<refsect2 id="{@id depoiement}">
-			<title>Deploiement</title>
-			<para>Menu accessible seulement si un serveur de deploiement est configure. Il permet d'envoyer une extension a ce serveur pour que d'autre personne utilisant les memes extensions puissent profiter de vos modifications.</para>
-		</refsect2>
-		<refsect2 id="{@id motdepasse}">
-			<title>Mot de Passe</title>
-			<para>Depuis ce menu, chaque utilisateur peut changer son mot de passe.</para>
-		</refsect2>
-		<refsect2 id="{@id utilisateur}">
-			<title>Utilisateurs</title>
-			<para>Ce menu n'est accessible que pour l'administrateur pour ajouter ou modifier un utilisateur.</para>
-			<para>Pour chaque utilisateur, il est possible de preciser quel sont les extensions que ce developpeur ne peut pas modifier ou voir.</para>
+		<refsect2 id="{@id log}">
+			<title>Log</title>
+			<para></para>
 		</refsect2>
 	</refsect1>
 </refentry>
