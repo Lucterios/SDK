@@ -17,31 +17,57 @@
 	<refsect1 id="{@id admin}">
 		<para>Le SDK a un certain nombre d'outil d'administration permettant de travail a plusieurs sur une meme application.</para>
 		<para>Une fois connecte dans votre SDK, le menu <i>Outils</i> permets d'avoir acces au differents fonctionnalites de gestions du developpement de votre application.</para>
+		<emphasis>Le SDK n'est prevu que pour fonctionner sur des environnements Linux ou Unix (comme Mac OS X). 
+Si vous etre sous MS-Windows, nous vous invitons a utiliser une image virtuel de Linux via par exemple VirtualBox (https://www.virtualbox.org/).</emphasis>
 		<refsect2 id="{@id installation}">
 			<title>Installation du SDK</title>
-			<para>Pour installer le SDK, vous devez dispos&eacute; d'une installation de Lucterios (ou un de ses d&eacute;riv&eacute;s) sur votre ordinateur.<br/>
-Depuis votre r&eacute;pertoire d'installation de votre instance, cr&eacute;ez le sous r&eacute;pertoire <i>SDK</i> à cot&eacute; de <i>CORE</i> et <i>extensions</i>.<br/>
-Maintenant, depuis votre installation Lucterios, lancez le "mise &agrave; jours &amp; installation", l'extension SDK est maintenant disponible.<br/>
-Une fois install&eacute;, vous pouvez acc&eacute;der à votre SDK via votre client Java de consultation: ajouter la configuration:<br/>
-  - Nom: SDK<br/>
-  - Serveur: localhost<br/>
-  - Répertoire: Lucterios/SDK<br/>
-  - Mode/port: Normal/80<br/>
-La connexion au SDK se fait avec un alias et un mot de passe vide.
+			<para>Pour installer le SDK, vous devez disposer d'une installation de Lucterios (ou un de ses derives) sur votre ordinateur. 
+			Prevoyez une instance specifique a votre developpement, nous vous deconseillons d'installer le SDK sur votre version "production".</para>
+			<para>Depuis votre repertoire d'installation de votre instance, ajouter le sous repertoire <i>SDK</i> a cote de <i>CORE</i> et <i>extensions</i>.</para>
+			<para>Maintenant, depuis votre installation Lucterios, lancez le "mise a jours et installation", l'extension SDK est maintenant disponible.</para>
+			<para>Une fois installe, vous pouvez acceder a votre SDK via votre client Java de conslistitemtation: ajouter la configuration:
+			<itemizedlist>
+			    <listitem><emphasis>Nom:</emphasis> SDK</listitem>
+			    <listitem><emphasis>Serveur:</emphasis> localhost</listitem>
+			    <listitem><emphasis>Repertoire:</emphasis> Lucterios/SDK</listitem>
+			    <listitem><emphasis>Mode/port:</emphasis> Normal/80</listitem>
+			</itemizedlist>  
+			La connexion au SDK se fait avec un alias et un mot de passe vide.
 			</para>
+		</refsect2>
+		<refsect2 id="{@id parametrages}">
+			<title>Parametrages</title>
+			<para>3 onglets de parametrages sont disponible</para>
+			<refsect3 id="{@id param_gest_conf}">
+			      <title>Gestion de configuration</title>
+			      <para>Vous pouvez ici, parametrer le gestionnaire de source GIT.</para>
+			      <para>Vous pouvez deja recupere une clef SSH d'authentification pour avoir access a des repositories GIT en ssh sans mot de passe.</para>
+			      <para>Precisez aussi votre identite: c'est celle-la qui sera utiliser dans vos commits GIT.</para>
+			      <para>Entrez enfin la list de vos sous-repositories. Il seront utilise pour rechercher vos repositories d'extensions.</para>
+			</refsect3>
+			<refsect3 id="{@id param_test_unitaire}">
+			      <title>Tests unitaires</title>
+			      <para>Entrez ici les parametres de connexion a MySQL pour l'execussion des tests unitaires.</para>
+			      <para>L'utilisateur doit avoir le droit de creation de base. La base precisee sera detruite et recree a chaque lancement de tests.</para>
+			</refsect3>
+			<refsect3 id="{@id param_licence}">
+			      <title>Licence</title>
+			      <para>Vous pouvez ici precisee votre licence de droit associe au source de vos nouvelle extension.</para>
+			      <para>Par defaut, la "General Public License" ou GPL est utilise. 
+			      A noter que l'ensemble des extensions standard realise sous cette extensions ne peuvent changer pour une licence plus restrictive.</para>
+			</refsect3>			
 		</refsect2>
 		<refsect2 id="{@id gestion_configuration}">
 			<title>Gestion de configuration</title>
-			<para></para>
-		</refsect2>
-
-		<refsect2 id="{@id parametrages}">
-			<title>Param&egrave;trages</title>
-			<para></para>
+			<para>Cette ecran vous permet de realiser un certain nombre d'action de gestion de vos extensions le plus souvent en lien avec GIT.</para>
+			<para>Vous pouvez deja creer (ou supprimer) une extension. Cette action n'a alors aucune action sur la base de donnees mais selistitemement sur les sources PHP.</para>
+			<para>Vous pouvez rafraichir votre instance. Avec le bouton "'Plistiteml' tout'" vous realisez une rafraichissement des sources des extensions gerer par GIT. 
+			Et via "Rafraichir DB", vous realiser un controle et une mise a jours de la base de donnees en fonction des souces courantes.</para>
 		</refsect2>
 		<refsect2 id="{@id log}">
 			<title>Log</title>
-			<para></para>
+			<para>Cette ecran vous permet de conslistitemter les logs de debugage de l'application.</para>
+			<para>Vous pouvez aussi activer/desactiver ces logs ainsi que vider son contenu courant.</para>
 		</refsect2>
 	</refsect1>
 </refentry>

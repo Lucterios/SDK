@@ -53,10 +53,10 @@ function sourceExtension($Params)
 	$grid->addAction(new Xfer_Action("_Editer","edit.png","CORE","manageSourceExt",FORMTYPE_MODAL,CLOSE_NO,SELECT_SINGLE));
 	$grid->addAction(new Xfer_Action("_Supprimer","suppr.png","CORE","delExt",FORMTYPE_MODAL,CLOSE_YES,SELECT_SINGLE));
 	$grid->addAction(new Xfer_Action("_Ajouter","add.png","CORE","addExt",FORMTYPE_MODAL,CLOSE_YES,SELECT_NONE));
-	$grid->addAction(new Xfer_Action("_Rafraichir DB","refresh.png","CORE","refreshExts",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
 	$xfer_result->addComponent($grid);
 	
 	$xfer_result->addAction(new Xfer_Action("'_Pull' tout","refresh.png","CORE","pullAllGitExt",FORMTYPE_MODAL,CLOSE_NO));
+	$xfer_result->addAction(new Xfer_Action("_Rafraichir DB","refresh.png","CORE","refreshExts",FORMTYPE_MODAL,CLOSE_NO));
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
 	return $xfer_result;
 }
