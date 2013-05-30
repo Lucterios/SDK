@@ -91,6 +91,28 @@ function exec_command($command, $cwd) {
   return $stdout;
 }
 
+function ssh_add_config($ssh_user,$ssh_host) {
+    $file_config = $_SERVER["DOCUMENT_ROOT"]."/.ssh/config";
+    if (is_file($file_config))
+	$content=file($file_config);
+    else
+	$content=array("HashKnownHosts no\n","\n");
+    $is_exist=false;
+    foreach($content as $line)
+	if (strpos($line,"Host ".$ssh_host)!==false)
+	    $is_exist=true;
+    if (!$is_exist) {
+	$content[]="Host ".$ssh_host."\n";
+	$content[]="    user ".$ssh_user."\n";
+	$content[]="    StrictHostKeyChecking=no\n";
+	$content[]="    UserKnownHostsFile=/dev/null\n";
+	$content[]="\n";
+	
+	$ret = exec_command("echo '".implode("",$content)."' > $file_config", $_SERVER["DOCUMENT_ROOT"]);
+	echo "<!-- ret=$ret -->\n";
+    }
+}
+
 // ------------------------------------------------------------------------
 
 /**

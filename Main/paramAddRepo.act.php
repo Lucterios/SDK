@@ -30,16 +30,16 @@ function paramAddRepo($Params)
 		if ($new_server[-1]!='/')
 		  $new_server.='/';
 		  
-		/*if (substr($new_server,0,6)=='ssh://') {
-		    require_once("Class/Git.php");
-		    $cmd = $new_server;
-		    $cmd = str_replace('://',' ',$cmd);
-		    $pos = strpos($cmd, '/');
+		if (substr($new_server,0,6)=='ssh://') {
+		    $ssh_url = substr($new_server,6);
+		    $pos = strpos($ssh_url, '/');
 		    if ($pos!==false)
-		      $cmd = substr($cmd,0,$pos); 
-		    list($out,$ret) = my_exec($cmd,array('yes'));
-		    print "<!-- paramAddRepo SSH cm='$cmd' ret=$ret out=".print_r($out,True)." -->\n";
-		}*/
+		      $ssh_url = substr($ssh_url,0,$pos); 
+		    list($ssh_user,$ssh_host)=explode('@',$ssh_url);
+		    print "<!-- paramAddRepo SSH ssh_url=$ssh_url, ssh_user=$ssh_user, ssh_host=$ssh_host -->\n";
+		    include_once('Class/Git.php');
+		    ssh_add_config($ssh_user,$ssh_host);
+		}
 	
 		$conf_file=file("CNX/Conf_Manage.dt");
 		$conf_file[0]=$conf_file[0];
