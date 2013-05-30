@@ -27,7 +27,7 @@ sed -e "s/\$version_build=X;/\$version_build=$VersionBuild;/" setup.tmp > setup.
 ArcFileName=SDK_$VersionMaj-$VersionMin-$VersionRev-$VersionBuild
 
 rm -rf CORE
-git clone http://projets.lucterios.org/git/Lucterios/CORE.git
+git clone $URL_GIT/Lucterios/CORE.git
 if [ $? -ne 0 ]
 then
 	echo "+++ Error Help +++"
