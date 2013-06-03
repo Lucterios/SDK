@@ -20,6 +20,10 @@
 //
 
 
+if (function_exists('gc_enable')) {
+	gc_enable();
+}
+
 list($usec, $sec) = explode(" ", microtime());
 // avant toute chose, on stipule qu'on retourne du text/plain
 header("http-content: text/plain");
