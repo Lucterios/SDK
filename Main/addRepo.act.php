@@ -20,25 +20,25 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function pullGitExt($Params)
+function addRepo($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","pullGitExt",$Params);
+	$xfer_result=&new Xfer_Container_Custom("CORE","addRepo",$Params);
+	$xfer_result->Caption='Ajouter un repository';
+
 	$ext=$Params['ext'];
-	require_once("Class/Extension.inc.php");
-	$extObj=new Extension($ext);
-	try {
-		$repo=$extObj->GetGitRepoObj();
-		$ret=$repo->run("pull");
-		$ret=implode("{[newline]}",explode("\n",$ret));
-		$xfer_result->message($ret);
-	} catch(Exception $e) {
-		if (strpos($e->getMessage(),"No remote repository specified")) {
-			$xfer_result->m_context['act_origin']="pullGitExt";
-			$xfer_result->redirectAction(new Xfer_Action("", "", "CORE", "addRepo",FORMTYPE_MODAL));
-		}
-		else
-			throw $e;
-	}
+	$lbl=new Xfer_Comp_LabelForm('title');
+	$lbl->setValue("{[bold]}{[center]}URL du nouveau repository pour $ext{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0);
+	$xfer_result->addComponent($lbl);
+
+	$edt=new Xfer_Comp_Edit('newRepo');
+	$edt->setValue("");
+	$edt->StringSize=150;
+	$edt->setLocation(1,0);
+	$xfer_result->addComponent($edt);
+	
+	$xfer_result->addAction(new Xfer_Action("_OK","ok.png","CORE","addRepoValid"));
+	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
 	return $xfer_result;
 }
 

@@ -31,14 +31,16 @@ function addMenu($Params,$extensionname)
 	$extension=new Extension($extensionname);
 	if (array_key_exists('menu',$Params)) {
 		$menu=$extension->Menus[$Params['menu']];
-		$xfer_result->Caption='Ajouter un Menu';
+		$xfer_result->Caption='Modifier un Menu';
 	} else {
 		if (array_key_exists('action',$Params))
 			$act_name=$Params['action'];
 		if (array_key_exists('actiontitle',$Params))
 			$act_title=$Params['actiontitle'];
+		else if (array_key_exists('code_desc',$Params))
+			$act_title=$Params['code_desc'];
 		$menu=new Param_Menu($act_title,'',$act_name,'','',0,0,$act_title);
-		$xfer_result->Caption='Modifier un Menu';
+		$xfer_result->Caption='Ajouter un Menu';
 	}
 	
 	$lbl=new Xfer_Comp_LabelForm('descriptionlbl');
@@ -47,7 +49,7 @@ function addMenu($Params,$extensionname)
 	$xfer_result->addComponent($lbl);
 	$ext_list=$extension->getList($cnx);
 	$edt=new Xfer_Comp_Edit('description');
-	$edt->setLocation(1,0);
+	$edt->setLocation(1,0,2);
 	$edt->setValue($menu->description);
 	$edt->setNeeded(true);
 	$xfer_result->addComponent($edt);
@@ -58,7 +60,7 @@ function addMenu($Params,$extensionname)
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Float('position',1,10000,0);
 	$edt->setValue($menu->position);
-	$edt->setLocation(1,1);
+	$edt->setLocation(1,1,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('helplbl');
@@ -80,7 +82,7 @@ function addMenu($Params,$extensionname)
 	foreach($extension->Actions as $action_item)
 		$select_a[$action_item->action]=$action_item->action;
 	$edt->setSelect($select_a);
-	$edt->setLocation(1,3);
+	$edt->setLocation(1,3,2);
 	$xfer_result->addComponent($edt);
 
 	$menu_list_without_act=$extension->GetMenuListWithoutAction();
@@ -94,7 +96,7 @@ function addMenu($Params,$extensionname)
 	foreach($menu_list_without_act as $menu_desc)
 		$select_m[$menu_desc]=$menu_desc;
 	$edt->setSelect($select_m);
-	$edt->setLocation(1,4);
+	$edt->setLocation(1,4,2);
 	$xfer_result->addComponent($edt);
 
 	require_once "Class/Image.inc.php";
@@ -114,13 +116,18 @@ function addMenu($Params,$extensionname)
 	$edt->setLocation(1,5);
 	$xfer_result->addComponent($edt);
 
+	$btn=new Xfer_Comp_Button('menu_addimg');
+	$btn->setAction(new Xfer_Action("_Ajouter","",$extensionname,"addImage",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	$btn->setLocation(2,5);
+	$xfer_result->addComponent($btn);
+
 	$lbl=new Xfer_Comp_LabelForm('shortcutlbl');
 	$lbl->setValue("{[bold]}Racourcis clavier{[/bold]}");
 	$lbl->setLocation(0,6);
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Edit('shortcut');
 	$edt->setValue($menu->shortcut);
-	$edt->setLocation(1,6);
+	$edt->setLocation(1,6,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('modallbl');
@@ -129,7 +136,7 @@ function addMenu($Params,$extensionname)
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('modal');
 	$edt->setValue($menu->modal);
-	$edt->setLocation(1,7);
+	$edt->setLocation(1,7,2);
 	$xfer_result->addComponent($edt);
 
 	$xfer_result->addAction(new Xfer_Action("_OK","ok.png",$extensionname,"addMenuValid",FORMTYPE_MODAL,CLOSE_YES));
