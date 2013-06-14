@@ -74,7 +74,7 @@ function addField($Params,$extensionname)
 	$xfer_result->addComponent($lbl);
 if ($field_name=='') {
 	$edt=new Xfer_Comp_Edit('name');
-	$edt->setLocation(1,0,2);
+	$edt->setLocation(1,0,3);
 	$edt->setNeeded(true);
 	$edt->ExprReg="[a-zA-Z][a-zA-Z0-9]*";
 	$edt->StringSize=100;
@@ -83,7 +83,7 @@ if ($field_name=='') {
 	$xfer_result->m_context['name']=$field_name;
 	$lbl=new Xfer_Comp_Label('name');
 	$lbl->setValue($field_name);
-	$lbl->setLocation(1,0,2);
+	$lbl->setLocation(1,0,3);
 	$xfer_result->addComponent($lbl);
 }
 	$lbl=new Xfer_Comp_LabelForm('descriptionlbl');
@@ -93,7 +93,7 @@ if ($field_name=='') {
 	$edt=new Xfer_Comp_Edit('field_description');
 	$edt->setValue($field['description']);
 	$edt->setNeeded(true);
-	$edt->setLocation(1,2,2);
+	$edt->setLocation(1,2,3);
 	$xfer_result->addComponent($edt);
 
 	require_once("CORE/DBObject.inc.php");
@@ -107,7 +107,7 @@ if ($field_name=='') {
 	foreach($field_dico as $key => $val)
 		$select[$key]=$val[1];
 	$edt->setSelect($select);
-	$edt->setLocation(1,3,2);
+	$edt->setLocation(1,3,3);
 	$edt->JavaScript="
 var type=current.getValue();
 parent.get('field_ValMin').setEnabled((type=='0') || (type=='1') || (type=='13'));
@@ -118,6 +118,7 @@ parent.get('field_ValMulti').setEnabled(type=='2');
 parent.get('field_ValEnum').setEnabled(type=='8');
 parent.get('field_ValCascadeMerge').setEnabled(type=='10');
 parent.get('field_TableName').setEnabled((type=='9') || (type=='10'));
+parent.get('addNewTable').setEnabled((type=='9') || (type=='10'));
 parent.get('field_RefField').setEnabled(type=='9');
 parent.get('field_Function').setEnabled(type=='11');
 parent.get('field_MethodGet').setEnabled((type=='12') || (type=='13'));
@@ -148,7 +149,7 @@ if (type=='10') {
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('field_notnull');
 	$edt->setValue($field['notnull']);
-	$edt->setLocation(1,4,2);
+	$edt->setLocation(1,4,3);
 	$xfer_result->addComponent($edt);
 
 	if ($field['type']==0)
@@ -169,7 +170,7 @@ if (type=='10') {
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Float('field_ValMin',-10000000,10000000,10);
 	$edt->setValue($field['params']['Min']);
-	$edt->setLocation(2,5);
+	$edt->setLocation(2,5,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_ValMaxlbl');
@@ -178,7 +179,7 @@ if (type=='10') {
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Float('field_ValMax',-10000000,10000000,10);
 	$edt->setValue($field['params']['Max']);
-	$edt->setLocation(2,6);
+	$edt->setLocation(2,6,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_ValPreclbl');
@@ -187,7 +188,7 @@ if (type=='10') {
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Float('field_ValPrec',1,10,0);
 	$edt->setValue($Prec);
-	$edt->setLocation(2,7);
+	$edt->setLocation(2,7,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_ValSizelbl');
@@ -196,7 +197,7 @@ if (type=='10') {
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Float('field_ValSize',1,1000,0);
 	$edt->setValue($field['params']['Size']);
-	$edt->setLocation(2,8);
+	$edt->setLocation(2,8,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_ValMultilbl');
@@ -205,7 +206,7 @@ if (type=='10') {
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('field_ValMulti');
 	$edt->setValue($field['params']['Multi']);
-	$edt->setLocation(2,9);
+	$edt->setLocation(2,9,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_ValEnumlbl');
@@ -218,7 +219,7 @@ if (type=='10') {
 		$enum_val.=$enum_item.";";
 	if ($enum_val!='') $enum_val=substr($enum_val,0,-1);
 	$edt->setValue($enum_val);
-	$edt->setLocation(2,10);
+	$edt->setLocation(2,10,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_TableNamelbl');
@@ -229,6 +230,7 @@ if (type=='10') {
 	$edt->setValue($field['params']['TableName']);
 	$edt->setSelect($select_table);
 	$edt->setLocation(2,11);
+	$edt->setSize(25,150);
 	$edt->JavaScript=$script_ref."
 var type=parent.get('field_type').getValue();
 if (type=='9') {
@@ -247,6 +249,10 @@ if (type=='9') {
 }
 ";
 	$xfer_result->addComponent($edt);
+	$btn=new Xfer_Comp_Button('addNewTable');
+	$btn->setAction(new Xfer_Action("_Ajouter table","",$extensionname,'addClasse',FORMTYPE_MODAL,CLOSE_NO));
+	$btn->setLocation(3,11);
+	$xfer_result->addComponent($btn);
 
 	$lbl=new Xfer_Comp_LabelForm('field_RefFieldlbl');
 	$lbl->setValue("Champ enfant");
@@ -255,7 +261,7 @@ if (type=='9') {
 	$edt=new Xfer_Comp_Select('field_RefField');
 	$edt->setValue($field['params']['RefField']);
 	$edt->setSelect(array());
-	$edt->setLocation(2,12);
+	$edt->setLocation(2,12,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('field_ValCascadeMergelbl');
@@ -264,7 +270,7 @@ if (type=='9') {
 	$xfer_result->addComponent($lbl);
 	$edt=new Xfer_Comp_Check('field_ValCascadeMerge');
 	$edt->setValue($field['params']['CascadeMerge']);
-	$edt->setLocation(2,13);
+	$edt->setLocation(2,13,2);
 	$xfer_result->addComponent($edt);
 
 	$functionList=array();
@@ -279,7 +285,7 @@ if (type=='9') {
 	$edt=new Xfer_Comp_Select('field_Function');
 	$edt->setValue($field['params']['Function']);
 	$edt->setSelect($functionList);
-	$edt->setLocation(2,14);
+	$edt->setLocation(2,14,2);
 	$xfer_result->addComponent($edt);
 
 
@@ -296,7 +302,7 @@ if (type=='9') {
 	$edt=new Xfer_Comp_Select('field_MethodGet');
 	$edt->setValue($field['params']['MethodGet']);
 	$edt->setSelect($methodList);
-	$edt->setLocation(2,15);
+	$edt->setLocation(2,15,2);
 	$xfer_result->addComponent($edt);
 	$lbl=new Xfer_Comp_LabelForm('field_MethodSetlbl');
 	$lbl->setValue("Methode (set)");
@@ -305,7 +311,7 @@ if (type=='9') {
 	$edt=new Xfer_Comp_Select('field_MethodSet');
 	$edt->setValue($field['params']['MethodSet']);
 	$edt->setSelect($methodList);
-	$edt->setLocation(2,16);
+	$edt->setLocation(2,16,2);
 	$xfer_result->addComponent($edt);
 
 
