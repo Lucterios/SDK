@@ -82,6 +82,11 @@ function editAction($Params,$extensionname)
 	$edt->setLocation(1,0);
 	$xfer_result->addComponent($edt);
 
+	$btn=new Xfer_Comp_Button('action_addright');
+	$btn->setAction(new Xfer_Action("_Ajouter","",$extensionname,"addRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	$btn->setLocation(2,0);
+	$xfer_result->addComponent($btn);
+
 if ($act->TableName!=""){
 	$lbl=new Xfer_Comp_LabelForm('action_Locklbl');
 	$lbl->setValue("{[bold]}Vérouillage{[/bold]}");
@@ -91,7 +96,7 @@ if ($act->TableName!=""){
 	$edt=new Xfer_Comp_Select('action_Lock');
 	$edt->setValue($act->LockMode);
 	$edt->setSelect($LockList);
-	$edt->setLocation(1,1);
+	$edt->setLocation(1,1,2);
 	$xfer_result->addComponent($edt);
 }
 
@@ -105,7 +110,7 @@ if ($act->TableName!=""){
 	$edt=new Xfer_Comp_Select('action_XferCnt');
 	$edt->setValue($act->XferCnt);
 	$edt->setSelect($select_xfer);
-	$edt->setLocation(1,2);
+	$edt->setLocation(1,2,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('action_Transactionlbl');
@@ -116,6 +121,22 @@ if ($act->TableName!=""){
 	$edt->setValue($act->WithTransaction);
 	$edt->setLocation(1,3);
 	$xfer_result->addComponent($edt);
+	
+	$menu_idx = -1;
+	$name_sep=$act->GetName($act->Mng->SEP);
+	foreach($extension->Menus as $key=>$menu)
+		if ($menu->act==$name_sep)
+			$menu_idx = $key;
+	if ($menu_idx==-1)
+		$title_btn="_Ajouter menu";
+	else {
+		$xfer_result->m_context['menu']=$menu_idx;
+		$title_btn="_Modifier menu";
+	}
+	$btn=new Xfer_Comp_Button('action_addmenu');
+	$btn->setAction(new Xfer_Action($title_btn,"",$extensionname,"addMenu",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	$btn->setLocation(2,3);
+	$xfer_result->addComponent($btn);
 
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;

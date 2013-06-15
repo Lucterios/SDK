@@ -47,7 +47,7 @@ class AbstractClassManage
 			require_once("Extension.inc.php");
 			$extObj=new Extension($extensionName);
 			$repo=$extObj->GetGitRepoObj();
-			$repo->run("rm '$extName'");
+			$repo->run("rm -f '$extName'");
 		}
 	}
 

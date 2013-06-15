@@ -29,6 +29,11 @@ function addClasse($Params,$extensionname)
 		require_once("Class/Table.inc.php");
 		$extension=new Extension($extensionname);
 		$tbl=new Table($Params['new_name'],$extension->Name);
+		if (array_key_exists('field_type',$Params) && array_key_exists('classe',$Params) && array_key_exists('new_subfield',$Params) && ($Params['field_type']==9))
+		{
+			$param=array("TableName"=>$extensionname.'_'.$Params['classe'],"CascadeMerge"=>true);
+			$tbl->ModifyField($Params['new_subfield'],'Reference a '.$Params['classe'], 10, true, $param);
+		}
 		$tbl->Write();
 		$extension->IncrementBuild();
 	} else {
@@ -44,7 +49,21 @@ function addClasse($Params,$extensionname)
 		$edt->StringSize=100;
 		$edt->setLocation(1,0);
 		$xfer_result->addComponent($edt);
+
+		if (array_key_exists('field_type',$Params) && array_key_exists('classe',$Params) && ($Params['field_type']==9)) {
+			$lbl=new Xfer_Comp_LabelForm('new_subfieldlbl');
+			$lbl->setValue("{[bold]}{[center]}Nom du champ lier {[newline]} a la classe '".$Params['classe']."'{[/center]}{[/bold]}");
+			$lbl->setLocation(0,1);
+			$xfer_result->addComponent($lbl);
 	
+			$edt=new Xfer_Comp_Edit('new_subfield');
+			$edt->setValue(strtolower($Params['classe'])."Id");
+			$edt->ExprReg="[a-zA-Z][a-zA-Z0-9]*";
+			$edt->StringSize=100;
+			$edt->setLocation(1,1);
+			$xfer_result->addComponent($edt);
+		}
+
 		$xfer_result->addAction(new Xfer_Action("_OK","ok.png",$extensionname,"addClasse"));
 		$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
 	}

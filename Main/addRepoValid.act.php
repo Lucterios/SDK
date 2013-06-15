@@ -20,24 +20,28 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function pullGitExt($Params)
+function addRepoValid($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","pullGitExt",$Params);
+	$xfer_result=&new Xfer_Container_Acknowledge("CORE","addRepoValid",$Params);
 	$ext=$Params['ext'];
+	$new_repo_url=$Params['newRepo'];
 	require_once("Class/Extension.inc.php");
 	$extObj=new Extension($ext);
+	$repo=$extObj->GetGitRepoObj();
+	$ret.="";
 	try {
-		$repo=$extObj->GetGitRepoObj();
-		$ret=$repo->run("pull");
+		$ret.=$repo->run("remote remove origin");
+	} catch(Exception $e) {}
+	$ret.=$repo->run("remote add origin '$new_repo_url'");
+	$ret.=$repo->run("config branch.master.remote origin");
+	$ret.=$repo->run("config branch.master.merge refs/heads/master");
+	$ret.=$repo->run("config push.default simple");
+	if (trim($ret)=="") {
+		$xfer_result->redirectAction(new Xfer_Action("", "", "CORE", $Params['act_origin'],FORMTYPE_MODAL));
+	} 
+	else {
 		$ret=implode("{[newline]}",explode("\n",$ret));
 		$xfer_result->message($ret);
-	} catch(Exception $e) {
-		if (strpos($e->getMessage(),"No remote repository specified")) {
-			$xfer_result->m_context['act_origin']="pullGitExt";
-			$xfer_result->redirectAction(new Xfer_Action("", "", "CORE", "addRepo",FORMTYPE_MODAL));
-		}
-		else
-			throw $e;
 	}
 	return $xfer_result;
 }

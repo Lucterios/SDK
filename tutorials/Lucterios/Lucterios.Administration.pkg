@@ -17,35 +17,57 @@
 	<refsect1 id="{@id admin}">
 		<para>Le SDK a un certain nombre d'outil d'administration permettant de travail a plusieurs sur une meme application.</para>
 		<para>Une fois connecte dans votre SDK, le menu <i>Outils</i> permets d'avoir acces au differents fonctionnalites de gestions du developpement de votre application.</para>
+		<emphasis>Le SDK n'est prevu que pour fonctionner sur des environnements Linux ou Unix (comme Mac OS X). 
+Si vous etre sous MS-Windows, nous vous invitons a utiliser une image virtuel de Linux via par exemple VirtualBox (https://www.virtualbox.org/).</emphasis>
 		<refsect2 id="{@id installation}">
 			<title>Installation du SDK</title>
-			<para>Pour installer le SDK il suffit d'extraire le package telecharge dans le repertoire où vous avez installe votre serveur <i>Lucterios</i>.L'URL d'acces est simplement http:\\<i>url de Lucterios</i>\SDK.</para>
+			<para>Pour installer le SDK, vous devez disposer d'une installation de Lucterios (ou un de ses derives) sur votre ordinateur. 
+			Prevoyez une instance specifique a votre developpement, nous vous deconseillons d'installer le SDK sur votre version "production".</para>
+			<para>Depuis votre repertoire d'installation de votre instance, ajouter le sous repertoire <i>SDK</i> a cote de <i>CORE</i> et <i>extensions</i>.</para>
+			<para>Maintenant, depuis votre installation Lucterios, lancez le "mise a jours et installation", l'extension SDK est maintenant disponible.</para>
+			<para>Une fois installe, vous pouvez acceder a votre SDK via votre client Java de conslistitemtation: ajouter la configuration:
+			<itemizedlist>
+			    <listitem><emphasis>Nom:</emphasis> SDK</listitem>
+			    <listitem><emphasis>Serveur:</emphasis> localhost</listitem>
+			    <listitem><emphasis>Repertoire:</emphasis> Lucterios/SDK</listitem>
+			    <listitem><emphasis>Mode/port:</emphasis> Normal/80</listitem>
+			</itemizedlist>  
+			La connexion au SDK se fait avec un alias et un mot de passe vide.
+			</para>
 		</refsect2>
-		<refsect2 id="{@id administrateur}">
-			<title>L'administrateur</title>
-			<para>A la premiere utilisation de votre SDK, aucun utilisateur ne sera reference sur votre serveur. Connecter vous avec le login <i>admin</i> et le mot de passe de votre choix: <u>Attention</u>: Ce mot de passe est alors concidere comme celui de l'administrateur.</para>
-			<para>L'administrateur peut, bien que ce soit deconseille, travailler comme n'importe quel autre utilisateur mais surtout peut ajouter ou modifier des droits utilisateurs.</para>
+		<refsect2 id="{@id parametrages}">
+			<title>Parametrages</title>
+			<para>3 onglets de parametrages sont disponible</para>
+			<refsect3 id="{@id param_gest_conf}">
+			      <title>Gestion de configuration</title>
+			      <para>Vous pouvez ici, parametrer le gestionnaire de source GIT.</para>
+			      <para>Vous pouvez deja recupere une clef SSH d'authentification pour avoir access a des repositories GIT en ssh sans mot de passe.</para>
+			      <para>Precisez aussi votre identite: c'est celle-la qui sera utiliser dans vos commits GIT.</para>
+			      <para>Entrez enfin la list de vos sous-repositories. Il seront utilise pour rechercher vos repositories d'extensions.</para>
+			</refsect3>
+			<refsect3 id="{@id param_test_unitaire}">
+			      <title>Tests unitaires</title>
+			      <para>Entrez ici les parametres de connexion a MySQL pour l'execussion des tests unitaires.</para>
+			      <para>L'utilisateur doit avoir le droit de creation de base. La base precisee sera detruite et recree a chaque lancement de tests.</para>
+			</refsect3>
+			<refsect3 id="{@id param_licence}">
+			      <title>Licence</title>
+			      <para>Vous pouvez ici precisee votre licence de droit associe au source de vos nouvelle extension.</para>
+			      <para>Par defaut, la "General Public License" ou GPL est utilise. 
+			      A noter que l'ensemble des extensions standard realise sous cette extensions ne peuvent changer pour une licence plus restrictive.</para>
+			</refsect3>			
 		</refsect2>
-
-		<refsect2 id="{@id reservation}">
-			<title>Reservations</title>
-			<para>Dans ce menu, l'utilisateur peut voir la liste de toute les extensions qui lui sont accesible ainsi que leur version courrante.</para>
-			<para>Pour modifier une extension, il doit la reserver. Si un autre utlisateur l'a deja verouillee, elle ne sera alors que consultable en lecture seul.
-			Une fois les modifications effectuees, l'utlisateur peut soit valider la reservation (et la rendre modifiable par quelqu'un d'autre) ou annuler la reservation: une archive de l'extension sera alors restauree.</para>
-			<para>Il est possible de signer une extension avec un mot de passe. Elle est alors non reservable sans la designer avec ce meme mot de passe.</para>
+		<refsect2 id="{@id gestion_configuration}">
+			<title>Gestion de configuration</title>
+			<para>Cette ecran vous permet de realiser un certain nombre d'action de gestion de vos extensions le plus souvent en lien avec GIT.</para>
+			<para>Vous pouvez deja creer (ou supprimer) une extension. Cette action n'a alors aucune action sur la base de donnees mais selistitemement sur les sources PHP.</para>
+			<para>Vous pouvez rafraichir votre instance. Avec le bouton "'Plistiteml' tout'" vous realisez une rafraichissement des sources des extensions gerer par GIT. 
+			Et via "Rafraichir DB", vous realiser un controle et une mise a jours de la base de donnees en fonction des souces courantes.</para>
 		</refsect2>
-		<refsect2 id="{@id depoiement}">
-			<title>Deploiement</title>
-			<para>Menu accessible seulement si un serveur de deploiement est configure. Il permet d'envoyer une extension a ce serveur pour que d'autre personne utilisant les memes extensions puissent profiter de vos modifications.</para>
-		</refsect2>
-		<refsect2 id="{@id motdepasse}">
-			<title>Mot de Passe</title>
-			<para>Depuis ce menu, chaque utilisateur peut changer son mot de passe.</para>
-		</refsect2>
-		<refsect2 id="{@id utilisateur}">
-			<title>Utilisateurs</title>
-			<para>Ce menu n'est accessible que pour l'administrateur pour ajouter ou modifier un utilisateur.</para>
-			<para>Pour chaque utilisateur, il est possible de preciser quel sont les extensions que ce developpeur ne peut pas modifier ou voir.</para>
+		<refsect2 id="{@id log}">
+			<title>Log</title>
+			<para>Cette ecran vous permet de conslistitemter les logs de debugage de l'application.</para>
+			<para>Vous pouvez aussi activer/desactiver ces logs ainsi que vider son contenu courant.</para>
 		</refsect2>
 	</refsect1>
 </refentry>

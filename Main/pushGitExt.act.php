@@ -26,10 +26,19 @@ function pushGitExt($Params)
 	$ext=$Params['ext'];
 	require_once("Class/Extension.inc.php");
 	$extObj=new Extension($ext);
-	$repo=$extObj->GetGitRepoObj();
-	$ret=$repo->run("push");
-	$ret=implode("{[newline]}",explode("\n",$ret));
-	$xfer_result->message($ret);
+	try {
+		$repo=$extObj->GetGitRepoObj();
+		$ret=$repo->run("push");
+		$ret=implode("{[newline]}",explode("\n",$ret));
+		$xfer_result->message($ret);
+	} catch(Exception $e) {
+		if (strpos($e->getMessage(),"No configured push destination")) {
+			$xfer_result->m_context['act_origin']="pushGitExt";
+			$xfer_result->redirectAction(new Xfer_Action("", "", "CORE", "addRepo",FORMTYPE_MODAL));
+		}
+		else
+			throw $e;
+	}
 	return $xfer_result;
 }
 

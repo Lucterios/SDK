@@ -59,6 +59,17 @@ elseif(array_key_exists("login", $GLOBAL) && array_key_exists("pass", $GLOBAL))
 		require_once "../CORE/setup.inc.php";
 		$Version="$version_max.$version_min.$version_release.$version_build";
 
+		echo "<!-- A -->\n";
+		if (!is_file("setup.inc.php") && is_file("template_setup.inc.php")) {
+		    echo "<!-- B -->\n";
+		    $temp_content = file("template_setup.inc.php");
+		    for($temp_i=0;$temp_i<count($temp_content);$temp_i++) {
+		      if (substr($temp_content[$temp_i],0,9) == '$version_')
+			    $temp_content[$temp_i] = str_replace('X','0',$temp_content[$temp_i]);
+		    }
+		    file_put_contents("setup.inc.php",$temp_content);
+		    echo "<!-- C -->\n";
+		}
 		require_once "setup.inc.php";
 		$SDK_Version="$version_max.$version_min.$version_release.$version_build";
 		

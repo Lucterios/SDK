@@ -131,53 +131,6 @@ class Extension
 		return $ext_list;
 	}
 
-	public function GetArchiveFile($suffic=".tar")
-	{
-		$bachup_file="";
-		$BcDir='Temp';
-		if (!is_dir($BcDir)) mkdir($BcDir);
-		$version=$this->GetVersion();
-		$version=str_replace('.','-',$version);
-		if ($this->Name!='applis')
-			$bachup_file="$BcDir/".$this->Name."_".$version.$suffic;
-		else
-			$bachup_file="$BcDir/".$this->Appli."_".$version.$suffic;
-		return $bachup_file;
-	}
-
-	public static function ArchiveExtension($module,$BackupFile,$NoDirectory=false,$compress=null)
-	{
-		if ($BackupFile!="")
-		{
-			$extDir = Extension::GetExtDir($module);
-			if (!is_dir("Backup")) mkdir("Backup");
-			unlink($BackupFile);
-			require_once("../CORE/ArchiveTar.inc.php");
-			$tar = new ArchiveTar($BackupFile,$compress);
-			if ($NoDirectory)
- 				$tar->addModify($extDir,"",$extDir);
-			else {
-				if (substr($extDir,0,3)=='../')
-				  $tar->addModify($extDir,"","../");
-				else
-				  $tar->add($extDir);
-			}
-			if (($module=="") || ($module=="CORE"))
-			{
-				$tar->addModify("../images/","","../");
-				$tar->addModify("../conf/cnf.inc.php","","../");
-				$tar->addModify("../index.php","","../");
-				$tar->addModify("../coreIndex.php","","../");
-				$tar->addModify("../install.php","","../");
-				$tar->addModify("../Tests.php","","../");
-				$tar->addModify("../Help.php","","../");
-				$tar->addModify("../BackgroundTask.php","","../");
-			}
-			return true;
-		}
-		return false;
-	}
-
 	//constructor
 	public function __construct($name)
 	{
@@ -265,6 +218,10 @@ class Extension
 		$extSetupFile = $extDir."setup.inc.php";
 		if (is_file($extSetupFile))
 		{
+			$version_max=0;
+			$version_min=0;
+			$version_release=0;
+			$version_build=0;
 			$extention_famille='';
 			$extention_description='';
 			$extention_titre='';
@@ -272,7 +229,32 @@ class Extension
 			$extention_appli='';
 			$extend_tables=array();
 			$signals=array();
-			require($extSetupFile);
+			$file_lines = File($extSetupFile);
+			$merge_version = 0;
+			foreach($file_lines as $file_line) {
+				if (substr($file_line,0,9)=='$version_') {
+					list($varname,$varvalue)=explode('=',$file_line);
+					$varvalue=(int)substr($varvalue,0,-1);
+					if ($varname=='$version_max') {
+						$merge_version+=1;
+						$version_max=max($version_max,$varvalue);
+					}
+					if ($varname=='$version_min') {
+						$merge_version+=1;
+						$version_min=max($version_min,$varvalue);
+					}
+					if ($varname=='$version_release') {
+						$merge_version+=1;
+						$version_release=max($version_release,$varvalue);
+					}
+					if ($varname=='$version_build') {
+						$merge_version+=1;
+						$version_build=max($version_build,$varvalue);
+					}
+				}
+				else if ($file_line[0]=='$')
+					eval($file_line);
+			}
 			if ($extention_titre=='') $extention_titre=$extention_description;
 			if (($this->Name=='CORE') || ($this->Name=='applis')) $extention_famille=$this->Name;
 			$this->Name=$extention_name;
@@ -285,31 +267,21 @@ class Extension
 			$this->Depencies=$depencies;
 			$this->Rights=array();
 			foreach($rights as $key=>$value)
-			{
-				if (is_object($value))
-					$r=$value;
-				else
-					$r=&new Param_Rigth($value,50);
-				$this->Rights[$key]=$r;
-			}
+				$this->Rights[$key]=$value;
 			$this->Actions=array();
 			foreach($actions as $key=>$act)
 			{
 				if (is_file($extDir.$act->action.".act.php"))
 					$this->Actions[]=$act;
 			}
-			//$this->Actions=$actions;
 			$this->Menus=$menus;
 			$this->Params=array();
 			foreach($params as $key=>$prm)
-			{
-				if (is_object($prm))
-					$this->Params[$key]=$prm;
-				else
-					$this->Params[$key]=new Param_Parameters($key,$prm,$key);
-			}
+				$this->Params[$key]=$prm;
 			$this->ExtendTables=$extend_tables;
 			$this->Signals=$signals;
+			if ($merge_version>4)
+				$this->Write();
 		}
 		else
 		{

@@ -15,7 +15,59 @@
 		</author>
 	</refsynopsisdiv>
 	<refsect1 id="{@id archi}">
-		<para>archi</para>
+		<para>Lucterios a une architecture de sources et quelque convention de nomage qu'il est bon de connaitre.</para>		   
+		<refsect2 id="{@id archi_core}">
+			<title>Le coeur</title>
+			<para>Le coeur de Lucterios est articule autour de plusieurs repertoires:
+			<itemizedlist>
+			    <listitem><emphasis>CORE</emphasis></listitem>
+			    C'est le repertoire principale de Lucterios. Il comprends l'ensemble des sources PHP necessaire au bon fonctionnement du cadre d'application.
+			    <listitem><emphasis>images</emphasis></listitem>
+			    Contiens un ensemble d'images et d'icon utilises par le coeur ainsi que les extensions
+			    <listitem><emphasis>conf</emphasis></listitem>
+			    Espace de configuration de l'instance Lucterios. le fichier "conf.db.php" contiens les parametres de connexion a la base de donnees MySQL
+			    <listitem><emphasis>extensions</emphasis></listitem>
+			    Repertoire contenant les differentes extensions de votre application
+			    <listitem><emphasis>usr</emphasis></listitem>
+			    Repertoire "utilisateur". Il est utilise pour les besoins de chaque extensions pour sauvegarder des donnees fichiers comme des images, des documents, ...
+			</itemizedlist>
+			</para>
+			<para>Le point d'entre de la communication client/serveur se fait via le fichier "coreIndex.php" se trouvant a la racine de l'instance. 
+			C'est ce script qui s'appuye sur les sources de "CORE" pour:
+			<itemizedlist>
+			<listitem>Parser la demande XML du client</listitem>
+			<listitem>Verifier l'authentification du demandeur</listitem>
+			<listitem>Rechercher l'action desiree</listitem>
+			<listitem>Appeler l'action avec les bon parametres</listitem>
+			<listitem>Renvoyer la reponse en XML au client</listitem>
+			</itemizedlist>
+			</para>
+		</refsect2>
+		<refsect2 id="{@id archi_ext}">
+			<title>Les extensions</title>
+			<para>Une extension est un repertoire contenu dans "extensions" qui comprends au minimum un fichier "setup.inc.php"</para>
+			<para>Une extension aura en plus la gestion d'actions de traitement associees a des droits, des tables MySQL, des models d'impressions, des parametres, ...</para>
+			<para>A noter qu'a bien des egares, le repertoire "CORE" du coeur se comporte comme une extension particuliere.</para>
+		</refsect2>
+		<refsect2 id="{@id archi_appli}">
+			<title>L'application</title>
+			<para>Une application est en faite une petite extension specifique installee toujours dans "extensions/applis".</para>
+			<para>Elle comprends essentiellement une description de cette dernière dans "application.inc.php".</para>
+		</refsect2>
+		<refsect2 id="{@id archi_file}">
+			<title>Les conventions de fichier</title>
+			<para>Les fichiers de script PHP contenu dans chaque extension comporte une convention de nomage definissant leur nature.
+			<itemizedlist>
+			<listitem><emphasis>Actions</emphasis>: fichier ".act.php"</listitem>
+			<listitem><emphasis>Tables</emphasis>: fichier ".tbl.php"</listitem>
+			<listitem><emphasis>Methodes</emphasis>: fichier ".mth.php"</listitem>
+			<listitem><emphasis>Models d'impression</emphasis>: fichier ".prt.php"</listitem>
+			<listitem><emphasis>Librairies</emphasis>: fichier ".inc.php"</listitem>
+			<listitem><emphasis>Tests untaires</emphasis>: fichier ".test.php"</listitem>
+			<listitem><emphasis>Fonction stockee</emphasis>: fichier ".fsk"</listitem>
+			</itemizedlist>
+			</para>
+		</refsect2>
 	</refsect1>
 </refentry>
  

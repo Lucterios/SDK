@@ -193,9 +193,15 @@ if ($phpEditor && ($code->TableName!="")) {
 		$edt=new Xfer_Comp_CheckList('code_tableFiles');
 		$edt->setSelect($DependedTable);
 		$edt->setValue($SelectedTableFiles);
-		$edt->setLocation(1,20);
+		$edt->setLocation(1,20,2);
 		$edt->setsize(200,200);
 		$xfer_result->addComponent($edt);
+
+		$btn=new Xfer_Comp_Button('code_adddep');
+		$btn->setAction(new Xfer_Action("_Ajouter dépendance","",$extensionname,"addDepend",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+		$btn->setLocation(2,21);
+		$xfer_result->addComponent($btn);
+
 	}
 	if (!$cnx->IsReadOnly($extensionname))
 		$xfer_result->addAction(new Xfer_Action("_Sauver","ok.png",$extensionname,"modifCode",FORMTYPE_MODAL,CLOSE_NO));

@@ -69,6 +69,50 @@ class Git {
 	
 }
 
+
+function exec_command($command, $cwd) {
+  $descriptorspec = array(
+    1 => array("pipe", "w"),
+    2 => array("pipe", "w")
+  );
+  $env = array('HOME' => $_SERVER["DOCUMENT_ROOT"]);
+  $proc=proc_open($command, $descriptorspec, $pipes, $cwd, $env);
+  $stdout = stream_get_contents($pipes[1]);
+  $stderr = stream_get_contents($pipes[2]);
+  foreach ($pipes as $pipe) {
+	  fclose($pipe);
+  }
+
+  $status = trim(proc_close($proc));
+  if ($status && ($stderr!='')) throw new Exception($stderr);
+
+  $stdout=trim("$stdout\n$stderr");
+
+  return $stdout;
+}
+
+function ssh_add_config($ssh_user,$ssh_host) {
+    $file_config = $_SERVER["DOCUMENT_ROOT"]."/.ssh/config";
+    if (is_file($file_config))
+	$content=file($file_config);
+    else
+	$content=array("HashKnownHosts no\n","\n");
+    $is_exist=false;
+    foreach($content as $line)
+	if (strpos($line,"Host ".$ssh_host)!==false)
+	    $is_exist=true;
+    if (!$is_exist) {
+	$content[]="Host ".$ssh_host."\n";
+	$content[]="    user ".$ssh_user."\n";
+	$content[]="    StrictHostKeyChecking=no\n";
+	$content[]="    UserKnownHostsFile=/dev/null\n";
+	$content[]="\n";
+	
+	$ret = exec_command("echo '".implode("",$content)."' > $file_config", $_SERVER["DOCUMENT_ROOT"]);
+	echo "<!-- ret=$ret -->\n";
+    }
+}
+
 // ------------------------------------------------------------------------
 
 /**
@@ -204,25 +248,7 @@ class GitRepo {
 	 * @return  string
 	 */	
 	protected function run_command($command) {
-		$descriptorspec = array(
-			1 => array('pipe', 'w'),
-			2 => array('pipe', 'w'),
-		);
-		$pipes = array();
-		$resource = proc_open($command, $descriptorspec, $pipes, $this->repo_path);
-
-		$stdout = stream_get_contents($pipes[1]);
-		$stderr = stream_get_contents($pipes[2]);
-		foreach ($pipes as $pipe) {
-			fclose($pipe);
-		}
-
-		$status = trim(proc_close($resource));
-		if ($status && ($stderr!='')) throw new Exception($stderr);
-
-		$stdout=trim("$stdout\n$stderr");
-
-		return $stdout;
+		return exec_command($command, $this->repo_path);
 	}
 
 	/**
@@ -431,6 +457,11 @@ class GitRepo {
 		return $status_list;
 	}
 
+}
+
+function get_ssh_key() {
+    $stdout = exec_command("bash Class/ssh_config.sh", null);
+    return str_replace("\n","{[newline]}",$stdout);
 }
 
 /* End Of File */

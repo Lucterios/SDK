@@ -18,6 +18,7 @@
 		<title>Sommaire</title>
 		<itemizedlist>
 			<listitem><para>{@tutorial Lucterios.Administration.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Architecture.pkg}</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Extensions.pkg}</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Classes.pkg}</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Actions.pkg}
@@ -29,8 +30,6 @@
 			</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Methodes.pkg}</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Impression.pkg}</para></listitem>
-			<listitem><para>{@tutorial Lucterios.Depoyement.pkg}</para></listitem>
-			<listitem><para>{@tutorial Lucterios.Architecture.pkg}</para></listitem>
 		</itemizedlist>
 	</refsect1>
 	<refsect1 id="{@id Lucterios}">
@@ -48,8 +47,8 @@
 		<para>Il permet a une petite equipe de developpeur de:
 		<itemizedlist>
 			<listitem><para>Creer une nouvelle application.</para></listitem>
-			<listitem><para>Ajouter des extensions standards.</para></listitem>
 			<listitem><para>Creer de nouvelles extensions metiers.</para></listitem>
+			<listitem><para>Modifier d'anciennes extensions.</para></listitem>
 		</itemizedlist>
 		</para>
 	</refsect1>

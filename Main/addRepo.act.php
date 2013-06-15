@@ -20,36 +20,25 @@
 
 require_once('../CORE/xfer_custom.inc.php');
 
-function paramDelServer($Params)
+function addRepo($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramDelServer",$Params);
-	$xfer_result->Caption="Supprimer un serveur";
-	$depServer=$Params['depServer'];
-	$conf_file=file("CNX/Server_Update.dt");
-	$depServer_name=$conf_file[$depServer];
+	$xfer_result=&new Xfer_Container_Custom("CORE","addRepo",$Params);
+	$xfer_result->Caption='Ajouter un repository';
 
-	if ($xfer_result->confirme("Voulez-vous supprimer le serveur '$depServer_name' ?")) {
-		$conf_file[0]=trim($Params['depProjet']);
-		$conf_file[1]=trim($Params['depPass']);
-		$new_conf_file=array();
-		for($i=0;$i<count($conf_file);$i++) 
-			if ($i!=$depServer)
-				$new_conf_file[]=$conf_file[$i];
-		if (count($conf_file)<=3)
-			unlink("CNX/Server_Update.dt");
-		else {
-			if ($fh=fopen("CNX/Server_Update.dt","w+"))
-			{
-				for($i=0;$i<count($new_conf_file);$i++) {
-					$conf_line=trim($new_conf_file[$i]);
-					if (($i<2) || ($conf_line!=''))
-						fwrite($fh,"$conf_line\n"); 
-				}
-				fclose($fh);
-				chmod("CNX/Server_Update.dt", 0666);
-			}
-		}
-	}
+	$ext=$Params['ext'];
+	$lbl=new Xfer_Comp_LabelForm('title');
+	$lbl->setValue("{[bold]}{[center]}URL du nouveau repository pour $ext{[/center]}{[/bold]}");
+	$lbl->setLocation(0,0);
+	$xfer_result->addComponent($lbl);
+
+	$edt=new Xfer_Comp_Edit('newRepo');
+	$edt->setValue("");
+	$edt->StringSize=150;
+	$edt->setLocation(1,0);
+	$xfer_result->addComponent($edt);
+	
+	$xfer_result->addAction(new Xfer_Action("_OK","ok.png","CORE","addRepoValid"));
+	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
 	return $xfer_result;
 }
 

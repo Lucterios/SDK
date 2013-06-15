@@ -33,5 +33,8 @@ $GLOBAL = array_merge($VAR_SEND, $_COOKIE, $_ENV, $_SERVER);
 
 foreach($VAR_SEND as $key => $val)
 	$$key=$val;
+
+if (!is_dir('./tmp'))
+	@mkdir('./tmp');
 	
 ?>

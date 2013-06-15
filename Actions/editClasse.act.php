@@ -280,7 +280,7 @@ if (!$ReadOnly) {
 	$lbl=new Xfer_Comp_Label('border1lbl');
 	$lbl->setValue(" ");
 	$lbl->setLocation(0,1,1,6);
-	$lbl->setsize(200,500);
+	$lbl->setsize(200,200);
 	$xfer_result->addComponent($lbl);
 
 	$lbl=new Xfer_Comp_LabelForm('lbltable_title');

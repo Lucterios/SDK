@@ -2,7 +2,7 @@
 
 VersionMaj=0
 VersionMin=99
-VersionRev=3
+VersionRev=5
 current_date_sec=`date +%s`
 VersionBuild=$(( (current_date_sec-1214866800)/7200 ))
 
@@ -27,7 +27,7 @@ sed -e "s/\$version_build=X;/\$version_build=$VersionBuild;/" setup.tmp > setup.
 ArcFileName=SDK_$VersionMaj-$VersionMin-$VersionRev-$VersionBuild
 
 rm -rf CORE
-svn "export" http://projets.lucterios.org/svn/CORE/ CORE --username=user --password=user123
+git clone $URL_GIT/Lucterios/CORE.git
 if [ $? -ne 0 ]
 then
 	echo "+++ Error Help +++"
