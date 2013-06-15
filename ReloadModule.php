@@ -20,6 +20,7 @@
 //
 
 require_once("PathInitial.inc.php");
+require_once("conf/cnf.inc.php");
 require_once("CORE/dbcnx.inc.php");
 require_once "CORE/extensionManager.inc.php";
 
