@@ -36,6 +36,8 @@ function addRepoValid($Params)
 	$ret.=$repo->run("config branch.master.remote origin");
 	$ret.=$repo->run("config branch.master.merge refs/heads/master");
 	$ret.=$repo->run("config push.default simple");
+    include_once('Class/Git.php');
+	check_git_server($new_repo_url);
 	if (trim($ret)=="") {
 		$xfer_result->redirectAction(new Xfer_Action("", "", "CORE", $Params['act_origin'],FORMTYPE_MODAL));
 	} 

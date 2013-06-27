@@ -93,24 +93,38 @@ function exec_command($command, $cwd) {
 
 function ssh_add_config($ssh_user,$ssh_host) {
     $file_config = $_SERVER["DOCUMENT_ROOT"]."/.ssh/config";
-    if (is_file($file_config))
-	$content=file($file_config);
-    else
-	$content=array("HashKnownHosts no\n","\n");
+	try {
+		$content=exec_command("cat $file_config", $_SERVER["DOCUMENT_ROOT"]);
+		$content=explode("\n",$content);
+	} catch(Exception $e) {
+		$content=array("HashKnownHosts no");
+	}
     $is_exist=false;
     foreach($content as $line)
 	if (strpos($line,"Host ".$ssh_host)!==false)
 	    $is_exist=true;
     if (!$is_exist) {
-	$content[]="Host ".$ssh_host."\n";
-	$content[]="    user ".$ssh_user."\n";
-	$content[]="    StrictHostKeyChecking=no\n";
-	$content[]="    UserKnownHostsFile=/dev/null\n";
-	$content[]="\n";
+		$content[]="";
+		$content[]="Host ".$ssh_host;
+		$content[]="    user ".$ssh_user;
+		$content[]="    StrictHostKeyChecking=no";
+		$content[]="    UserKnownHostsFile=/dev/null";
+		$content[]="    LogLevel=quiet";
 	
-	$ret = exec_command("echo '".implode("",$content)."' > $file_config", $_SERVER["DOCUMENT_ROOT"]);
-	echo "<!-- ret=$ret -->\n";
+		$ret = exec_command("echo '".implode("\n",$content)."' > $file_config", $_SERVER["DOCUMENT_ROOT"]);
     }
+}
+
+function check_git_server($new_server) {
+	if (substr($new_server,0,6)=='ssh://') {
+		$ssh_url = substr($new_server,6);
+		$pos = strpos($ssh_url, '/');
+		if ($pos!==false)
+		  $ssh_url = substr($ssh_url,0,$pos); 
+		list($ssh_user,$ssh_host)=explode('@',$ssh_url);
+		print "<!-- paramAddRepo SSH ssh_url=$ssh_url, ssh_user=$ssh_user, ssh_host=$ssh_host -->\n";
+		ssh_add_config($ssh_user,$ssh_host);
+	}
 }
 
 // ------------------------------------------------------------------------

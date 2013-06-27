@@ -32,10 +32,14 @@ function pullAllGitExt($Params)
 	{
 		$repo=$mod_ext->GetGitRepoObj();
 		if ($repo!=NULL) {
-			$ret=$repo->run("pull");
 			$title="{[center]}{[underline]}{[bold]}$mod_name{[/bold]}{[/underline]}{[/center]}";
-			$value=implode("{[newline]}",explode("\n",$ret));
-			$result[]="$title{[newline]}$value";
+			try {
+				$ret=$repo->run("pull");
+				$value=implode("{[newline]}",explode("\n",$ret));
+				$result[]="$title{[newline]}$value";
+			} catch(Exception $e) {
+				$result[]="$title{[newline]}{[font color='red']}Erreur{[/font]}{[newline]}".$e->getMessage();
+			}
 		}
 	}
 	$xfer_result->message(implode("{[newline]}",$result));

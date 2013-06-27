@@ -28,10 +28,10 @@ function delExt($Params)
 		require_once("CORE/Lucterios_Error.inc.php");
 		throw new LucteriosException(IMPORTANT,"Suppression de '$ext' impossible");
 	}
+	global $connect;
 	require_once("conf/cnf.inc.php");
 	require_once("CORE/dbcnx.inc.php");
 	require_once("CORE/extensionManager.inc.php");
-	global $connect;
 	$extension=new Extension($ext,Extension::getFolder($ext,"../"));
 	$deps=$extension->getDependants(array(),'../');
 	if (count($deps)==0)
