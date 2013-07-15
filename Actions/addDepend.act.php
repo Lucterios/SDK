@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addDepend($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addImage",$Params);
+	$xfer_result=&new Xfer_Container_Custom($extensionname,"addDepend",$Params);
 	$xfer_result->Caption='Ajouter une dépendance';
 
 	global $CNX_OBJ;
@@ -42,15 +42,26 @@ function addDepend($Params,$extensionname)
 	$ext_list=$extension->getList($cnx);
 if ($depency->name=='') {
 	$edt=new Xfer_Comp_Select('name');
+	$edt->JavaScript="dependancy_version=new Array();\n";
 	foreach($ext_list as $name => $ext_version)
 		if (($name!=$extension->Name) && ($name!="applis")) {
 			$selected=true;
 			foreach($extension->Depencies as $depend)
 				if ($depend->name==$name) $selected=false;
-			if ($selected) $select[$name]="$name ($ext_version)";
+			if ($selected) {
+				$select[$name]="$name ($ext_version)";
+				$edt->JavaScript.="dependancy_version['$name']='$ext_version';\n";
+			}
 		}
 	$edt->setSelect($select);
 	$edt->setLocation(1,0);
+	$edt->JavaScript.="var val=current.getValue();
+var ext_vers=dependancy_version[val].split('.');
+parent.get('version_majeur_max').setValue('<val prec=\"0\">'+ext_vers[0]+'</val>');
+parent.get('version_mineur_max').setValue('<val prec=\"0\">'+ext_vers[1]+'</val>');
+parent.get('version_majeur_min').setValue('<val prec=\"0\">'+ext_vers[0]+'</val>');
+parent.get('version_mineur_min').setValue('<val prec=\"0\">'+ext_vers[1]+'</val>');
+";
 	$xfer_result->addComponent($edt);
 }else{
 	$xfer_result->m_context['name']=$depency->name;

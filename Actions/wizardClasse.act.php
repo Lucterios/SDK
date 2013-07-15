@@ -200,6 +200,11 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	foreach($extension->Rights as $rigth_id=>$rigth_name)
 		$select_right[$rigth_id]=$rigth_name->description;
 
+	$btn=new Xfer_Comp_Button('action_addright');
+	$btn->setAction(new Xfer_Action("_Ajouter","",$extensionname,"addRight",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	$btn->setLocation(5,10,1,3);
+	$xfer_result->addComponent($btn);
+
 	$lbl=new Xfer_Comp_LabelForm('droitVisulbl');
 	$lbl->setValue("Droit de Visualisation");
 	$lbl->setLocation(0,10,3);
@@ -207,7 +212,7 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	$edt=new Xfer_Comp_Select('droitVisu');
 	$edt->setValue(0);
 	$edt->setSelect($select_right);
-	$edt->setLocation(3,10,3);
+	$edt->setLocation(3,10,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('droitAjoutModiflbl');
@@ -217,7 +222,7 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	$edt=new Xfer_Comp_Select('droitAjoutModif');
 	$edt->setValue(0);
 	$edt->setSelect($select_right);
-	$edt->setLocation(3,11,3);
+	$edt->setLocation(3,11,2);
 	$xfer_result->addComponent($edt);
 
 	$lbl=new Xfer_Comp_LabelForm('droitDellbl');
@@ -227,7 +232,7 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	$edt=new Xfer_Comp_Select('droitDel');
 	$edt->setValue(0);
 	$edt->setSelect($select_right);
-	$edt->setLocation(3,12,3);
+	$edt->setLocation(3,12,2);
 	$xfer_result->addComponent($edt);
 
 	require_once "Class/Image.inc.php";
@@ -244,8 +249,13 @@ parent.get('droitVisu').setEnabled((val=='o') || (vall=='o') || (vale=='o'));
 	foreach($images as $image)
 		$select_i[$image]=$image;
 	$edt->setSelect($select_i);
-	$edt->setLocation(3,13,3);
+	$edt->setLocation(3,13,2);
 	$xfer_result->addComponent($edt);
+
+	$btn=new Xfer_Comp_Button('action_image');
+	$btn->setAction(new Xfer_Action("_Ajouter","",$extensionname,"addImage",FORMTYPE_MODAL,CLOSE_NO,SELECT_NONE));
+	$btn->setLocation(5,13);
+	$xfer_result->addComponent($btn);
 
 	$xfer_result->addAction(new Xfer_Action("_Modifier","ok.png",$extensionname,'wizardClasseValid',FORMTYPE_MODAL,CLOSE_YES));
 	$xfer_result->addAction(new Xfer_Action("_Fermer","close.png"));
