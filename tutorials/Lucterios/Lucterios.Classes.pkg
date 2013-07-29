@@ -15,8 +15,68 @@
 		</author>
 	</refsynopsisdiv>
 	<refsect1 id="{@id classes}">
-		<para>classes</para>
+		<para>Une classe est un ensemble d'action associe a une table de base de donnee MySQL. C'est aussi une structure de classe PHP en tant que tel et heritant la classe abstraite {@link DBObj_Basic}.</para>
+		<para>Elle permet de mapper un enregistrement en base ainsi que de realiser les actions de base associees (ajout, modification, suppression, consultation).
+		A ces classes Lucterios, nous associons {@tutorial Lucterios/Lucterios.Actions.pkg}, {@tutorial Lucterios/Lucterios.Methodes.pkg}, {@tutorial Lucterios/Lucterios.Fonctions.pkg}, {@tutorial Lucterios/Lucterios.Impression.pkg} et {@tutorial Lucterios/Lucterios.Tests.pkg}.</para>
+		<para>L'ensemble coherent de ces traitements metiers associees a des donnees permet de realiser rapidement une brique de gestion.
+		</para>
+		<refsect2 id="{@id champs}">
+				<title>Les champs</title>
+				<para>Vous pouvez preciser la nature de chacune des donnees a manipuler dans vos traitements metiers. Il y a 15 type de champs differents. Certains correspondent a de reelle donnees en base, d'autres a des racourcis le manipulation.
+<itemizedlist>
+					<listitem><emphasis>Entier</emphasis> Nombre entier - Preciser l'intervale de saisie</listitem>
+					<listitem><emphasis>Reel</emphasis> Nombre reel - Preciser l'intervale de saisie et le nombre de decimal</listitem>
+					<listitem><emphasis>Chaine</emphasis> Chaine de caracteres - Preciser la longueur - Peut-etre multiligne</listitem>
+					<listitem><emphasis>Booleen</emphasis> Booleen oui/non ou vrai/faux</listitem>
+					<listitem><emphasis>Date</emphasis> Date (jours/mois/annees)</listitem>
+					<listitem><emphasis>Heure</emphasis> Heure ou duree (heures:minutes)</listitem>
+					<listitem><emphasis>Date/Heure</emphasis> Ensemble de date et d'heur (jours/mois/annees heures:minutes)</listitem>
+					<listitem><emphasis>Text long</emphasis> Texte sans taille defini en multiligne</listitem>
+					<listitem><emphasis>Enumeration</emphasis> Ensemble de valeur prise par la selection - Preciser la list de selection, Lucterios ne sauvegarde que l'index du choix en base (si renomage)</listitem>
+					<listitem><emphasis>Enfants</emphasis> Lien a un autre table enfant de cette enregistrement - Preciser le champs le jointure de la sous-table</listitem>
+					<listitem><emphasis>Referent</emphasis> Reference a un enregistrement d'une autre table</listitem>
+					<listitem><emphasis>Fonction</emphasis> Champ textuel associe a une fonction stockee en base de donnees.</listitem>
+					<listitem><emphasis>Methode (chaine)</emphasis> Champ textuel associe a une methode Lucterios - Preciser la method 'get' et 'set'</listitem>
+					<listitem><emphasis>Methode (reel)</emphasis> Champ reel associe a une methode Lucterios - Preciser la method 'get' et 'set'</listitem>
+</itemizedlist>
+				</para>
+		</refsect2>
+		<refsect2 id="{@id actions}">
+				<title>Les actions</title>
+				<para>(voir {@tutorial Lucterios/Lucterios.Actions.pkg})</para>
+				<para>Une action associee a une classe permet d'etre plus lier directement a un enregistrement ou un ensemble d'enregistrements.
+				</para>
+		</refsect2>
+		<refsect2 id="{@id methods}">
+				<title>Les methodes</title>
+				<para>(voir {@tutorial Lucterios/Lucterios.Methodes.pkg})</para>
+				<para>Une methode associee a une classe permet d'etre plus lier directement a un enregistrement ou un ensemble d'enregistrements.
+				</para>
+		</refsect2>
+		<refsect2 id="{@id proc}">
+				<title>Les fonctions stockees</title>
+				<para>(voir {@tutorial Lucterios/Lucterios.Fonctions.pkg})</para>
+				<para>Une fonction stockee associee a une classe permet d'etre plus lier directement a un enregistrement ou un ensemble d'enregistrements.
+				</para>
+		</refsect2>
+		<refsect2 id="{@id impression}">
+				<title>Les impressions</title>
+				<para>(voir {@tutorial Lucterios/Lucterios.Impression.pkg})</para>
+				<para>Une impression associee a une classe permet d'etre plus lier directement a un enregistrement ou un ensemble d'enregistrements.
+				</para>
+		</refsect2>
+		<refsect2 id="{@id tests}">
+				<title>Les tests</title>
+				<para>(voir {@tutorial Lucterios/Lucterios.Tests.pkg})</para>
+				<para>Une test associee a une classe permet de trier vos tests d'anti-regression plus finement par rapport a la nature de leur tests.
+				</para>
+		</refsect2>
+		<refsect2 id="{@id params}">
+				<title>Parametrages</title>
+				<para>Un ensemble de parametrages est prevu pour permettre de preciser certain comportement comme l'heritage inter-classe et l'identification metier des enregistrements</para>
+		</refsect2>
 	</refsect1>
+
 </refentry>
  
  

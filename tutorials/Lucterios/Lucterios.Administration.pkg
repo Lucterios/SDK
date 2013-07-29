@@ -23,9 +23,9 @@ Si vous etre sous MS-Windows, nous vous invitons a utiliser une image virtuel de
 			<title>Installation du SDK</title>
 			<para>Pour installer le SDK, vous devez disposer d'une installation de Lucterios (ou un de ses derives) sur votre ordinateur. 
 			Prevoyez une instance specifique a votre developpement, nous vous deconseillons d'installer le SDK sur votre version "production".</para>
-			<para>Depuis votre repertoire d'installation de votre instance, ajouter le sous repertoire <i>SDK</i> a cote de <i>CORE</i> et <i>extensions</i>.</para>
+			<para>Pour pouvoir l'installer sur votre ordinateur, vous devez prealablement installer l'outil de gestion de version "git" (sous debian/ubuntu, lancez la commande "apt_get install git" pour cela).</para>
 			<para>Maintenant, depuis votre installation Lucterios, lancez le "mise a jours et installation", l'extension SDK est maintenant disponible.</para>
-			<para>Une fois installe, vous pouvez acceder a votre SDK via votre client Java de conslistitemtation: ajouter la configuration:
+			<para>Une fois installe, vous pouvez acceder a votre SDK via votre client Java de consutation: ajouter la configuration:
 			<itemizedlist>
 			    <listitem><emphasis>Nom:</emphasis> SDK</listitem>
 			    <listitem><emphasis>Serveur:</emphasis> localhost</listitem>
@@ -33,6 +33,7 @@ Si vous etre sous MS-Windows, nous vous invitons a utiliser une image virtuel de
 			    <listitem><emphasis>Mode/port:</emphasis> Normal/80</listitem>
 			</itemizedlist>  
 			La connexion au SDK se fait avec un alias et un mot de passe vide.
+			Par simplification, cette evironnemet de developpement est depourvu de moyen de securite: il est donc fortement deconseille de l'utilise sur un environnement ouvert (comme accessible depuis internet).
 			</para>
 		</refsect2>
 		<refsect2 id="{@id parametrages}">
@@ -60,13 +61,13 @@ Si vous etre sous MS-Windows, nous vous invitons a utiliser une image virtuel de
 		<refsect2 id="{@id gestion_configuration}">
 			<title>Gestion de configuration</title>
 			<para>Cette ecran vous permet de realiser un certain nombre d'action de gestion de vos extensions le plus souvent en lien avec GIT.</para>
-			<para>Vous pouvez deja creer (ou supprimer) une extension. Cette action n'a alors aucune action sur la base de donnees mais selistitemement sur les sources PHP.</para>
-			<para>Vous pouvez rafraichir votre instance. Avec le bouton "'Plistiteml' tout'" vous realisez une rafraichissement des sources des extensions gerer par GIT. 
+			<para>Vous pouvez deja creer (ou supprimer) une extension. Cette action n'a alors aucune action sur la base de donnees mais seulement sur les sources PHP.</para>
+			<para>Vous pouvez rafraichir votre instance. Avec le bouton "'Pull' tout'" vous realisez une rafraichissement des sources des extensions gerer par GIT. 
 			Et via "Rafraichir DB", vous realiser un controle et une mise a jours de la base de donnees en fonction des souces courantes.</para>
 		</refsect2>
 		<refsect2 id="{@id log}">
 			<title>Log</title>
-			<para>Cette ecran vous permet de conslistitemter les logs de debugage de l'application.</para>
+			<para>Cette ecran vous permet de consulter les logs de debugage de l'application.</para>
 			<para>Vous pouvez aussi activer/desactiver ces logs ainsi que vider son contenu courant.</para>
 		</refsect2>
 	</refsect1>

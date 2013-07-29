@@ -15,11 +15,16 @@
 		</author>
 	</refsynopsisdiv>
 	<refsect1 id="{@id actions}">
-		<para>actions</para>
+		<para>Une action correspond a une fonctionnalite metier a realiser.</para>
+		<para>Elle comprend une prise en compte de parametre d'entree, un traitement plus ou moins complexe et un retour suivant l'un des 5 types de transferes (les objets Xfer).</para>
+		<para></para>
 		<itemizedlist>
-			<listitem><para>{@tutorial Lucterios.Actions.Acknowledge.pkg}</para></listitem>
-			<listitem><para>{@tutorial Lucterios.Actions.DialogBox.pkg}</para></listitem>
-			<listitem><para>{@tutorial Lucterios.Actions.Custom.pkg}</para></listitem>
+			<listitem><emphasis>{@tutorial Lucterios.Actions.Acknowledge.pkg}</emphasis> voir {@link Xfer_Container_Acknowledge}</listitem>
+			<listitem><emphasis>{@tutorial Lucterios.Actions.DialogBox.pkg}</emphasis> voir {@link Xfer_Container_DialogBox}</listitem>
+			<listitem><emphasis>{@tutorial Lucterios.Actions.Custom.pkg}</emphasis> voir {@link Xfer_Container_Custom}</listitem>
+			<listitem><emphasis>L'envoie d'impression</emphasis> voir {@link Xfer_Container_Print}</listitem>
+			<listitem><emphasis>L'edition de model d'impression</emphasis> voir {@link Xfer_Container_Template}</listitem>
 		</itemizedlist>
+		<para>Deux autres types de transferes existent en interne dans Lucterios: l'exception (voir {@link 	Xfer_Container_Exception}) et le menu (voir {@link Xfer_Container_Menu})</para>		
 	</refsect1>
 </refentry>

@@ -1,7 +1,7 @@
 <refentry id="{@id}">
 	<refnamediv>
-		<refname>L'impression</refname>
-		<refpurpose>L'impression dans Lucterios</refpurpose>
+		<refname>Les impressions</refname>
+		<refpurpose>Les impressions dans Lucterios</refpurpose>
 	</refnamediv>
 	<refsynopsisdiv>
 		<author>
@@ -15,7 +15,9 @@
 		</author>
 	</refsynopsisdiv>
 	<refsect1 id="{@id impression}">
-		<para>impression</para>
+		<para>Depuis les onglets "Impression", il est possible de gere des model d'impression lies a un ensemble de donnees a exporter sous le format XML.</para>
+		<para></para>
+		<para><emphasis>*** A COMPLETER ****</emphasis></para>
 	</refsect1>
 </refentry>
  

@@ -15,6 +15,30 @@
 		</author>
 	</refsynopsisdiv>
 	<refsect1 id="{@id custom}">
-		<para>custom</para>
+		<para>Ce type action est la generique pour permettre de realiser des interfaces de saisie ou de retour.</para>
+		<para>Le principle est d'ajouter a l'objet Xfer un ensemble de composant sur une grille de positionnement.</para>
+		<para></para>
+		<itemizedlist>
+			<listitem><emphasis>{@link Xfer_Comp_Label}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_LabelForm}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Image}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Grid}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Select}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Edit}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Float}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Check}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Memo}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_MemoForm}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_LinkLabel}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Passwd}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Button}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Date}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_Time}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_DateTime}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_CheckList}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_DownLoad}</emphasis> </listitem>
+			<listitem><emphasis>{@link Xfer_Comp_UpLoad}</emphasis> </listitem>
+		</itemizedlist>
+		<para><emphasis>*** A COMPLETER ****</emphasis></para>
 	</refsect1>
 </refentry>

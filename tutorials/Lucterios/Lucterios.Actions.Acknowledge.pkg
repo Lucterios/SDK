@@ -15,6 +15,15 @@
 		</author>
 	</refsynopsisdiv>
 	<refsect1 id="{@id acknowledge}">
-		<para>acknowledge</para>
+		<para>Permet de realiser une action de traitement sans retour graphique specifique.</para>
+		<para>3 fonctions sur ce type d'action sont a noter:</para>
+		<para></para>
+		<itemizedlist>
+			<listitem><emphasis>{@link Xfer_Container_Acknowledge.confirme}</emphasis> Permet de gerer une boite de confirmation, cette fonction renvoie "true" si l'utilisateur a accepte la question. Tres utile pour les actions de suppression ou de traitement irreversible.</listitem>
+			<listitem><emphasis>{@link Xfer_Container_Acknowledge.message}</emphasis> Permet de renvoyer en fin de traitement un message de realisation.</listitem>
+			<listitem><emphasis>{@link Xfer_Container_Acknowledge.redirectAction}</emphasis> Permet de rediriger l'utilisateur automatiquement vers une nouvelle action.</listitem>
+			<listitem><emphasis>{@link Xfer_Container_Acknowledge.traitment}</emphasis> Permet de gerer l'affichage d'un message d'attente avant de commencer un traitement long.</listitem>
+		</itemizedlist>
+		<para><emphasis>*** A COMPLETER ****</emphasis></para>
 	</refsect1>
 </refentry>

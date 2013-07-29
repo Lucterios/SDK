@@ -15,7 +15,10 @@
 		</author>
 	</refsynopsisdiv>
 	<refsect1 id="{@id methodes}">
-		<para>methodes</para>
+		<para>Une methode Lucterios est une fonction (parfois associe a une classe) permettant de realiser un traitement specifique ou de preparer un retour graphique d'une action.</para>
+		<para>A utiliser sans moderation lorsque l'on souhaite realiser un traitement utilisable depuis plusieurs points ou fonctionnalites.</para>
+		<para></para>
+		<para><emphasis>*** A COMPLETER ****</emphasis></para>
 	</refsect1>
 </refentry>
  

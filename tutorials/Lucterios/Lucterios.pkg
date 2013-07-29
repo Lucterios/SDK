@@ -1,6 +1,6 @@
 <refentry id="{@id}">
 	<refnamediv>
-		<refname>Manuel</refname>
+		<refname>Le SDK</refname>
 		<refpurpose>Manuel du SDK Lucterios</refpurpose>
 	</refnamediv>
 	<refsynopsisdiv>
@@ -29,7 +29,9 @@
 				</itemizedlist>
 			</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Methodes.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Fonctions.pkg}</para></listitem>
 			<listitem><para>{@tutorial Lucterios.Impression.pkg}</para></listitem>
+			<listitem><para>{@tutorial Lucterios.Tests.pkg}</para></listitem>
 		</itemizedlist>
 	</refsect1>
 	<refsect1 id="{@id Lucterios}">

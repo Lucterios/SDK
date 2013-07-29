@@ -1,0 +1,29 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Les tests</refname>
+		<refpurpose>Les tests dans Lucterios</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id tests}">
+		<para>Il est possible de creer des tests d'anti-regression par rapport a une ou un ensemble de fonctionnalites developpees.</para>
+		<para>Une option permet de memoriser un enchainement et de le retratuire en test simplement.</para>
+		<para>L'ensemble des tests sont rejouable via le SDK ou simplement en ligne de commande.</para>
+		<para></para>
+		<para><emphasis>*** A COMPLETER ****</emphasis></para>
+	</refsect1>
+</refentry>
+ 
+ 
+ 
+ 
+ 

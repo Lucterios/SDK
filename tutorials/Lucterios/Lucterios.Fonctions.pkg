@@ -1,0 +1,27 @@
+<refentry id="{@id}">
+	<refnamediv>
+		<refname>Les fonctions stockees</refname>
+		<refpurpose>Les fonctions stockees dans Lucterios</refpurpose>
+	</refnamediv>
+	<refsynopsisdiv>
+		<author>
+			Fanny ALLEAUME
+		</author>
+		<author>
+			Pierre-Olivier VERSCHOORE
+		</author>
+		<author>
+			Laurent GAY
+		</author>
+	</refsynopsisdiv>
+	<refsect1 id="{@id fonctions_stockees}">
+		<para>Une fonction stockee permet d'utiser au mieux les posibilites de calcule de MySQL en lui confiant certaine traitement en interne et appelable par une simple requete SQL.</para>
+		<para></para>
+		<para><emphasis>*** A COMPLETER ****</emphasis></para>
+	</refsect1>
+</refentry>
+ 
+ 
+ 
+ 
+ 
