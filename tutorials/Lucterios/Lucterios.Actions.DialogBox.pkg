@@ -16,7 +16,7 @@
 	</refsynopsisdiv>
 	<refsect1 id="{@id dialogbox}">
 		<para>Cette action permet de retourner une boite de dialogue.</para>
-		<para>vous pouvez lui associer un message et un type (voir {@link Xfer_Container_DialogBox.setTypeAndText}) ainsi qu'un ensemble de bouton associes a des actions (voir {@link Xfer_Container_DialogBox.addAction}).</para>
+		<para>vous pouvez lui associer un message et un type (voir {@link Xfer_Container_DialogBox setTypeAndText()}) ainsi qu'un ensemble de bouton associes a des actions (voir {@link Xfer_Container_DialogBox addAction()}).</para>
 		<para></para>
 		<para><emphasis>*** A COMPLETER ****</emphasis></para>
 	</refsect1>
