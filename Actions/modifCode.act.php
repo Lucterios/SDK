@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function modifCode($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modifCode",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"modifCode",$Params);
 	if (array_key_exists('script_code',$Params)) {
 		global $script_code;
 		$script_code = urldecode($Params['script_code']);

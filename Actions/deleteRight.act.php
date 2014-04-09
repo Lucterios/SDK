@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteRight($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteRight",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteRight",$Params);
 	$right_id=$Params['right'];
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);

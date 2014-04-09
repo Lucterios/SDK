@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function paramModifTest($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramModifTest",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","paramModifTest",$Params);
 	$xfer_result->Caption="Ajout de serveur";
 
 	$dbuser=trim($Params['testUser']);

@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function refreshExts($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","refreshExts",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","refreshExts",$Params);
 	$xfer_result->Caption="Rafraichissement de l'extension '$extensionname'";
 
 	$server_name=$_SERVER["SERVER_NAME"];

@@ -24,7 +24,7 @@ function editLibrary($Params,$extensionname)
 {
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"editLibrary",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"editLibrary",$Params);
 	require_once("Class/Library.inc.php");
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);

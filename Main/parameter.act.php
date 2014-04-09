@@ -23,7 +23,7 @@ require_once('../CORE/xfer_custom.inc.php');
 function parameter($Params)
 {
 	require_once('Class/Git.php');
-	$xfer_result=&new Xfer_Container_Custom("CORE","parameter",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","parameter",$Params);
 	$xfer_result->Caption="Paramètrages";
 
 	$lbl=new Xfer_Comp_LabelForm('title');

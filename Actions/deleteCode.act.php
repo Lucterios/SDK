@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteCode($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteCode",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteCode",$Params);
 	$type=$Params['type'];
 	$id=$Params[strtolower($type)];
 	if (array_keys('classe',$Params))

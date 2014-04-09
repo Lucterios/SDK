@@ -42,7 +42,7 @@ function TransformXsl($xmldata,$xsldata) {
 
 function performTests($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","performTests",$Params);	
+	$xfer_result=new Xfer_Container_Custom("CORE","performTests",$Params);	
 	$xfer_result->Caption="Tests unitaires";
 	$extensionname=$Params['extensionname'];
 	$dbuser=$Params['dbuser'];

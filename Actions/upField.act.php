@@ -23,7 +23,7 @@ require_once('FunctionTool.inc.php');
 
 function upField($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"upField",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"upField",$Params);
 	$classe=$Params['classe'];
 	require_once("Class/Extension.inc.php");
 	require_once("Class/Table.inc.php");

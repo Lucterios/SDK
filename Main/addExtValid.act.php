@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addExtValid($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","addExtValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","addExtValid",$Params);
 	require_once("Class/Extension.inc.php");
 	$extName=$Params['newExt'];
 	$extSetupFile = Extension::GetExtDir($extName)."setup.inc.php";

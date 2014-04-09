@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addLibraryValid($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addLibraryValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addLibraryValid",$Params);
 	require_once("Class/Extension.inc.php");
 	require_once("Class/Library.inc.php");
 	$extension=new Extension($extensionname);

@@ -23,7 +23,7 @@ require_once('../CORE/xfer.inc.php');
 function exitConnection($Params)
 {
 try {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","exitConnection",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","exitConnection",$Params);
 	$xfer_result->Caption='Desconnection';
 }catch(Exception $e) {
 	throw $e;

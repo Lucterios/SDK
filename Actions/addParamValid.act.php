@@ -26,7 +26,7 @@ function addParamValid($Params,$extensionname)
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
 
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addParamValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addParamValid",$Params);
 	$param_name=$Params['name'];
 	$param_value=$Params['valeur'];
 	$param_description=$Params['description'];

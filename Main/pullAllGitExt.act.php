@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function pullAllGitExt($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","pullAllGitExt",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","pullAllGitExt",$Params);
 	$result=array();
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;

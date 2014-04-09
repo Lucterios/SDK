@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteDepend($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteDepend",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteDepend",$Params);
 	$depend=$Params['depend'];
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);

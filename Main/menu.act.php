@@ -46,7 +46,7 @@ try {
 	require_once("Class/Extension.inc.php");
 	global $CNX_OBJ;
 
-	$xfer_result=&new Xfer_Container_Menu("CORE","menu",$Params);
+	$xfer_result=new Xfer_Container_Menu("CORE","menu",$Params);
 	$xfer_result->Caption='Menu de l application';
 
 	$menu_tools = new Xfer_Menu_Item('tool0','Les outils','config.png','','',0,'',"Pour vérouiller, déployer ou configurer votre application.");

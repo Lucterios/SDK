@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteTest($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteTest",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteTest",$Params);
 	$test=$Params['test'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer le test '".str_replace('_APAS_','::',$test)."'?")) {
 		$xfer_result->m_context['type']='Test';

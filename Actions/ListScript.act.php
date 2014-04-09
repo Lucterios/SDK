@@ -23,7 +23,7 @@ require_once('Main/connection.inc.php');
 
 function ListScript($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"ListScript",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"ListScript",$Params);
 	$xfer_result->Caption="Gestion des scripts de l'extension '$extensionname'";
 
 	global $CNX_OBJ;

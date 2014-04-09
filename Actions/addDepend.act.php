@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addDepend($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addDepend",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addDepend",$Params);
 	$xfer_result->Caption='Ajouter une dépendance';
 
 	global $CNX_OBJ;

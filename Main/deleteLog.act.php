@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteLog($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","deleteLog",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","deleteLog",$Params);
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir vider le log?")) {
 		$log_file="../tmp/LuceriosCORE.log";
 		unlink($log_file);

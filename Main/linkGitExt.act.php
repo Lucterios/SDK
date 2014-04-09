@@ -42,7 +42,7 @@ function moveItem($itemSource,$itemTarget) {
 
 function linkGitExt($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","linkGitExt",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","linkGitExt",$Params);
 	require_once("Class/Extension.inc.php");
 	require_once("FunctionTool.inc.php");
 	$extName=$Params['ext'];

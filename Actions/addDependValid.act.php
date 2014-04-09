@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addDependValid($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addDependValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addDependValid",$Params);
 	$name=$Params['name'];
 	if (array_key_exists('depend',$Params))
 		$depend=$Params['depend'];

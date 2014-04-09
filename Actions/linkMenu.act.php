@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function linkMenu($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"linkMenu",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"linkMenu",$Params);
 	$xfer_result->Caption='Lier à un Menu';
 
 	$action_name=$Params['action'];

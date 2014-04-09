@@ -65,7 +65,7 @@ function addField($Params,$extensionname)
 			}
 		}
 
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addField",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addField",$Params);
 	$xfer_result->Caption="Edition d'un champ";
 
 	$lbl=new Xfer_Comp_LabelForm('namelbl');

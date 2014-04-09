@@ -27,7 +27,7 @@ function wizardClasse($Params,$extensionname)
 	require_once("Class/Table.inc.php");
 	$table=new Table($classe,$extensionname);
 	$extension=new Extension($extensionname);
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"wizardClasse",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"wizardClasse",$Params);
 
 	$lbl=new Xfer_Comp_LabelForm('titlelbl');
 	$lbl->setValue("{[bold]}{[center]}Générateur d'actions de la classe '$classe'{[/center]}{[/bold]}");

@@ -24,7 +24,7 @@ function changePassword($Params)
 {
 	global $CNX_OBJ;
 	$cnxObj=$CNX_OBJ;
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","changePassword",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","changePassword",$Params);
 	if ($Params['pass1']!=$Params['pass2'])
 		$xfer_result->message("Mots de passe différents!",3);
 	else

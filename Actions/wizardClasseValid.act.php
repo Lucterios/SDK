@@ -25,7 +25,7 @@ function wizardClasseValid($Params,$extensionname)
 {
 	require_once("Class/Extension.inc.php");
 	require_once("Class/Table.inc.php");
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"wizardClasseValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"wizardClasseValid",$Params);
 
 	$gen=new generator($Params,$extensionname);
 	$gen->execute();

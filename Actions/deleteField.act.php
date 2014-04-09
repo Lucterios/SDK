@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteField($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteField",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteField",$Params);
 	$field=$Params['field'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer le champ '".str_replace('_APAS_','::',$field)."'?")) {
 		$classe=$Params['classe'];

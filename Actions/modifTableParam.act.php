@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function modifTableParam($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modifTableParam",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"modifTableParam",$Params);
 	$classe=$Params['classe'];
 	$table_NbFieldsCheck=$Params['table_NbFieldsCheck'];
 	$table_toText=$Params['table_toText'];

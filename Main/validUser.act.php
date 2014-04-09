@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function validUser($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","validUser",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","validUser",$Params);
 	$xfer_result->Caption='Validation';
 
 	$pass1=$Params['pass1'];

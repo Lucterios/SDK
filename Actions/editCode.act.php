@@ -76,7 +76,7 @@ function addContextMenu($editor,$ExtensionName,$TableName,$is_print_xfer)
 
 function editCode($Params,$extensionname,$phpEditor=true)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"editCode",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"editCode",$Params);
 
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;

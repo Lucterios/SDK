@@ -23,7 +23,7 @@ require_once('FunctionTool.inc.php');
 
 function addInitialValid($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addInitialValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addInitialValid",$Params);
 	$classe=$Params['classe'];
 	require_once("Class/Extension.inc.php");
 	require_once("Class/Table.inc.php");

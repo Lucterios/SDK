@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addRepoValid($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","addRepoValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","addRepoValid",$Params);
 	$ext=$Params['ext'];
 	$new_repo_url=$Params['newRepo'];
 	require_once("Class/Extension.inc.php");

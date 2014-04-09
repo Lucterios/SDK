@@ -23,7 +23,7 @@ require_once('FunctionTool.inc.php');
 
 function downField($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"downField",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"downField",$Params);
 	$classe=$Params['classe'];
 	require_once("Class/Extension.inc.php");
 	require_once("Class/Table.inc.php");

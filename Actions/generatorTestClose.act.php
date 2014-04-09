@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function generatorTestClose($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"generatorTestClose",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"generatorTestClose",$Params);
 	require_once('Class/Config.inc.php');
 	$conf=new Config('conf.db');
 	$conf->xmlSaving='';

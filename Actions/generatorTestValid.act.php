@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function generatorTestValid($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"generatorTestValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"generatorTestValid",$Params);
 	$xmlSaving=realpath($Params['xmlSaving']);
 	$xslFile=realpath("ConvertSavingToPHP.xsl");
 	if (is_file($xmlSaving) && is_file($xslFile) ) {

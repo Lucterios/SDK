@@ -23,7 +23,7 @@ require_once('../CORE/xfer_custom.inc.php');
 function paramModifLicence($Params)
 {
 	if (array_key_exists('new_licence',$Params)) {
-		$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramModifLicence",$Params);
+		$xfer_result=new Xfer_Container_Acknowledge("CORE","paramModifLicence",$Params);
 		$xfer_result->Caption="Modifier la licence";
 	
 		$new_licence=trim($Params['new_licence']);	
@@ -42,7 +42,7 @@ function paramModifLicence($Params)
 		
 	}
 	else {
-		$xfer_result=&new Xfer_Container_Custom("CORE","paramModifLicence",$Params);
+		$xfer_result=new Xfer_Container_Custom("CORE","paramModifLicence",$Params);
 		$xfer_result->Caption="Modifier la licence";
 
 		$license_lines = file('CNX/LICENSE');

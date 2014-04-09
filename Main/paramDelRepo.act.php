@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function paramDelRepo($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramDelRepo",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","paramDelRepo",$Params);
 	$xfer_result->Caption="Supprimer un repository";
 	$depRepo=$Params['depRepository'];
 	$conf_file=file("CNX/Conf_Manage.dt");

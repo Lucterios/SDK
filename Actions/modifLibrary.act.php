@@ -25,7 +25,7 @@ function modifLibrary($Params,$extensionname)
 	require_once("../CORE/setup_param.inc.php");
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addMenuValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addMenuValid",$Params);
 	require_once("Class/Library.inc.php");
 
 	$code = urldecode($Params['code']);

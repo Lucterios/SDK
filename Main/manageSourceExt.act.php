@@ -23,7 +23,7 @@ require_once('Main/connection.inc.php');
 
 function manageSourceExt($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","manageSourceExt",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","manageSourceExt",$Params);
 	$xfer_result->Caption="Gestion des source d'une extension";
 
 	$ext=$Params['ext'];

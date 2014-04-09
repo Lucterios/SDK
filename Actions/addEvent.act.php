@@ -23,7 +23,7 @@ require_once('../CORE/xfer_custom.inc.php');
 function addEvent($Params,$extensionname)
 {
 	$Params['type']='Event';
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addEvent",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addEvent",$Params);
 	$xfer_result->Caption='Ajouter un évenement';
 	$lbl=new Xfer_Comp_LabelForm('new_namelbl');
 	$lbl->setValue("{[bold]}{[center]}Evenement associé au signal{[/center]}{[/bold]}");

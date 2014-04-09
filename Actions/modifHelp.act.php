@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function modifHelp($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modifHelp",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"modifHelp",$Params);
 	require_once("Class/Help.inc.php");
 	$help_mng=new HelpManage($extensionname);
 	$help_mng->HelpTitle=$Params['help_title'];

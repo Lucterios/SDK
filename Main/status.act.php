@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function status($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","status",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","status",$Params);
 	$xfer_result->Caption='Résumé';
 	$lab=new Xfer_Comp_LabelForm('title');
 	$lab->setLocation(0,0,4);

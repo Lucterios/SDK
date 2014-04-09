@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addMenu($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addMenu",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addMenu",$Params);
 
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;

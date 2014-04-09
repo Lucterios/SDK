@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteStocked($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteStocked",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteStocked",$Params);
 	$stocked=$Params['stocked'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer la fonction stockée '".str_replace('_APAS_','::',$stocked)."'?")) {
 		$xfer_result->m_context['type']='Stocked';

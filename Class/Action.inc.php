@@ -205,7 +205,7 @@ class Action extends CodeAbstract
 			fwrite($fh,"\$connect->begin();\n");
 		}
 		fwrite($fh,"try {\n");
-		fwrite($fh,"\$xfer_result=&new $xfer_class(\"".$this->ExtensionName."\",\"".$this->GetName($this->Mng->SEP)."\",\$Params);\n");
+		fwrite($fh,"\$xfer_result=new $xfer_class(\"".$this->ExtensionName."\",\"".$this->GetName($this->Mng->SEP)."\",\$Params);\n");
 		fwrite($fh,"\$xfer_result->Caption=".getStringToWrite($this->Description).";\n");
 		if ($this->LockMode==LOCK_MODE_EVENT)
 		{

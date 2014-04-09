@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addCodeValid($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addCodeValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addCodeValid",$Params);
 	$type=$Params['type'];
 	if (array_key_exists('classe',$Params)) {
 		$tablename=$Params['classe'];

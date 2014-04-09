@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteLibrary($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteLibrary",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteLibrary",$Params);
 	$library=$Params['library'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer la bibliothèque '$library'?")) {
 		require_once("Class/Extension.inc.php");

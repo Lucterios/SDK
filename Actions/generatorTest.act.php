@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function generatorTest($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"generatorTest",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"generatorTest",$Params);
 	$lbl=new Xfer_Comp_LabelForm('generatortitle');
 	$lbl->setValue("{[bold]}{[center]}Génération activée{[/center]}{[/bold]}{[newline]}Veuillez simuler votre test sur votre serveur de débug.");
 	$lbl->setLocation(0,5);

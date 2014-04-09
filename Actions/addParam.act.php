@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addParam($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addParam",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addParam",$Params);
 	$xfer_result->Caption='Ajouter un paramètre';
 
 	require_once("PathInitial.inc.php");

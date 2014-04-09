@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addRepo($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","addRepo",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","addRepo",$Params);
 	$xfer_result->Caption='Ajouter un repository';
 
 	$ext=$Params['ext'];

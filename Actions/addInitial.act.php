@@ -39,7 +39,7 @@ function addInitial($Params,$extensionname)
 			$initial[$key]='';
 	}
 
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addInitial",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addInitial",$Params);
 	$xfer_result->Caption="Edition d'une valeur initial";
 
 	$lbl=new Xfer_Comp_LabelForm('refreshïdatalbl');

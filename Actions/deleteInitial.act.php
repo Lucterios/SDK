@@ -23,7 +23,7 @@ require_once('FunctionTool.inc.php');
 
 function deleteInitial($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteInitial",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteInitial",$Params);
 	$initial_id=$Params['initial'];
 	$classe=$Params['classe'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer le cette valeur initial ?")) {

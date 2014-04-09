@@ -23,7 +23,7 @@ require_once('FunctionTool.inc.php');
 
 function addSignalValid($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addSignalValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addSignalValid",$Params);
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
 	if (isset($Params['signal'])) {

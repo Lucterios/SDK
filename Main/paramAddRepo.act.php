@@ -23,7 +23,7 @@ require_once('../CORE/xfer_custom.inc.php');
 function paramAddRepo($Params)
 {
 	if (array_key_exists('new_repo',$Params)) {
-		$xfer_result=&new Xfer_Container_Acknowledge("CORE","paramAddRepo",$Params);
+		$xfer_result=new Xfer_Container_Acknowledge("CORE","paramAddRepo",$Params);
 		$xfer_result->Caption="Ajout de repository";
 	
 		$new_server=trim($Params['new_repo']);
@@ -51,7 +51,7 @@ function paramAddRepo($Params)
 		
 	}
 	else {
-		$xfer_result=&new Xfer_Container_Custom("CORE","paramAddRepo",$Params);
+		$xfer_result=new Xfer_Container_Custom("CORE","paramAddRepo",$Params);
 		$xfer_result->Caption="Ajout de repository";
 
 		$lbl=new Xfer_Comp_LabelForm('new_repoLbl');

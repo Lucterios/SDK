@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function delUser($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","delUser",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","delUser",$Params);
 	$user=$Params['user'];
 	if ($user=='admin')
 		$xfer_result->message("Impossible de supprimer l'administrateur");

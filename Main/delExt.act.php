@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function delExt($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","delExt",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","delExt",$Params);
 	$ext=$Params['ext'];
 	if (in_array($ext,array("CORE","applis"))) {
 		require_once("CORE/Lucterios_Error.inc.php");

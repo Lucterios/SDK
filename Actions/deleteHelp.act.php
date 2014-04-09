@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteHelp($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteHelp",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteHelp",$Params);
 	$id=$Params['help'];
  	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer l'aide '$id'?")) {
 		require_once('Class/Help.inc.php');

@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteImage($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteImage",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteImage",$Params);
 	$image=$Params['image'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer l'image '$image'?")) {
 		require_once("Class/Image.inc.php");

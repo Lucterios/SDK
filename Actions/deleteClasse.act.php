@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteClasse($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteClasse",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteClasse",$Params);
 	$classe=$Params['classe'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer la classe '$classe'?")) {
 		require_once("Class/Extension.inc.php");

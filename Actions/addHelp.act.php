@@ -26,7 +26,7 @@ function addHelp($Params,$extensionname)
 	global $CNX_OBJ;
 	$cnx=$CNX_OBJ;
 
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addHelp",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addHelp",$Params);
 	$xfer_result->Caption='Editer une Aide';
 	require_once('Class/Help.inc.php');
 	if (array_key_exists('help',$Params)) 

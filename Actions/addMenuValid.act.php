@@ -25,7 +25,7 @@ function addMenuValid($Params,$extensionname)
 	require_once("../CORE/setup_param.inc.php");
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addMenuValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addMenuValid",$Params);
 	foreach($Params as $name=>$value)
 		$$name=$value;
 	if ($modal=='o') $modal=1; else $modal=0;

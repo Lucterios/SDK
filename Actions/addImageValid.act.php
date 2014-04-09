@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addImageValid($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addImageValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addImageValid",$Params);
 	List($name,$image)=explode(';',$Params['image']);
 	require_once("Class/Image.inc.php");
 	$image=new Image("",$extensionname);

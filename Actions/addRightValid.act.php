@@ -24,7 +24,7 @@ function addRightValid($Params,$extensionname)
 {
 	require_once("../CORE/setup_param.inc.php");
 	require_once("Class/Extension.inc.php");
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addRightValid",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addRightValid",$Params);
 	if (array_key_exists('right',$Params)) {
 		$right_id=$Params['right'];
 	} else {

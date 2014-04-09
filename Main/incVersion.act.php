@@ -21,7 +21,7 @@
 function incVersion($Params)
 {
 	require_once('../CORE/xfer.inc.php');
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","incVersion",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","incVersion",$Params);
 	$increm_version=$Params['IncVersion'];
 	$ext=$Params['ext'];
 	require_once("Class/Extension.inc.php");

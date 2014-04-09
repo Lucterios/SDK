@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function test($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","test",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","test",$Params);
 	$xfer_result->Caption='Panneaux des tests';
 	$actionRefrech=new Xfer_Action("","","CORE","test",FORMTYPE_REFRESH,CLOSE_NO);
 

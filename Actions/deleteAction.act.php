@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteAction($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteAction",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteAction",$Params);
 	$action=$Params['action'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer l'action '".str_replace('_APAS_','::',$action)."'?")) {
 		$xfer_result->m_context['type']='Action';

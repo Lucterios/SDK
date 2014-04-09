@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function pushGitExt($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","pushGitExt",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","pushGitExt",$Params);
 	$ext=$Params['ext'];
 	require_once("Class/Extension.inc.php");
 	$extObj=new Extension($ext);

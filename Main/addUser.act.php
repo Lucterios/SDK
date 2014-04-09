@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addUser($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","addUser",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","addUser",$Params);
 	if (array_key_exists('user',$Params)) {
 		$user=$Params['user'];
 		$cnx=new Connect($user);

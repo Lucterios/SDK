@@ -25,7 +25,7 @@ require_once('FunctionTool.inc.php');
 function editClasse($Params,$extensionname)
 {
 	$classe=$Params['classe'];
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"editClasse",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"editClasse",$Params);
 	$xfer_result->Caption="Gestion de la classe '$classe'";
 
 	global $CNX_OBJ;

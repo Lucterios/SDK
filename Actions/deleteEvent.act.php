@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteEvent($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteEvent",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteEvent",$Params);
 	$event=$Params['event'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer l'évenement '".str_replace('_APAS_','::',$event)."'?")) {
 		$xfer_result->m_context['type']='Event';

@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function modifExtension($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modifExtension",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"modifExtension",$Params);
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
 	$extension->Description=urldecode($Params['extensiondesc']);

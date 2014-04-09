@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addImage($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addImage",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addImage",$Params);
 	$xfer_result->Caption='Ajouter une image';
 
 	$lbl=new Xfer_Comp_LabelForm('imagelbl');

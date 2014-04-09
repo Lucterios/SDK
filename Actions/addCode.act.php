@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addCode($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addCode",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addCode",$Params);
 
 	$lbl=new Xfer_Comp_LabelForm('new_namelbl');
 	$lbl->setValue("{[bold]}{[center]}Nom{[/center]}{[/bold]}");

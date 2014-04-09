@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addExt($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","addExt",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","addExt",$Params);
 	$xfer_result->Caption='Ajouter une extension';
 
 	$lbl=new Xfer_Comp_LabelForm('title');

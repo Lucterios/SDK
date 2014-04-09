@@ -23,7 +23,7 @@ require_once('Main/connection.inc.php');
 
 function sourceExtension($Params)
 {
-	$xfer_result=&new Xfer_Container_Custom("CORE","sourceExtension",$Params);
+	$xfer_result=new Xfer_Container_Custom("CORE","sourceExtension",$Params);
 	$xfer_result->Caption="Gestion de configuration";
 
 	$lbl=new Xfer_Comp_LabelForm('title');

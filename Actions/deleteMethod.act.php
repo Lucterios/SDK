@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteMethod($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteMethod",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteMethod",$Params);
 	$method=$Params['method'];
 	if ($xfer_result->Confirme("Etes-vous sûre de vouloir supprimer la méthode '".str_replace('_APAS_','::',$method)."'?")) {
 		$xfer_result->m_context['type']='Method';

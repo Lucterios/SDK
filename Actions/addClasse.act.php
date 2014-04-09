@@ -24,7 +24,7 @@ require_once('../CORE/xfer_custom.inc.php');
 function addClasse($Params,$extensionname)
 {
 	if (array_key_exists('new_name',$Params)) {
-		$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"addClasse",$Params);
+		$xfer_result=new Xfer_Container_Acknowledge($extensionname,"addClasse",$Params);
 		require_once("Class/Extension.inc.php");
 		require_once("Class/Table.inc.php");
 		$extension=new Extension($extensionname);
@@ -37,7 +37,7 @@ function addClasse($Params,$extensionname)
 		$tbl->Write();
 		$extension->IncrementBuild();
 	} else {
-		$xfer_result=&new Xfer_Container_Custom($extensionname,"addClasse",$Params);
+		$xfer_result=new Xfer_Container_Custom($extensionname,"addClasse",$Params);
 		$lbl=new Xfer_Comp_LabelForm('new_namelbl');
 		$lbl->setValue("{[bold]}{[center]}Nom{[/center]}{[/bold]}");
 		$lbl->setLocation(0,0);

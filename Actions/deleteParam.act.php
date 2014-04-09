@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteParam($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteParam",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteParam",$Params);
 	$param=$Params['param'];
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);

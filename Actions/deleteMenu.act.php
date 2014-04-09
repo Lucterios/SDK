@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function deleteMenu($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"deleteMenu",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge($extensionname,"deleteMenu",$Params);
 	$menu=$Params['menu'];
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);

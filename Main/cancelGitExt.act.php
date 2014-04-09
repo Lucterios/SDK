@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function cancelGitExt($Params)
 {
-	$xfer_result=&new Xfer_Container_Acknowledge("CORE","cancelGitExt",$Params);
+	$xfer_result=new Xfer_Container_Acknowledge("CORE","cancelGitExt",$Params);
 	$xfer_result->Caption="Annulation GIT";
 
 	if ($xfer_result->confirme("Voulez-vous annuler vos modification?{[newline]}Vous revenez alors au précédent 'commit' GIT.")) {

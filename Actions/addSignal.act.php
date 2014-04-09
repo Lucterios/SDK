@@ -29,7 +29,7 @@ function addSignal($Params,$extensionname)
 	require_once("Class/Extension.inc.php");
 	$extension=new Extension($extensionname);
 
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addSignal",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addSignal",$Params);
 	if (isset($Params['signal'])) {
 	    $signalId=$Params['signal'];
 	    $signalData=$extension->Signals[$signalId];

@@ -23,7 +23,7 @@ require_once('../CORE/xfer_custom.inc.php');
 function commitGitExt($Params)
 {
 	if (array_key_exists('git_message',$Params)) {
-		$xfer_result=&new Xfer_Container_Acknowledge("CORE","commitGitExt",$Params);
+		$xfer_result=new Xfer_Container_Acknowledge("CORE","commitGitExt",$Params);
 		$xfer_result->Caption="Commit GIT";
 	
 		$git_message=trim($Params['git_message']);
@@ -42,7 +42,7 @@ function commitGitExt($Params)
 		$extObj=new Extension($ext);
 		$repo=$extObj->GetGitRepoObj();
 
-		$xfer_result=&new Xfer_Container_Custom("CORE","commitGitExt",$Params);
+		$xfer_result=new Xfer_Container_Custom("CORE","commitGitExt",$Params);
 		$xfer_result->Caption="Ajout de repository";
 
 		$lbl=new Xfer_Comp_LabelForm('git_messageLbl');

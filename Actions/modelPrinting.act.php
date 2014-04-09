@@ -30,7 +30,7 @@ function modelPrinting($Params,$extensionname)
 	$code = new Printing($id,$extensionname);
 	if (array_key_exists('title',$Params) && array_key_exists('model',$Params)) {
 		require_once('../CORE/xfer.inc.php');
-		$xfer_result=&new Xfer_Container_Acknowledge($extensionname,"modelPrinting",$Params);
+		$xfer_result=new Xfer_Container_Acknowledge($extensionname,"modelPrinting",$Params);
 		require_once("Class/Extension.inc.php");
 		$extension=new Extension($extensionname);
 		$code->ModelDefault=explode("\n",$Params['model']);
@@ -39,7 +39,7 @@ function modelPrinting($Params,$extensionname)
 		$extension->IncrementBuild();
 	} else {
 		require_once('../CORE/xfer_printing.inc.php');
-		$xfer_result=&new Xfer_Container_Template($extensionname,"modelPrinting",$Params);	
+		$xfer_result=new Xfer_Container_Template($extensionname,"modelPrinting",$Params);	
 		$xfer_result->Caption='Editer un modèle';
 		$xfer_result->title=$code->Description;
         	$model_xml='';

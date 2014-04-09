@@ -22,7 +22,7 @@ require_once('../CORE/xfer_custom.inc.php');
 
 function addRight($Params,$extensionname)
 {
-	$xfer_result=&new Xfer_Container_Custom($extensionname,"addRight",$Params);
+	$xfer_result=new Xfer_Container_Custom($extensionname,"addRight",$Params);
 	$xfer_result->Caption='Ajouter un droit';
 
 	global $CNX_OBJ;
